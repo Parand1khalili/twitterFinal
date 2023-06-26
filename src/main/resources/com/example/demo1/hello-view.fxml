@@ -1,16 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.demo1.HelloController">
-  <padding>
-    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-  </padding>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-  <Label fx:id="welcomeText"/>
-  <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="522.0" style="-fx-background-color: #00acee;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.HelloController">
+   <children>
+      <Button fx:id="signIn" layoutX="204.0" layoutY="200.0" mnemonicParsing="false" onAction="#onSignInClick" prefHeight="26.0" prefWidth="114.0" style="-fx-background-radius: 50;" text="sign in" textFill="#226d83" />
+      <Button fx:id="signUp" layoutX="203.0" layoutY="283.0" mnemonicParsing="false" onAction="#onSignUpClick" prefHeight="26.0" prefWidth="114.0" style="-fx-background-radius: 50;" text="sign up" textFill="#226d8c">
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </Button>
+      <ImageView blendMode="LIGHTEN" fitHeight="79.0" fitWidth="101.0" layoutX="210.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@logo.png" />
+         </image>
+      </ImageView>
+      <Text fill="WHITE" layoutX="165.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text="already have an account?" wrappingWidth="192.199951171875">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="184.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="create new account:)" wrappingWidth="192.199951171875">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>
