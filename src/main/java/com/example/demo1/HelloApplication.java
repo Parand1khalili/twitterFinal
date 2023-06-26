@@ -14,7 +14,7 @@ public class HelloApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Twitter");
-        Image icon = new Image("H:\\New folder\\demo1\\src\\main\\resources\\com\\example\\demo1\\logo.png");
+        Image icon = new Image(HelloApplication.class.getResource("logo.png").openStream());
         stage.getIcons().add(icon);
         stage.setScene(scene);
         stage.show();
