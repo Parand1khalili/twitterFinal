@@ -66,6 +66,7 @@ public class SignUp implements Initializable {
 
     @FXML
     Button done;
+    @FXML
     protected void onDoneClick(Event event){
 
 
