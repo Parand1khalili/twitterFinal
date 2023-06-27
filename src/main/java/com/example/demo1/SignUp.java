@@ -106,7 +106,7 @@ public class SignUp implements Initializable {
             canLogin = false;
         }
         if(lastName.getText().equals("")){
-            errorUserName.setText("last name cant be empty");
+            errorLastName.setText("last name cant be empty");
             canLogin = false;
         }
         if(!email.getText().equals("") && !emailValidity(email.getText())){
