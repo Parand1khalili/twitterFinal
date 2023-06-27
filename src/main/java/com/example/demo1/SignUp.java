@@ -91,6 +91,10 @@ public class SignUp implements Initializable {
         errorLastName.setText("");
         errorEmail.setText("");
         errorPhoneNumber.setText("");
+        errorPassword.setText("");
+        errorRepeatPassword.setText("");
+        errorCountry.setText("");
+        errorBirthdate.setText("");
 
         boolean canLogin = true;
         if(userName.getText().equals("")){
@@ -137,31 +141,67 @@ public class SignUp implements Initializable {
         }
         if(birthdate.getValue().toString().equals("")){
             errorBirthdate.setText("pick  country");
+            canLogin = false;
         }
-
-
-
-
-
-
-
-
-
-        Button button = (Button) event.getSource();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
-        Parent root = null;
+        if(!canLogin){
+            return;
+        }
+        User newUser = new User(userName.getText(),firstName.getText(),lastName.getText(),email.getText(),phoneNumber.getText(),password.getText(),country.getValue(),String.valueOf(birthdate));
         try {
-            root = fxmlLoader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            IO.out.writeObject("sign-up");
+            Thread.sleep(500);
+            IO.out.writeObject(newUser);
+        } catch (IOException | InterruptedException e) {
+            errorUserName.setText("check your connection to server");
+            errorFirstName.setText("check your connection to server");
+            errorLastName.setText("check your connection to server");
+            errorEmail.setText("check your connection to server");
+            errorPhoneNumber.setText("check your connection to server");
+            errorPassword.setText("check your connection to server");
+            errorRepeatPassword.setText("check your connection to server");
+            errorCountry.setText("check your connection to server");
+            errorBirthdate.setText("check your connection to server");
+            // todo jaaygozin kon ba ye error (parand*)
         }
-        Stage stage = (Stage) button.getScene().getWindow();
-        Scene scene = null;
-        if(root != null) {
-            scene = new Scene(root);
+        try {
+            if(((String) IO.in.readObject()).equals("duplicate-id")){
+                errorUserName.setText("user name already taken");
+            }
+            else if(((String) IO.in.readObject()).equals("duplicate-email")){
+                errorEmail.setText("email already used");
+            }
+            else if(((String) IO.in.readObject()).equals("duplicate-number")){
+                errorPhoneNumber.setText("phone number already used");
+            }
+            else if(((String) IO.in.readObject()).equals("success")){
+                Button button = (Button) event.getSource();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("profile.fxml"));
+                Parent root = null;
+                try {
+                    root = fxmlLoader.load();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                Stage stage = (Stage) button.getScene().getWindow();
+                Scene scene = null;
+                if(root != null) {
+                    scene = new Scene(root);
+                }
+                stage.setScene(scene);
+                stage.show();
+            }
+        } catch (ClassNotFoundException | IOException e) {
+            errorUserName.setText("check your connection to server");
+            errorFirstName.setText("check your connection to server");
+            errorLastName.setText("check your connection to server");
+            errorEmail.setText("check your connection to server");
+            errorPhoneNumber.setText("check your connection to server");
+            errorPassword.setText("check your connection to server");
+            errorRepeatPassword.setText("check your connection to server");
+            errorCountry.setText("check your connection to server");
+            errorBirthdate.setText("check your connection to server");
+            // todo jaaygozin kon ba ye error (parand*)
         }
-        stage.setScene(scene);
-        stage.show();
     }
     public static boolean emailValidity(String email){
         String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
