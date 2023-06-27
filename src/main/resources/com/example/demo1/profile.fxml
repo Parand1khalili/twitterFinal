@@ -6,9 +6,9 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
@@ -52,55 +52,68 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #22303c;">
                      <children>
                         <ScrollPane layoutX="8.0" layoutY="5.0" prefHeight="262.0" prefWidth="572.0" style="-fx-background-color: #22303c;">
-                          <content>
-                            <AnchorPane layoutX="8.0" layoutY="5.0" minHeight="0.0" minWidth="0.0" prefHeight="485.0" prefWidth="572.0" style="-fx-background-color: #22303c;">
+                           <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="266.0" prefWidth="558.0" style="-fx-background-color: #22303c;">
                                  <children>
-                                    <VBox layoutX="-1.0" prefHeight="247.0" prefWidth="558.0">
-                                       <children>
-                                          <HBox prefHeight="83.0" prefWidth="558.0" />
-                                          <HBox prefHeight="83.0" prefWidth="558.0" />
-                                          <HBox prefHeight="77.0" prefWidth="558.0" />
-                                       </children>
-                                    </VBox>
+                                    <VBox layoutY="2.0" prefHeight="273.0" prefWidth="552.0" />
                                  </children>
                               </AnchorPane>
-                          </content>
+                           </content>
                         </ScrollPane>
                      </children>
                   </AnchorPane>
               </content>
             </Tab>
-          <Tab text="replies">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <Tab text="replies">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #22303c;">
                      <children>
-                        <ScrollPane layoutX="105.0" layoutY="37.0" prefHeight="200.0" prefWidth="200.0">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="272.0" prefWidth="226.0" style="-fx-background-color: #22303c;" />
-                          </content>
+                        <ScrollPane layoutX="8.0" layoutY="5.0" prefHeight="262.0" prefWidth="572.0" style="-fx-background-color: #22303c;">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="266.0" prefWidth="558.0" style="-fx-background-color: #22303c;">
+                                 <children>
+                                    <VBox layoutY="2.0" prefHeight="273.0" prefWidth="552.0" />
+                                 </children>
+                              </AnchorPane>
+                           </content>
                         </ScrollPane>
                      </children>
                   </AnchorPane>
-            </content>
-          </Tab>
-          <Tab text="likes">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               </content>
+            </Tab>
+            <Tab text="likes">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #22303c;">
                      <children>
-                        <ScrollPane layoutX="38.0" layoutY="24.0" prefHeight="200.0" prefWidth="200.0">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="238.0" prefWidth="447.0" style="-fx-background-color: #22303c;" />
-                          </content>
+                        <ScrollPane layoutX="8.0" layoutY="5.0" prefHeight="262.0" prefWidth="572.0" style="-fx-background-color: #22303c;">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="266.0" prefWidth="558.0" style="-fx-background-color: #22303c;">
+                                 <children>
+                                    <VBox layoutY="2.0" prefHeight="273.0" prefWidth="552.0" />
+                                 </children>
+                              </AnchorPane>
+                           </content>
                         </ScrollPane>
                      </children>
                   </AnchorPane>
-            </content>
-          </Tab>
+               </content>
+            </Tab>
         </tabs>
       </TabPane>
-      <Button layoutX="326.0" layoutY="636.0" mnemonicParsing="false" text="timeline" />
-      <Button layoutX="196.0" layoutY="636.0" mnemonicParsing="false" text="tweet" />
-      <Button layoutX="445.0" layoutY="636.0" mnemonicParsing="false" text="search" />
-      <Button layoutX="80.0" layoutY="636.0" mnemonicParsing="false" text="profile" />
+      <ImageView fitHeight="36.0" fitWidth="38.0" layoutX="193.0" layoutY="632.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Screenshot_20230627-120949_Twitter.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="34.0" fitWidth="37.0" layoutX="328.0" layoutY="632.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Screenshot_20230627-122239_Twitter.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="34.0" fitWidth="38.0" layoutX="460.0" layoutY="632.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Scret_20230627-120949_Twitter.jpg" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

@@ -4,6 +4,7 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -16,11 +17,9 @@
             <Font name="System Bold" size="17.0" />
          </font>
       </Text>
-      <TextField fx:id="repeatPassword" layoutX="358.0" layoutY="150.0" promptText="repeat your password" style="-fx-background-radius: 50;" />
       <TextField fx:id="firstName" layoutX="85.0" layoutY="150.0" promptText="name" style="-fx-background-radius: 50;" />
       <TextField fx:id="email" layoutX="85.0" layoutY="270.0" promptText="email" style="-fx-background-radius: 50;" />
       <TextField fx:id="lastName" layoutX="85.0" layoutY="210.0" promptText="last name" style="-fx-background-radius: 50;" />
-      <TextField fx:id="password" layoutX="358.0" layoutY="90.0" promptText="password" style="-fx-background-radius: 50;" />
       <TextField fx:id="phoneNumber" layoutX="85.0" layoutY="328.0" promptText="phone number" style="-fx-background-radius: 50;" />
       <TextField fx:id="userName" layoutX="85.0" layoutY="90.0" promptText="username" style="-fx-background-radius: 50;" />
       <ChoiceBox id="choiceBox" fx:id="country" layoutX="357.0" layoutY="210.0" prefWidth="150.0" style="-fx-border-radius: 50;" />
@@ -28,13 +27,17 @@
       <Button fx:id="done" layoutX="451.0" layoutY="328.0" mnemonicParsing="false" onAction="#onDoneClick" style="-fx-background-radius: 50;" text="done" textFill="#00acee" />
       <Button fx:id="back" layoutX="366.0" layoutY="328.0" mnemonicParsing="false" onAction="#onBackClick" prefHeight="26.0" prefWidth="46.0" style="-fx-background-radius: 50;" text="back" textFill="#00acee" />
       <Label layoutX="102.0" layoutY="25.0" />
-      <Label layoutX="366.0" layoutY="242.0" prefHeight="18.0" prefWidth="150.0" text=" " />
-      <Label layoutX="375.0" layoutY="122.0" prefHeight="18.0" prefWidth="150.0" text=" " />
-      <Label layoutX="102.0" layoutY="361.0" prefHeight="18.0" prefWidth="198.0" text=" " />
-      <Label layoutX="102.0" layoutY="302.0" prefHeight="18.0" prefWidth="185.0" text=" " />
-      <Label layoutX="102.0" layoutY="242.0" prefHeight="18.0" prefWidth="175.0" text=" " />
-      <Label layoutX="102.0" layoutY="181.0" prefHeight="18.0" prefWidth="150.0" text=" " />
-      <Label layoutX="102.0" layoutY="122.0" prefHeight="18.0" prefWidth="150.0" text=" " />
-      <Label layoutX="366.0" layoutY="181.0" prefHeight="18.0" prefWidth="150.0" text=" " />
+      <Label fx:id="errorCountry" layoutX="366.0" layoutY="242.0" prefHeight="18.0" prefWidth="150.0" text=" " textFill="#ff5050" />
+      <Label fx:id="errorPassword" layoutX="375.0" layoutY="122.0" prefHeight="18.0" prefWidth="150.0" text=" " textFill="#ff5050" />
+      <Label fx:id="errorPhoneNumber" layoutX="102.0" layoutY="361.0" prefHeight="18.0" prefWidth="198.0" text=" " textFill="#ff5050" />
+      <Label fx:id="errorEmail" layoutX="102.0" layoutY="302.0" prefHeight="18.0" prefWidth="185.0" text=" " textFill="#ff5050" />
+      <Label fx:id="errorLastName" layoutX="102.0" layoutY="242.0" prefHeight="18.0" prefWidth="175.0" text=" " textFill="#ff5050" />
+      <Label fx:id="errorFirstName" layoutX="102.0" layoutY="181.0" prefHeight="18.0" prefWidth="150.0" text=" " textFill="#ff5050" />
+      <Label fx:id="errorUserName" layoutX="102.0" layoutY="122.0" prefHeight="18.0" prefWidth="150.0" text=" " textFill="#ff5050" />
+      <Label fx:id="errorRepeatPassword" layoutX="366.0" layoutY="181.0" prefHeight="18.0" prefWidth="150.0" text=" " textFill="#ff5050" />
+      <Label fx:id="errorBirthdate" layoutX="366.0" layoutY="302.0" prefHeight="18.0" prefWidth="150.0" text=" " textFill="#ff5050" />
+      <PasswordField fx:id="password" layoutX="357.0" layoutY="90.0" prefHeight="26.0" prefWidth="150.0" promptText="password" style="-fx-background-radius: 50;" />
+      <PasswordField fx:id="repeatPassword" layoutX="356.0" layoutY="149.0" prefHeight="26.0" prefWidth="150.0" promptText="repeat your password" style="-fx-background-radius: 50;" />
+      <Label fx:id="errorConnection" layoutX="361.0" layoutY="362.0" prefHeight="18.0" prefWidth="150.0" textFill="#ff5252" />
    </children>
 </AnchorPane>
