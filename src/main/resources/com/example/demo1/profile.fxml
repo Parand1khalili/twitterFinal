@@ -8,10 +8,11 @@
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
-
 
 <AnchorPane prefHeight="675.0" prefWidth="596.0" style="-fx-background-color: #22303c;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.Profile">
    <children>
@@ -27,7 +28,7 @@
       </Button>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#22303c" height="118.0" layoutX="10.0" layoutY="14.0" stroke="#fffcfc" strokeType="INSIDE" width="580.0" />
       <ImageView fitHeight="124.0" fitWidth="580.0" layoutX="5.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#22303c" height="70.0" layoutX="25.0" layoutY="97.0" stroke="WHITE" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#22303c" height="70.0" layoutX="25.0" layoutY="97.0" stroke="WHITE" strokeType="INSIDE" width="70.0" />
       <ImageView fitHeight="60.0" fitWidth="65.0" layoutX="29.0" layoutY="102.0" pickOnBounds="true" preserveRatio="true" />
       <Line endX="478.5999755859375" fill="#151515" layoutX="105.0" layoutY="630.0" startX="-100.0" stroke="#f7f5f536" />
       <Label layoutX="39.0" layoutY="193.0" prefHeight="18.0" prefWidth="74.0" text="bio" textFill="WHITE" />
@@ -44,15 +45,25 @@
             <Blend />
          </effect>
       </Button>
-      <TabPane layoutX="9.0" layoutY="328.0" prefHeight="302.0" prefWidth="580.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutX="9.0" layoutY="328.0" prefHeight="302.0" prefWidth="580.0" style="-fx-background-color: #22303c;" tabClosingPolicy="UNAVAILABLE">
         <tabs>
             <Tab text="tweets">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #22303c;">
                      <children>
-                        <ScrollPane layoutX="114.0" layoutY="6.0" prefHeight="262.0" prefWidth="357.0" style="-fx-background-color: #22303c;">
+                        <ScrollPane layoutX="8.0" layoutY="5.0" prefHeight="262.0" prefWidth="572.0" style="-fx-background-color: #22303c;">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="485.0" prefWidth="412.0" style="-fx-background-color: #22303c;" />
+                            <AnchorPane layoutX="8.0" layoutY="5.0" minHeight="0.0" minWidth="0.0" prefHeight="485.0" prefWidth="572.0" style="-fx-background-color: #22303c;">
+                                 <children>
+                                    <VBox layoutX="-1.0" prefHeight="247.0" prefWidth="558.0">
+                                       <children>
+                                          <HBox prefHeight="83.0" prefWidth="558.0" />
+                                          <HBox prefHeight="83.0" prefWidth="558.0" />
+                                          <HBox prefHeight="77.0" prefWidth="558.0" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
                           </content>
                         </ScrollPane>
                      </children>
@@ -65,7 +76,7 @@
                      <children>
                         <ScrollPane layoutX="105.0" layoutY="37.0" prefHeight="200.0" prefWidth="200.0">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="272.0" prefWidth="200.0" style="-fx-background-color: #22303c;" />
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="272.0" prefWidth="226.0" style="-fx-background-color: #22303c;" />
                           </content>
                         </ScrollPane>
                      </children>
@@ -78,7 +89,7 @@
                      <children>
                         <ScrollPane layoutX="38.0" layoutY="24.0" prefHeight="200.0" prefWidth="200.0">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="238.0" prefWidth="211.0" style="-fx-background-color: #22303c;" />
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="238.0" prefWidth="447.0" style="-fx-background-color: #22303c;" />
                           </content>
                         </ScrollPane>
                      </children>
@@ -87,9 +98,9 @@
           </Tab>
         </tabs>
       </TabPane>
-      <Button layoutX="68.0" layoutY="636.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="29.0" style="-fx-background-radius: 50;" text="Button" />
-      <Button layoutX="326.0" layoutY="636.0" mnemonicParsing="false" text="Button" />
-      <Button layoutX="196.0" layoutY="636.0" mnemonicParsing="false" text="Button" />
-      <Button layoutX="445.0" layoutY="636.0" mnemonicParsing="false" text="Button" />
+      <Button layoutX="326.0" layoutY="636.0" mnemonicParsing="false" text="timeline" />
+      <Button layoutX="196.0" layoutY="636.0" mnemonicParsing="false" text="tweet" />
+      <Button layoutX="445.0" layoutY="636.0" mnemonicParsing="false" text="search" />
+      <Button layoutX="80.0" layoutY="636.0" mnemonicParsing="false" text="profile" />
    </children>
 </AnchorPane>

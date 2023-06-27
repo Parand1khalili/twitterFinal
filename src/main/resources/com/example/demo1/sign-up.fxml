@@ -30,9 +30,9 @@
       <Label layoutX="102.0" layoutY="25.0" />
       <Label layoutX="366.0" layoutY="242.0" prefHeight="18.0" prefWidth="150.0" text=" " />
       <Label layoutX="375.0" layoutY="122.0" prefHeight="18.0" prefWidth="150.0" text=" " />
-      <Label layoutX="102.0" layoutY="361.0" prefHeight="18.0" prefWidth="150.0" text=" " />
-      <Label layoutX="102.0" layoutY="302.0" prefHeight="18.0" prefWidth="150.0" text=" " />
-      <Label layoutX="102.0" layoutY="242.0" prefHeight="18.0" prefWidth="150.0" text=" " />
+      <Label layoutX="102.0" layoutY="361.0" prefHeight="18.0" prefWidth="198.0" text=" " />
+      <Label layoutX="102.0" layoutY="302.0" prefHeight="18.0" prefWidth="185.0" text=" " />
+      <Label layoutX="102.0" layoutY="242.0" prefHeight="18.0" prefWidth="175.0" text=" " />
       <Label layoutX="102.0" layoutY="181.0" prefHeight="18.0" prefWidth="150.0" text=" " />
       <Label layoutX="102.0" layoutY="122.0" prefHeight="18.0" prefWidth="150.0" text=" " />
       <Label layoutX="366.0" layoutY="181.0" prefHeight="18.0" prefWidth="150.0" text=" " />
