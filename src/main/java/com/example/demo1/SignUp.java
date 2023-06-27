@@ -20,6 +20,8 @@ import java.util.regex.Pattern;
 
 public class SignUp implements Initializable {
     @FXML
+    Label errorConnection;
+    @FXML
     TextField userName;
     @FXML
     Label errorUserName;
@@ -126,7 +128,7 @@ public class SignUp implements Initializable {
             errorRepeatPassword.setText("please enter password again");
             canLogin = false;
         }
-        if(!password.getText().equals("") && checkPass(password.getText())){
+        if(!password.getText().equals("") && !checkPass(password.getText())){
             errorPassword.setText("invalid password format");
             canLogin = false;
         }
@@ -152,16 +154,7 @@ public class SignUp implements Initializable {
             Thread.sleep(500);
             IO.out.writeObject(newUser);
         } catch (IOException | InterruptedException e) {
-            errorUserName.setText("check your connection to server");
-            errorFirstName.setText("check your connection to server");
-            errorLastName.setText("check your connection to server");
-            errorEmail.setText("check your connection to server");
-            errorPhoneNumber.setText("check your connection to server");
-            errorPassword.setText("check your connection to server");
-            errorRepeatPassword.setText("check your connection to server");
-            errorCountry.setText("check your connection to server");
-            errorBirthdate.setText("check your connection to server");
-            // todo jaaygozin kon ba ye error (parand*)
+            errorConnection.setText("check your connection to server");
         }
         try {
             if(((String) IO.in.readObject()).equals("duplicate-id")){
@@ -191,16 +184,7 @@ public class SignUp implements Initializable {
                 stage.show();
             }
         } catch (ClassNotFoundException | IOException e) {
-            errorUserName.setText("check your connection to server");
-            errorFirstName.setText("check your connection to server");
-            errorLastName.setText("check your connection to server");
-            errorEmail.setText("check your connection to server");
-            errorPhoneNumber.setText("check your connection to server");
-            errorPassword.setText("check your connection to server");
-            errorRepeatPassword.setText("check your connection to server");
-            errorCountry.setText("check your connection to server");
-            errorBirthdate.setText("check your connection to server");
-            // todo jaaygozin kon ba ye error (parand*)
+            errorConnection.setText("check your connection to server");
         }
     }
     public static boolean emailValidity(String email){
