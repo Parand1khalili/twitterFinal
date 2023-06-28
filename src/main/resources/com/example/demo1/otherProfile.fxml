@@ -21,7 +21,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Button alignment="TOP_CENTER" layoutX="497.0" layoutY="141.0" mnemonicParsing="false" style="-fx-background-color: #fefefe;" text="edit profile" textFill="#22303c" underline="true">
+      <Button alignment="TOP_CENTER" layoutX="520.0" layoutY="141.0" mnemonicParsing="false" style="-fx-background-color: #fefefe;" text="follow" textFill="#22303c" underline="true">
          <effect>
             <Blend />
          </effect>
@@ -120,10 +120,5 @@
             <Image url="@download.png" />
          </image>
       </ImageView>
-      <Button alignment="TOP_CENTER" layoutX="509.0" layoutY="172.0" mnemonicParsing="false" style="-fx-background-color: #fefefe;" text="logout" textFill="#22303c" underline="true">
-         <effect>
-            <Blend />
-         </effect>
-      </Button>
    </children>
 </AnchorPane>
