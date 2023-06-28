@@ -14,35 +14,35 @@ import java.util.concurrent.Executors;
 import java.util.Date;
 
 
-public class Server implements Runnable{
+public class Server {
 
     private ServerSocket serverSocket;
     private ExecutorService executorService;
     private boolean isDone;
 
     public Server() {
-        this.isDone = false;
+        this.isDone = true;
     }
 
     public static void main(String[] args) {
         Server server = new Server();
-        server.run();
-    }
-
-    @Override
-    public void run() {
+        System.out.println("uygyuf");
         try {
-            serverSocket = new ServerSocket(6666);
-            while (!isDone){
-            Socket client = serverSocket.accept();
-            ClientHandler clientHandler = new ClientHandler(client);
-            executorService = Executors.newCachedThreadPool();
-            executorService.execute(clientHandler);
+            System.out.println("jfhfjy");
+            server.serverSocket = new ServerSocket(6666);
+            while (!server.isDone){
+                System.out.println("fhakhf");
+                Socket client = server.serverSocket.accept();
+                System.out.println("server is running...");
+                ClientHandler clientHandler = new ClientHandler(client);
+                server.executorService = Executors.newCachedThreadPool();
+                server.executorService.execute(clientHandler);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
 }
 class ClientHandler implements Runnable{
 
@@ -162,7 +162,6 @@ class ClientHandler implements Runnable{
                     Tweet x=(Tweet) in.readObject();
                     showComments(x);
                 }
-
             }
         } catch (IOException | ClassNotFoundException | SQLException | InterruptedException | ParseException e) {
             throw new RuntimeException(e);
