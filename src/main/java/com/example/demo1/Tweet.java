@@ -1,4 +1,4 @@
-package client;
+package com.example.demo1;
 
 import java.io.Serializable;
 import java.util.Date;

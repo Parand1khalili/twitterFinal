@@ -39,4 +39,6 @@ public class ownProfile {
     Button search;
     @FXML
     Button newTweet;
+    
+
 }

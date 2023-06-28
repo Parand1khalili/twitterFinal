@@ -183,6 +183,7 @@ public class SignUp implements Initializable {
                 errorPhoneNumber.setText("phone number already used");
             }
             else if(((String) IO.in.readObject()).equals("success")){
+                logedUser.loggedUser = newUser;
                 Button button = (Button) event.getSource();
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ownProfile.fxml"));
                 Parent root = null;

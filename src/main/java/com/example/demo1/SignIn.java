@@ -72,6 +72,7 @@ public class SignIn {
                 error.setText("incorrect password try again");
             }
             else if(((String) IO.in.readObject()).equals("success")){
+                logedUser.loggedUser = theUser;
                 Button button = (Button) event.getSource();
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ownProfile.fxml"));
                 Parent root = null;
@@ -91,6 +92,7 @@ public class SignIn {
         } catch (ClassNotFoundException | IOException e) {
             error.setText("check your connection to server");
         }
+
 
     }
 
