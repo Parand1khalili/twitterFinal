@@ -21,7 +21,7 @@ public class Server {
     private boolean isDone;
 
     public Server() {
-        this.isDone = true;
+        this.isDone = false;
     }
 
     public static void main(String[] args) {
