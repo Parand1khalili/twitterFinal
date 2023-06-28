@@ -184,7 +184,7 @@ public class SignUp implements Initializable {
             }
             else if(((String) IO.in.readObject()).equals("success")){
                 Button button = (Button) event.getSource();
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("profile.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ownProfile.fxml"));
                 Parent root = null;
                 try {
                     root = fxmlLoader.load();
