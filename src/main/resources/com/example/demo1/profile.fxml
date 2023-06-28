@@ -14,33 +14,33 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="675.0" prefWidth="596.0" style="-fx-background-color: #22303c;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.Profile">
+<AnchorPane prefHeight="675.0" prefWidth="596.0" style="-fx-background-color: #fefefe;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.Profile">
    <children>
-      <Label alignment="TOP_CENTER" layoutX="39.0" layoutY="167.0" prefHeight="18.0" prefWidth="45.0" text="userid" textFill="WHITE">
+      <Label alignment="TOP_CENTER" layoutX="39.0" layoutY="167.0" prefHeight="18.0" prefWidth="45.0" text="userid" textFill="#22303c">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Button alignment="TOP_CENTER" layoutX="487.0" layoutY="141.0" mnemonicParsing="false" style="-fx-background-color: #22303c;" text="edit profile" textFill="WHITE" underline="true">
+      <Button alignment="TOP_CENTER" layoutX="487.0" layoutY="141.0" mnemonicParsing="false" style="-fx-background-color: #fefefe;" text="edit profile" textFill="#22303c" underline="true">
          <effect>
             <Blend />
          </effect>
       </Button>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#22303c" height="118.0" layoutX="10.0" layoutY="14.0" stroke="#fffcfc" strokeType="INSIDE" width="580.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="118.0" layoutX="10.0" layoutY="14.0" stroke="#22303c" strokeType="INSIDE" width="580.0" />
       <ImageView fitHeight="124.0" fitWidth="580.0" layoutX="5.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#22303c" height="70.0" layoutX="25.0" layoutY="97.0" stroke="WHITE" strokeType="INSIDE" width="70.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#212f3b00" height="70.0" layoutX="25.0" layoutY="97.0" stroke="#22303c" strokeType="INSIDE" width="70.0" />
       <ImageView fitHeight="60.0" fitWidth="65.0" layoutX="29.0" layoutY="102.0" pickOnBounds="true" preserveRatio="true" />
       <Line endX="478.5999755859375" fill="#151515" layoutX="105.0" layoutY="630.0" startX="-100.0" stroke="#f7f5f536" />
-      <Label layoutX="39.0" layoutY="193.0" prefHeight="18.0" prefWidth="74.0" text="bio" textFill="WHITE" />
-      <Label layoutX="39.0" layoutY="212.0" prefHeight="18.0" prefWidth="74.0" text="joined ..." textFill="WHITE" />
-      <Label layoutX="40.0" layoutY="231.0" prefHeight="18.0" prefWidth="65.0" text="location" textFill="WHITE" />
-      <Label layoutX="40.0" layoutY="250.0" prefHeight="18.0" prefWidth="65.0" text="web" textFill="WHITE" />
-      <Button alignment="TOP_CENTER" layoutX="106.0" layoutY="286.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #22303c;" text="num follower" textFill="WHITE" underline="true">
+      <Label layoutX="39.0" layoutY="193.0" prefHeight="18.0" prefWidth="165.0" text="bio" textFill="#22303c" />
+      <Label layoutX="39.0" layoutY="212.0" prefHeight="18.0" prefWidth="74.0" text="joined ..." textFill="#22303c" />
+      <Label layoutX="40.0" layoutY="231.0" prefHeight="18.0" prefWidth="65.0" text="location" textFill="#22303c" />
+      <Label layoutX="40.0" layoutY="250.0" prefHeight="18.0" prefWidth="65.0" text="web" textFill="#22303c" />
+      <Button alignment="TOP_CENTER" layoutX="106.0" layoutY="286.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #fefefe;" text="num follower" textFill="#22303c" underline="true">
          <effect>
             <Blend />
          </effect>
       </Button>
-      <Button alignment="TOP_CENTER" layoutX="24.0" layoutY="286.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #22303c;" text="num following" textFill="WHITE" underline="true">
+      <Button alignment="TOP_CENTER" layoutX="24.0" layoutY="286.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #fefefe;" text="num following" textFill="#22303c" underline="true">
          <effect>
             <Blend />
          </effect>
@@ -83,11 +83,11 @@
             </Tab>
             <Tab text="likes">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #22303c;">
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
                      <children>
-                        <ScrollPane layoutX="8.0" layoutY="5.0" prefHeight="262.0" prefWidth="572.0" style="-fx-background-color: #22303c;">
+                        <ScrollPane layoutX="8.0" layoutY="5.0" prefHeight="262.0" prefWidth="572.0" style="-fx-background-color: white;">
                            <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="266.0" prefWidth="558.0" style="-fx-background-color: #22303c;">
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="266.0" prefWidth="558.0" style="-fx-background-color: white;">
                                  <children>
                                     <VBox layoutY="2.0" prefHeight="273.0" prefWidth="552.0" />
                                  </children>
@@ -100,19 +100,24 @@
             </Tab>
         </tabs>
       </TabPane>
-      <ImageView fitHeight="36.0" fitWidth="38.0" layoutX="193.0" layoutY="632.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="34.0" fitWidth="36.0" layoutX="62.0" layoutY="634.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Screenshot_20230627-120949_Twitter.jpg" />
+            <Image url="@download%20(2).jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="34.0" fitWidth="37.0" layoutX="328.0" layoutY="632.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="40.0" fitWidth="46.0" layoutX="187.0" layoutY="629.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Screenshot_20230627-122239_Twitter.jpg" />
+            <Image url="@download%20(2).png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="34.0" fitWidth="38.0" layoutX="460.0" layoutY="632.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="51.0" fitWidth="46.0" layoutX="322.0" layoutY="625.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Scret_20230627-120949_Twitter.jpg" />
+            <Image url="@download%20(3).png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="46.0" fitWidth="65.0" layoutX="458.0" layoutY="625.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@download.png" />
          </image>
       </ImageView>
    </children>
