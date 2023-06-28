@@ -158,7 +158,7 @@ public class SignUp implements Initializable {
             canLogin = false;
         }
         if(birthdate.getValue() == null){
-            errorBirthdate.setText("pick  country");
+            errorBirthdate.setText("pick  a date");
             canLogin = false;
         }
         if(!canLogin){

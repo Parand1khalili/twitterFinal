@@ -2,7 +2,6 @@ package com.example.demo1;
 
 import java.io.Serializable;
 import java.util.Date;
-
 public class User implements Serializable {
     private String id;
     private String firstName;
@@ -48,8 +47,13 @@ public class User implements Serializable {
         this.country = country;
         this.birthDate = birthDate;
         this.registerDate = new Date();
-        this.followerNum=0;
-        this.followingNum=0;
+        this.followerNum = 0;
+        this.followingNum = 0;
+    }
+
+    public User(String id, String password) {
+        this.id = id;
+        this.password = password;
     }
 
     public int getFollowerNum() {
