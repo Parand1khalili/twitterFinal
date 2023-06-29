@@ -258,27 +258,52 @@ class ClientHandler implements Runnable{
             throw new RuntimeException(e);
         }
     }
-    public static void signInServer(String id, String pass) throws SQLException, IOException {
-        java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:jdbc.db");
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM user");
+    public static void signInServer(String id, String pass)  {
+        Connection connection = null;
+        ResultSet resultSet;
+
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:H:\\New folder\\demo1\\jdbc.db");
+            Statement statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT id,password from TABLE ( user )");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         String respond;
-        while (resultSet.next()){
-            if(resultSet.getString(1).equals(id)){
-                if(!resultSet.getString(6).equals(pass)){
-                    respond="wrong-pass";
-                    out.writeObject(respond);
-                    return;
+        while (true){
+            try {
+                if (!resultSet.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if(resultSet.getString("id").equals(id)){
+                    try {
+                        if(!resultSet.getString("password").equals(pass)){
+                            respond="wrong-pass";
+                            out.writeObject(respond);
+                            return;
+                        }
+                        else{
+                            respond="success";
+                            out.writeObject(respond);
+                            return;
+                        }
+                    } catch (SQLException | IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
-                else{
-                    respond="success";
-                    out.writeObject(respond);
-                    return;
-                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
         }
         respond="not-found";
-        out.writeObject(respond);
+        try {
+            out.writeObject(respond);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     public static void getProfile(User theUser,User wanted) throws SQLException, IOException {
         java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:jdbc.db");
