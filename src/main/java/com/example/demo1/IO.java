@@ -10,13 +10,9 @@ public class IO {
     static ObjectInputStream in;
     static ObjectOutputStream out;
 
-    public static void IoSetter(){
-        try {
+    public static void IoSetter() throws IOException {
             socket = new Socket("localhost", 6666);
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
-        }catch (IOException e){
-            e.printStackTrace();
-        }
     }
 }

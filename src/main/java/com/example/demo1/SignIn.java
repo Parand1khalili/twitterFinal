@@ -65,36 +65,36 @@ public class SignIn {
         } catch (IOException | InterruptedException e) {
             error.setText("check your connection to server");
         }
+        String serverRespond = " ";
         try {
-            if(((String) IO.in.readObject()).equals("not-found")){
-                error.setText("user not found try again");
-            }
-            else if(((String) IO.in.readObject()).equals("wrong-pass")){
-                error.setText("incorrect password try again");
-            }
-            else if(((String) IO.in.readObject()).equals("success")){
-                logedUser.loggedUser = theUser;
-                Button button = (Button) event.getSource();
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ownProfile.fxml"));
-                Parent root = null;
-                try {
-                    root = fxmlLoader.load();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                Stage stage = (Stage) button.getScene().getWindow();
-                Scene scene = null;
-                if(root != null) {
-                    scene = new Scene(root);
-                }
-                stage.setScene(scene);
-                stage.show();
-            }
+            serverRespond =(String) IO.in.readObject();
         } catch (ClassNotFoundException | IOException e) {
             error.setText("check your connection to server");
         }
-
-
+        if(serverRespond.equals("not-found")){
+            error.setText("user not found try again");
+        }
+        else if(serverRespond.equals("wrong-pass")){
+            error.setText("incorrect password try again");
+        }
+        else if(serverRespond.equals("success")){
+            logedUser.loggedUser = theUser;
+            Button button = (Button) event.getSource();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ownProfile.fxml"));
+            Parent root = null;
+            try {
+                root = fxmlLoader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Stage stage = (Stage) button.getScene().getWindow();
+            Scene scene = null;
+            if(root != null) {
+                scene = new Scene(root);
+            }
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 
 }

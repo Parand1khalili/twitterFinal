@@ -21,7 +21,11 @@ public class HelloApplication extends Application {
     }
 
     public static void main(String[] args) {
-        IO.IoSetter();
+        try {
+            IO.IoSetter();
+        } catch (IOException e) {
+            System.out.println("server not found :(");
+        }
         launch();
     }
 }

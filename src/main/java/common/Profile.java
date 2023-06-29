@@ -15,7 +15,15 @@ public class Profile {
     private ArrayList<String> followings=new ArrayList<>();
     private ArrayList<Tweet> tweets=new ArrayList<>();
 
-
+    public Profile(){
+        this.picLink = null;
+        this.headerLink = null;
+        this.bio = null;
+        this.location = null;
+        this.web = null;
+        this.followerNum = 0;
+        this.followingNum = 0;
+    }
     public Profile(String picLink, String headerLink, String bio, String location, String web, int followerNum, int followingNum) {
         this.picLink = picLink;
         this.headerLink = headerLink;

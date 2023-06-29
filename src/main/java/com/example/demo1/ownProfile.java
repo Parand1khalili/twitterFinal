@@ -55,6 +55,7 @@ public class ownProfile implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Profile loggedUserProfile = null;
         ArrayList<Tweet> loggedUserTweets;
+        System.out.println("inisialazeed");
         try {
             IO.out.writeObject("get-profile");
             Thread.sleep(50);
