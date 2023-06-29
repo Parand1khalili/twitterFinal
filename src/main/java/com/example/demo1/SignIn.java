@@ -78,7 +78,19 @@ public class SignIn {
             error.setText("incorrect password try again");
         }
         else if(serverRespond.equals("success")){
-            logedUser.loggedUser = theUser;
+            User completeUser = null;
+            try {
+                IO.out.writeObject("get-user");
+                Thread.sleep(500);
+                IO.out.writeObject(theUser.getId());
+                Thread.sleep(500);
+                completeUser =(User) IO.in.readObject();
+            } catch (IOException | InterruptedException e) {
+                error.setText("check your connection to server");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            logedUser.loggedUser = completeUser;
             Button button = (Button) event.getSource();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ownProfile.fxml"));
             Parent root = null;
