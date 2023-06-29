@@ -247,9 +247,6 @@ class ClientHandler implements Runnable{
             pstmt.setString(9,theUser.getRegisterDate().toString());
             pstmt.executeUpdate();
             System.out.println("inserted");
-//            statement.executeUpdate("INSERT INTO user(id,firstName,lastName,email,phoneNumber,password,country,birthDate,registerDate) " +
-//                    "VALUES "+ (theUser.getId()+theUser.getFirstName()+theUser.getLastName()+theUser.getEmail()+theUser.getPhoneNumber()+
-//                    theUser.getPassword()+theUser.getCountry()+theUser.getBirthDate()+theUser.getRegisterDate()));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
