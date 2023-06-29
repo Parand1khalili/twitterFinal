@@ -188,7 +188,6 @@ public class SignUp implements Initializable {
             errorPhoneNumber.setText("phone number already used");
         }
         else if(serverRespond.equals("success")){
-            System.out.println("own profile");
             logedUser.loggedUser = newUser;
             Button button = (Button) event.getSource();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ownProfile.fxml"));
@@ -200,11 +199,13 @@ public class SignUp implements Initializable {
             }
             Stage stage = (Stage) button.getScene().getWindow();
             Scene scene = null;
-            if(root != null) {
+            if (root != null) {
                 scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+                ownProfile controller = fxmlLoader.getController();
+                controller.initialize();
             }
-            stage.setScene(scene);
-            stage.show();
         }
     }
     public static boolean emailValidity(String email){

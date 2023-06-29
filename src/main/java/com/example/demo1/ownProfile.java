@@ -19,7 +19,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class ownProfile implements Initializable {
+public class ownProfile {
     @FXML
     ImageView header;
     @FXML
@@ -80,8 +80,7 @@ public class ownProfile implements Initializable {
     Tab tweets;
     @FXML
     VBox allTweets;
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize() {
         Profile loggedUserProfile = null;
         ArrayList<Tweet> loggedUserTweets;
         System.out.println("inisialazeed");
