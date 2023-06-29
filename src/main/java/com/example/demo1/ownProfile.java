@@ -76,9 +76,9 @@ public class ownProfile implements Initializable {
             following.setText("followings " + loggedUserProfile.getFollowingNum());
             // todo set header
             // todo set avatar
-            for(Tweet tweet : loggedUserTweets){
-                Label tweetLabel = new Label(Tweet.)
-            }
+           // for(Tweet tweet : loggedUserTweets){
+                //Label tweetLabel = new Label(Tweet.);
+           // }
         }
     }
 }

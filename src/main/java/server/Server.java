@@ -51,7 +51,7 @@ class ClientHandler implements Runnable{
     @Override
     public void run() {
         try {
-            java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:jdbc.db");
+            java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:H:\\New folder\\demo1\\jdbc.db");
             Statement statement = connection.createStatement();
             out = new ObjectOutputStream(client.getOutputStream());
             in = new ObjectInputStream(client.getInputStream());
@@ -60,6 +60,7 @@ class ClientHandler implements Runnable{
             throw new RuntimeException(e);
         }
         try {
+            java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:H:\\New folder\\demo1\\jdbc.db");
             String command;
             while(!(command = (String) in.readObject()).equals("exit")) {
                 if (command.equals("sign-up")) {
@@ -165,43 +166,100 @@ class ClientHandler implements Runnable{
             throw new RuntimeException(e);
         }
     }
+    private Connection connect() {
+        // SQLite connection string
+        String url = "jdbc:sqlite:jdbc.db";
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return conn;
+    }
 
     public ClientHandler(Socket client) {
         this.client=client;
     }
-    public static void signUpServer(User theUser) throws SQLException, IOException {
+    public static void signUpServer(User theUser) {
         System.out.println("method started");
-        java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:jdbc.db");
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM user");
+        Connection connection = null;
+        ResultSet resultSet = null;
+        Statement statement = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:H:\\New folder\\demo1\\jdbc.db");
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM user");
+        } catch (SQLException e) {
+            System.out.println("sign-up : sqLite exp");
+        }
         String respond;
         if(theUser.getEmail()==null && theUser.getPhoneNumber()==null){
             respond = "empty-field";
-            out.writeObject(respond);
+            try {
+                out.writeObject(respond);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             return;
         }
-        while(resultSet.next()){
-            if(resultSet.getString(1).equals(theUser.getId())){
-                respond = "duplicate-id";
-                out.writeObject(respond);
-                return;
+        if(resultSet == null){
+            System.out.println("resultSet empty");
+            return;
+        }
+        while(true){
+            try {
+                if (!resultSet.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-            else if(resultSet.getString(4).equals(theUser.getEmail())){
-                respond = "duplicate-email";
-                out.writeObject(respond);
-                return;
-            }
-            else if(resultSet.getString(5).equals(theUser.getPhoneNumber())){
-                respond = "duplicate-number";
-                out.writeObject(respond);
-                return;
+            try {
+                if(resultSet.getString(1).equals(theUser.getId())){
+                    respond = "duplicate-id";
+                    out.writeObject(respond);
+                    return;
+                }
+                else if(resultSet.getString(4).equals(theUser.getEmail())){
+                    respond = "duplicate-email";
+                    out.writeObject(respond);
+                    return;
+                }
+                else if(resultSet.getString(5).equals(theUser.getPhoneNumber())){
+                    respond = "duplicate-number";
+                    out.writeObject(respond);
+                    return;
+                }
+            } catch (SQLException | IOException e) {
+                throw new RuntimeException(e);
             }
         }
-        statement.executeUpdate("INSERT INTO user(id,firstName,lastName,email,phoneNumber,password,country,birthDate,registerDate) " +
-                "VALUES "+ theUser.getId()+theUser.getFirstName()+theUser.getLastName()+theUser.getEmail()+theUser.getPhoneNumber()+
-                theUser.getPassword()+theUser.getCountry()+theUser.getBirthDate()+theUser.getRegisterDate());
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:H:\\New folder\\demo1\\jdbc.db");
+            PreparedStatement pstmt = connection.prepareStatement("INSERT INTO user(id,firstName,lastName,email,phoneNumber,password,country,birthDate,registerDate) VALUES (?,?,?,?,?,?,?,?,?)");
+            pstmt.setString(1,theUser.getId());
+            pstmt.setString(2,theUser.getFirstName());
+            pstmt.setString(3,theUser.getLastName());
+            pstmt.setString(4,theUser.getEmail());
+            pstmt.setString(5,theUser.getPhoneNumber());
+            pstmt.setString(6,theUser.getPassword());
+            pstmt.setString(7,theUser.getCountry());
+            pstmt.setString(8,theUser.getBirthDate());
+            pstmt.setString(9,theUser.getRegisterDate().toString());
+            pstmt.executeUpdate();
+            System.out.println("inserted");
+//            statement.executeUpdate("INSERT INTO user(id,firstName,lastName,email,phoneNumber,password,country,birthDate,registerDate) " +
+//                    "VALUES "+ (theUser.getId()+theUser.getFirstName()+theUser.getLastName()+theUser.getEmail()+theUser.getPhoneNumber()+
+//                    theUser.getPassword()+theUser.getCountry()+theUser.getBirthDate()+theUser.getRegisterDate()));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         respond = "success";
-        out.writeObject(respond);
+        try {
+            out.writeObject(respond);
+            System.out.println(respond);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     public static void signInServer(String id, String pass) throws SQLException, IOException {
         java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:jdbc.db");

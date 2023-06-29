@@ -172,36 +172,39 @@ public class SignUp implements Initializable {
         } catch (IOException | InterruptedException e) {
             errorConnection.setText("check your connection to server");
         }
+        String serverRespond = " ";
         try {
-            if(((String) IO.in.readObject()).equals("duplicate-id")){
-                errorUserName.setText("user name already taken");
-            }
-            else if(((String) IO.in.readObject()).equals("duplicate-email")){
-                errorEmail.setText("email already used");
-            }
-            else if(((String) IO.in.readObject()).equals("duplicate-number")){
-                errorPhoneNumber.setText("phone number already used");
-            }
-            else if(((String) IO.in.readObject()).equals("success")){
-                logedUser.loggedUser = newUser;
-                Button button = (Button) event.getSource();
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ownProfile.fxml"));
-                Parent root = null;
-                try {
-                    root = fxmlLoader.load();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                Stage stage = (Stage) button.getScene().getWindow();
-                Scene scene = null;
-                if(root != null) {
-                    scene = new Scene(root);
-                }
-                stage.setScene(scene);
-                stage.show();
-            }
+            serverRespond =(String) IO.in.readObject();
         } catch (ClassNotFoundException | IOException e) {
             errorConnection.setText("check your connection to server");
+        }
+        if(serverRespond.equals("duplicate-id")){
+            errorUserName.setText("user name already taken");
+        }
+        else if(serverRespond.equals("duplicate-email")){
+            errorEmail.setText("email already used");
+        }
+        else if(serverRespond.equals("duplicate-number")){
+            errorPhoneNumber.setText("phone number already used");
+        }
+        else if(serverRespond.equals("success")){
+            System.out.println("own profile");
+            logedUser.loggedUser = newUser;
+            Button button = (Button) event.getSource();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ownProfile.fxml"));
+            Parent root = null;
+            try {
+                root = fxmlLoader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Stage stage = (Stage) button.getScene().getWindow();
+            Scene scene = null;
+            if(root != null) {
+                scene = new Scene(root);
+            }
+            stage.setScene(scene);
+            stage.show();
         }
     }
     public static boolean emailValidity(String email){
