@@ -68,8 +68,8 @@ class ClientHandler implements Runnable{
                     signUpServer((User)in.readObject());
                 }
                 else if (command.equals("sign-in")) {
-                    User y = (User)in.readObject() ;
-                    signInServer(y.getId(),y.getPassword());
+                    System.out.println("sign in done");
+                    signInServer((User)in.readObject());
                 }
                 else if(command.equals("get-user")){
                     getUser((String) in.readObject());
@@ -258,14 +258,14 @@ class ClientHandler implements Runnable{
             throw new RuntimeException(e);
         }
     }
-    public static void signInServer(String id, String pass)  {
+    public static void signInServer(User theUser)  {
         Connection connection = null;
         ResultSet resultSet;
 
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:H:\\New folder\\demo1\\jdbc.db");
             Statement statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT id,password from TABLE ( user )");
+            resultSet = statement.executeQuery("SELECT id,password from user");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -278,9 +278,9 @@ class ClientHandler implements Runnable{
                 throw new RuntimeException(e);
             }
             try {
-                if(resultSet.getString("id").equals(id)){
+                if(resultSet.getString("id").equals(theUser.getId())){
                     try {
-                        if(!resultSet.getString("password").equals(pass)){
+                        if(!resultSet.getString("password").equals(theUser.getPassword())){
                             respond="wrong-pass";
                             out.writeObject(respond);
                             return;
@@ -305,29 +305,76 @@ class ClientHandler implements Runnable{
             throw new RuntimeException(e);
         }
     }
-    public static void getProfile(User theUser,User wanted) throws SQLException, IOException {
-        java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:jdbc.db");
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM user");//wantedUser
-        ResultSet resultSet1 = statement.executeQuery("SELECT * FROM user");//theUser
-        while (resultSet1.next()){
-            if(resultSet1.getString(1).equals(theUser.getId())){
-                if(!resultSet1.getString(20).contains(wanted.getId())){
-                    while (resultSet.next()){
-                        if(resultSet.getString(1).equals(wanted.getId())){
-                            Profile theProfile = new Profile(resultSet.getString(11),resultSet.getString(12),
-                                    resultSet.getString(13),resultSet.getString(14),resultSet.getString(15),
-                                    resultSet.getInt(18),resultSet.getInt(19));
-                            out.writeObject(theProfile);
+    public static void getProfile(User theUser,User wanted) {
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:H:\\New folder\\demo1\\jdbc.db");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ResultSet resultSet = null;//wantedUser
+        try {
+            resultSet = statement.executeQuery("SELECT id,firstName,lastName,email,phoneNumber,password,country,birthDate,registerDate,lastUpdate,profile,header,bio,location,web,followers,followings,follower,following,blacklist from user");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ResultSet resultSet1 = null;//theUser
+        try {
+            resultSet1 = statement.executeQuery("SELECT id,firstName,lastName,email,phoneNumber,password,country,birthDate,registerDate,lastUpdate,profile,header,bio,location,web,followers,followings,follower,following,blacklist from user");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        while (true){
+            try {
+                if (!resultSet1.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if(resultSet1.getString("id").equals(theUser.getId())){
+                    if(!resultSet1.getString("blacklist").contains(wanted.getId())){
+                        while (resultSet.next()){
+                            if(resultSet.getString("id").equals(wanted.getId())){
+                                Profile theProfile = new Profile(resultSet.getString(11),resultSet.getString(12),
+                                        resultSet.getString("profile"),resultSet.getString(14),resultSet.getString(15),
+                                        resultSet.getInt(18),resultSet.getInt(19));
+                                out.writeObject(theProfile);
+                            }
                         }
                     }
                 }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
-        ResultSet resultSetTweet = statement.executeQuery("SELECT * FROM Tweet");
-        while (resultSetTweet.next()){
-            if(resultSetTweet.getString(3).equals(wanted.getId())){
-                out.writeObject(resultSetTweet);
+        ResultSet resultSetTweet = null;
+        try {
+            resultSetTweet = statement.executeQuery("SELECT * FROM Tweet");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        while (true){
+            try {
+                if (!resultSetTweet.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if(resultSetTweet.getString(3).equals(wanted.getId())){
+                    out.writeObject(resultSetTweet);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
     }
