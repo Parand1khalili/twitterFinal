@@ -1,4 +1,4 @@
-package com.example.demo1;
+package common;
 
 import java.io.Serializable;
 import java.util.Date;

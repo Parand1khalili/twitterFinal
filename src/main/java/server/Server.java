@@ -1,5 +1,7 @@
 package server;
 
+import common.*;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -7,7 +9,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.concurrent.ExecutorService;
 import java.sql.*;
 import java.util.concurrent.Executors;
@@ -26,14 +27,11 @@ public class Server {
 
     public static void main(String[] args) {
         Server server = new Server();
-        System.out.println("uygyuf");
         try {
-            System.out.println("jfhfjy");
             server.serverSocket = new ServerSocket(6666);
             while (!server.isDone){
-                System.out.println("fhakhf");
                 Socket client = server.serverSocket.accept();
-                System.out.println("server is running...");
+                System.out.println("client accepted...");
                 ClientHandler clientHandler = new ClientHandler(client);
                 server.executorService = Executors.newCachedThreadPool();
                 server.executorService.execute(clientHandler);
@@ -63,10 +61,10 @@ class ClientHandler implements Runnable{
         }
         try {
             String command;
-            while(!(command = (String) in.readObject()).equals("exit") && (command = (String) in.readObject()) != null ) {
+            while(!(command = (String) in.readObject()).equals("exit")) {
                 if (command.equals("sign-up")) {
-                    User x;
-                    signUpServer(x=(User)in.readObject());
+                    System.out.println("sign up done");
+                    signUpServer((User)in.readObject());
                 }
                 else if (command.equals("sign-in")) {
                     User y = (User)in.readObject() ;
@@ -172,6 +170,7 @@ class ClientHandler implements Runnable{
         this.client=client;
     }
     public static void signUpServer(User theUser) throws SQLException, IOException {
+        System.out.println("method started");
         java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:jdbc.db");
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM user");

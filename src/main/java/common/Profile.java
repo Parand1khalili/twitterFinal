@@ -1,5 +1,6 @@
-package com.example.demo1;
+package common;
 
+import common.Tweet;
 import java.util.ArrayList;
 
 public class Profile {

@@ -1,6 +1,6 @@
 package com.example.demo1;
 
-import javafx.beans.Observable;
+import common.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;

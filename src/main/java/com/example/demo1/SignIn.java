@@ -1,5 +1,6 @@
 package com.example.demo1;
 
+import common.User;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
