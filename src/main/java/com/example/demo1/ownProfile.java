@@ -1,4 +1,5 @@
 package com.example.demo1;
+import common.*;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -6,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
@@ -35,6 +37,8 @@ public class ownProfile implements Initializable {
     Button following;
     @FXML
     Tab tweets;
+    @FXML
+    VBox allTweets;
     @FXML
     Tab replies;
     @FXML
@@ -72,7 +76,9 @@ public class ownProfile implements Initializable {
             following.setText("followings " + loggedUserProfile.getFollowingNum());
             // todo set header
             // todo set avatar
-
+            for(Tweet tweet : loggedUserTweets){
+                Label tweetLabel = new Label(Tweet.)
+            }
         }
     }
 }
