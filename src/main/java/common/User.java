@@ -37,7 +37,7 @@ public class User implements Serializable {
     }
 
     public User(String id, String firstName, String lastName, String email, String phoneNumber, String password,
-                String country, String birthDate) {
+                String country, String birthDate, String headerPicName, String profPicName) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -50,6 +50,8 @@ public class User implements Serializable {
         this.followerNum = 0;
         this.followingNum = 0;
         this.blacklist = " ";
+        this.headerPicName = headerPicName;
+        this.profPicName = profPicName;
     }
 
     public User(String id, String password) {

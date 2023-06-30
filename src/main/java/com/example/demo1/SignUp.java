@@ -12,8 +12,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Base64;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -164,7 +167,25 @@ public class SignUp implements Initializable {
         if(!canLogin){
             return;
         }
-        User newUser = new User(userName.getText(),firstName.getText(),lastName.getText(),email.getText(),phoneNumber.getText(),password.getText(),country.getValue(),String.valueOf(birthdate));
+        FileInputStream header = null;
+        byte[] headerInByte;
+        try {
+            header = new FileInputStream(""); // todo path of the header file
+            headerInByte = header.readAllBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String headerString = Base64.getEncoder().encodeToString(headerInByte);
+        FileInputStream avatar = null;
+        byte[] avatarInByte;
+        try {
+            avatar = new FileInputStream(""); // todo path of the header file
+            avatarInByte = avatar.readAllBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String avatarString = Base64.getEncoder().encodeToString(avatarInByte);
+        User newUser = new User(userName.getText(),firstName.getText(),lastName.getText(),email.getText(),phoneNumber.getText(),password.getText(),country.getValue(),String.valueOf(birthdate),headerString,avatarString);
         try {
             IO.out.writeObject("sign-up");
             Thread.sleep(500);
