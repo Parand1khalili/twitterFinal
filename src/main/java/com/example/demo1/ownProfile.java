@@ -10,20 +10,23 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.ResourceBundle;
 
 public class ownProfile implements Initializable{
     @FXML
     ImageView header;
     @FXML
-    ImageView profPhoto;
+    ImageView avatar;
     @FXML
     Label userId;
     @FXML
@@ -36,46 +39,46 @@ public class ownProfile implements Initializable{
     Label web;
     @FXML
     Button followers;
-//    @FXML
-//    protected void onFollowersClick(Event event){ // todo pass an array of followers
-//        logedUser.loggedUser = null;
-//        Button button = (Button) event.getSource();
-//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("userScene.fxml"));
-//        Parent root = null;
-//        try {
-//            root = fxmlLoader.load();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        Stage stage = (Stage) button.getScene().getWindow();
-//        Scene scene = null;
-//        if(root != null) {
-//            scene = new Scene(root);
-//        }
-//        stage.setScene(scene);
-//        stage.show();
-//    }
+    @FXML
+    protected void onFollowersClick(Event event){ // todo pass an array of followers
+        logedUser.loggedUser = null;
+        Button button = (Button) event.getSource();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("userScene.fxml"));
+        Parent root = null;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Stage stage = (Stage) button.getScene().getWindow();
+        Scene scene = null;
+        if(root != null) {
+            scene = new Scene(root);
+        }
+        stage.setScene(scene);
+        stage.show();
+    }
     @FXML
     Button following;
-//    @FXML
-//    protected void onFollowingsClick(Event event){ // todo pass an array of followers
-//        logedUser.loggedUser = null;
-//        Button button = (Button) event.getSource();
-//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("userScene.fxml"));
-//        Parent root = null;
-//        try {
-//            root = fxmlLoader.load();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        Stage stage = (Stage) button.getScene().getWindow();
-//        Scene scene = null;
-//        if(root != null) {
-//            scene = new Scene(root);
-//        }
-//        stage.setScene(scene);
-//        stage.show();
-//    }
+    @FXML
+    protected void onFollowingsClick(Event event){ // todo pass an array of followers
+        logedUser.loggedUser = null;
+        Button button = (Button) event.getSource();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("userScene.fxml"));
+        Parent root = null;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Stage stage = (Stage) button.getScene().getWindow();
+        Scene scene = null;
+        if(root != null) {
+            scene = new Scene(root);
+        }
+        stage.setScene(scene);
+        stage.show();
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Profile loggedUserProfile = null;
@@ -91,121 +94,125 @@ public class ownProfile implements Initializable{
             // todo set label error
         }
         if(loggedUserProfile != null) {
-//            userId.setText(logedUser.loggedUser.getId());
-//            bio.setText(loggedUserProfile.getBio());
-//            location.setText(loggedUserProfile.getLocation());
-//            web.setText(loggedUserProfile.getWeb());
-//            joinedDate.setText(logedUser.loggedUser.getRegisterDate().toString());
-//            followers.setText("followers " + loggedUserProfile.getFollowerNum());
-//            following.setText("followings " + loggedUserProfile.getFollowingNum());
-            // todo set header
-            // todo set avatar
-            // for(Tweet tweet : loggedUserTweets){
-            //Label tweetLabel = new Label(Tweet.);
-            // }
+            userId.setText(logedUser.loggedUser.getId());
+            bio.setText(loggedUserProfile.getBio());
+            location.setText(loggedUserProfile.getLocation());
+            web.setText(loggedUserProfile.getWeb());
+            joinedDate.setText(logedUser.loggedUser.getRegisterDate().toString());
+            followers.setText("followers " + loggedUserProfile.getFollowerNum());
+            following.setText("followings " + loggedUserProfile.getFollowingNum());
+            byte[] headerInByte = Base64.getDecoder().decode(logedUser.loggedUser.getHeaderPicName());
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(headerInByte);
+            Image headerImage = new Image(inputStream);
+            header.setImage(headerImage);
+            byte[] avatarInByte = Base64.getDecoder().decode(logedUser.loggedUser.getProfPicName());
+            inputStream = new ByteArrayInputStream(avatarInByte);
+            Image avatarImage = new Image(inputStream);
+            avatar.setImage(avatarImage);
+
         }
     }
-//    @FXML
-//    Button logout;
-//    @FXML
-//    protected void onLogoutClick(Event event){
-//        logedUser.loggedUser = null;
-//        Button button = (Button) event.getSource();
-//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
-//        Parent root = null;
-//        try {
-//            root = fxmlLoader.load();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        Stage stage = (Stage) button.getScene().getWindow();
-//        Scene scene = null;
-//        if(root != null) {
-//            scene = new Scene(root);
-//        }
-//        stage.setScene(scene);
-//        stage.show();
-//    }
-//    @FXML
-//    Button newTweet;
-//    @FXML
-//    protected void onNewTweetClick(Event event){
-//        logedUser.loggedUser = null;
-//        Button button = (Button) event.getSource();
-//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("newTweet.fxml"));
-//        Parent root = null;
-//        try {
-//            root = fxmlLoader.load();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        Stage stage = (Stage) button.getScene().getWindow();
-//        Scene scene = null;
-//        if(root != null) {
-//            scene = new Scene(root);
-//        }
-//        stage.setScene(scene);
-//        stage.show();
-//    }
-//    @FXML
-//    Button search;
-//    protected void onSearchClick(Event event){
-//        logedUser.loggedUser = null;
-//        Button button = (Button) event.getSource();
-//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("search.fxml"));
-//        Parent root = null;
-//        try {
-//            root = fxmlLoader.load();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        Stage stage = (Stage) button.getScene().getWindow();
-//        Scene scene = null;
-//        if(root != null) {
-//            scene = new Scene(root);
-//        }
-//        stage.setScene(scene);
-//        stage.show();
-//    }
-//    @FXML
-//    Button timeLine;
-//    protected void onTimeLineClick(Event event){
-//        logedUser.loggedUser = null;
-//        Button button = (Button) event.getSource();
-//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("timeLine.fxml"));
-//        Parent root = null;
-//        try {
-//            root = fxmlLoader.load();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        Stage stage = (Stage) button.getScene().getWindow();
-//        Scene scene = null;
-//        if(root != null) {
-//            scene = new Scene(root);
-//        }
-//        stage.setScene(scene);
-//        stage.show();
-//    }
-//    @FXML
-//    Button editProfile;
-//    protected void onEditProfileClick(Event event){
-//        logedUser.loggedUser = null;
-//        Button button = (Button) event.getSource();
-//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editProfile.fxml"));
-//        Parent root = null;
-//        try {
-//            root = fxmlLoader.load();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        Stage stage = (Stage) button.getScene().getWindow();
-//        Scene scene = null;
-//        if(root != null) {
-//            scene = new Scene(root);
-//        }
-//        stage.setScene(scene);
-//        stage.show();
-//    }
+    @FXML
+    Button logout;
+    @FXML
+    protected void onLogoutClick(Event event){
+        logedUser.loggedUser = null;
+        Button button = (Button) event.getSource();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
+        Parent root = null;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Stage stage = (Stage) button.getScene().getWindow();
+        Scene scene = null;
+        if(root != null) {
+            scene = new Scene(root);
+        }
+        stage.setScene(scene);
+        stage.show();
+    }
+    @FXML
+    Button newTweet;
+    @FXML
+    protected void onNewTweetClick(Event event){
+        logedUser.loggedUser = null;
+        Button button = (Button) event.getSource();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("newTweet.fxml"));
+        Parent root = null;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Stage stage = (Stage) button.getScene().getWindow();
+        Scene scene = null;
+        if(root != null) {
+            scene = new Scene(root);
+        }
+        stage.setScene(scene);
+        stage.show();
+    }
+    @FXML
+    Button search;
+    protected void onSearchClick(Event event){
+        logedUser.loggedUser = null;
+        Button button = (Button) event.getSource();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("search.fxml"));
+        Parent root = null;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Stage stage = (Stage) button.getScene().getWindow();
+        Scene scene = null;
+        if(root != null) {
+            scene = new Scene(root);
+        }
+        stage.setScene(scene);
+        stage.show();
+    }
+    @FXML
+    Button timeLine;
+    protected void onTimeLineClick(Event event){
+        logedUser.loggedUser = null;
+        Button button = (Button) event.getSource();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("timeLine.fxml"));
+        Parent root = null;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Stage stage = (Stage) button.getScene().getWindow();
+        Scene scene = null;
+        if(root != null) {
+            scene = new Scene(root);
+        }
+        stage.setScene(scene);
+        stage.show();
+    }
+    @FXML
+    Button editProfile;
+    protected void onEditProfileClick(Event event){
+        logedUser.loggedUser = null;
+        Button button = (Button) event.getSource();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editProfile.fxml"));
+        Parent root = null;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Stage stage = (Stage) button.getScene().getWindow();
+        Scene scene = null;
+        if(root != null) {
+            scene = new Scene(root);
+        }
+        stage.setScene(scene);
+        stage.show();
+    }
 
 }
