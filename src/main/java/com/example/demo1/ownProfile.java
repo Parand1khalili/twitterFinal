@@ -81,15 +81,20 @@ public class ownProfile implements Initializable{
         Profile loggedUserProfile = null;
         System.out.println("inisialazeed");
         try {
+            System.out.println("try");
             IO.out.writeObject("get-profile");
+            System.out.println("get");
             Thread.sleep(50);
             IO.out.writeObject(logedUser.loggedUser);
+            System.out.println("user1");
             Thread.sleep(50);
             IO.out.writeObject(logedUser.loggedUser);
+            System.out.println("user2");
             Thread.sleep(50);
             loggedUserProfile = (Profile) IO.in.readObject();
+            System.out.println("ssss");
         } catch (IOException | InterruptedException | ClassNotFoundException e) {
-            // todo label error
+            System.out.println("errorrrrrrrrrrrrrrrrr");
         }
         if(loggedUserProfile != null) {
 //            userId.setText(logedUser.loggedUser.getId());

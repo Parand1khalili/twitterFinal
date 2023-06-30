@@ -49,6 +49,7 @@ public class User implements Serializable {
         this.registerDate = new Date();
         this.followerNum = 0;
         this.followingNum = 0;
+        this.blacklist = " ";
     }
 
     public User(String id, String password) {

@@ -21,6 +21,23 @@ public class Server {
     private ExecutorService executorService;
     private boolean isDone;
 
+    private static Connection connection;
+
+    public static Connection getConnection(){
+        if (connection == null) {
+            synchronized (Server.class) {
+                if (connection == null) {
+                    try {
+                        connection = DriverManager.getConnection("jdbc:sqlite:H:\\New folder\\demo1\\jdbc2.db");
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
+        return connection;
+    }
+
     public Server() {
         this.isDone = false;
     }
@@ -30,6 +47,7 @@ public class Server {
         try {
             server.serverSocket = new ServerSocket(9898);
             while (!server.isDone){
+                System.out.println("waiting for client...");
                 Socket client = server.serverSocket.accept();
                 System.out.println("client accepted...");
                 ClientHandler clientHandler = new ClientHandler(client);
@@ -50,17 +68,16 @@ class ClientHandler implements Runnable{
 
     @Override
     public void run() {
+        java.sql.Connection connection = Server.getConnection();
         try {
-            java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:H:\\New folder\\demo1\\jdbc.db");
-            Statement statement = connection.createStatement();
+            
             out = new ObjectOutputStream(client.getOutputStream());
             in = new ObjectInputStream(client.getInputStream());
 
-        } catch (SQLException | IOException e) {
+        } catch (  IOException e) {
             throw new RuntimeException(e);
         }
         try {
-            java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:H:\\New folder\\demo1\\jdbc.db");
             String command;
             while(!(command = (String) in.readObject()).equals("exit")) {
                 if (command.equals("sign-up")) {
@@ -163,7 +180,7 @@ class ClientHandler implements Runnable{
                 }
             }
         } catch (IOException | ClassNotFoundException | SQLException | InterruptedException | ParseException e) {
-            throw new RuntimeException(e);
+            System.out.println("client disconnected.");
         }
     }
     private Connection connect() {
@@ -183,13 +200,12 @@ class ClientHandler implements Runnable{
     }
     public static void signUpServer(User theUser) {
         System.out.println("method started");
-        Connection connection = null;
         ResultSet resultSet = null;
         Statement statement = null;
+        Connection connection = Server.getConnection();
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite:H:\\New folder\\demo1\\jdbc.db");
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM user");
+             statement = connection.createStatement();
+             resultSet = statement.executeQuery("SELECT * FROM user");
         } catch (SQLException e) {
             System.out.println("sign-up : sqLite exp");
         }
@@ -214,17 +230,17 @@ class ClientHandler implements Runnable{
                 throw new RuntimeException(e);
             }
             try {
-                if(resultSet.getString(1).equals(theUser.getId())){
+                if(resultSet.getString("id").equals(theUser.getId())){
                     respond = "duplicate-id";
                     out.writeObject(respond);
                     return;
                 }
-                else if(resultSet.getString(4).equals(theUser.getEmail())){
+                else if(resultSet.getString("email").equals(theUser.getEmail())){
                     respond = "duplicate-email";
                     out.writeObject(respond);
                     return;
                 }
-                else if(resultSet.getString(5).equals(theUser.getPhoneNumber())){
+                else if(resultSet.getString("phoneNumber").equals(theUser.getPhoneNumber())){
                     respond = "duplicate-number";
                     out.writeObject(respond);
                     return;
@@ -233,8 +249,16 @@ class ClientHandler implements Runnable{
                 throw new RuntimeException(e);
             }
         }
+        // try {
+           // connection.close();
+       // } catch (SQLException e) {
+         //   System.out.println("nane data base jendas!!!!!!");
+        //}
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite:H:\\New folder\\demo1\\jdbc.db");
+            statement.close();
+            resultSet.close();
+
+            //connection = DriverManager.getConnection("jdbc:sqlite:H:\\New folder\\demo1\\jdbc.db");
             PreparedStatement pstmt = connection.prepareStatement("INSERT INTO user(id,firstName,lastName,email,phoneNumber,password,country,birthDate,registerDate) VALUES (?,?,?,?,?,?,?,?,?)");
             pstmt.setString(1,theUser.getId());
             pstmt.setString(2,theUser.getFirstName());
@@ -259,13 +283,12 @@ class ClientHandler implements Runnable{
         }
     }
     public static void signInServer(User theUser)  {
-        Connection connection = null;
+        Connection connection = Server.getConnection();
         ResultSet resultSet;
 
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite:H:\\New folder\\demo1\\jdbc.db");
             Statement statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT id,password from user");
+            resultSet = statement.executeQuery("SELECT * FROM user");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -306,12 +329,8 @@ class ClientHandler implements Runnable{
         }
     }
     public static void getUser(String id)  {
-        Connection connection = null;
-        try {
-            connection = DriverManager.getConnection("jdbc:sqlite:H:\\New folder\\demo1\\jdbc.db");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        Connection connection = Server.getConnection();
+ 
         Statement statement = null;
         try {
             statement = connection.createStatement();
@@ -345,12 +364,8 @@ class ClientHandler implements Runnable{
         }
     }
     public static void getProfile(User theUser,User wanted) {
-        Connection connection = null;
-        try {
-            connection = DriverManager.getConnection("jdbc:sqlite:H:\\New folder\\demo1\\jdbc.db");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        Connection connection = Server.getConnection();
+       
         Statement statement = null;
         try {
             statement = connection.createStatement();
@@ -359,13 +374,13 @@ class ClientHandler implements Runnable{
         }
         ResultSet resultSet = null;//wantedUser
         try {
-            resultSet = statement.executeQuery("SELECT id,firstName,lastName,email,phoneNumber,password,country,birthDate,registerDate,lastUpdate,profile,header,bio,location,web,followers,followings,follower,following,blacklist from user");
+            resultSet = statement.executeQuery("SELECT * FROM user");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         ResultSet resultSet1 = null;//theUser
         try {
-            resultSet1 = statement.executeQuery("SELECT id,firstName,lastName,email,phoneNumber,password,country,birthDate,registerDate,lastUpdate,profile,header,bio,location,web,followers,followings,follower,following,blacklist from user");
+            resultSet1 = statement.executeQuery("SELECT * FROM user");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -377,15 +392,16 @@ class ClientHandler implements Runnable{
             }
             try {
                 if(resultSet1.getString("id").equals(theUser.getId())){
-                    if(!resultSet1.getString("blacklist").contains(wanted.getId())){
-                        while (resultSet.next()){
+                    System.out.println("user-find");
+                    System.out.println(resultSet1.getString("blacklist"));
+                    if(resultSet1.getString("blacklist")==null || !resultSet1.getString("blacklist").contains(wanted.getId())){
+                        System.out.println("oomad");
                             if(resultSet.getString("id").equals(wanted.getId())){
                                 Profile theProfile = new Profile(resultSet.getString("profile"),resultSet.getString("header"),
                                         resultSet.getString("bio"),resultSet.getString("location"),resultSet.getString("web"),
                                         resultSet.getInt("follower"),resultSet.getInt("following"));
                                 out.writeObject(theProfile);
                             }
-                        }
                     }
                 }
             } catch (SQLException e) {
@@ -418,12 +434,8 @@ class ClientHandler implements Runnable{
 //        }
     }
     public static void editProfile(User theUser, String prof) {
-        Connection connection = null;
-        try {
-            connection = DriverManager.getConnection("jdbc:sqlite:H:\\New folder\\demo1\\jdbc.db");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        Connection connection = Server.getConnection();
+  
         Statement statement = null;
         try {
             statement = connection.createStatement();
@@ -465,7 +477,7 @@ class ClientHandler implements Runnable{
         }
     }
     public static void editHeader(User theUser,String header) throws SQLException, IOException {
-        java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:jdbc.db");
+        java.sql.Connection connection = Server.getConnection();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM user");
         while (resultSet.next()){
@@ -480,7 +492,7 @@ class ClientHandler implements Runnable{
         }
     }
     public static void editProf(User theUser,String text,int com) throws SQLException, IOException {
-        java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:jdbc.db");
+        java.sql.Connection connection = Server.getConnection();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM user");
         if(com==1){
@@ -524,7 +536,7 @@ class ClientHandler implements Runnable{
         }
     }
     public static void follow(User theUser,String followingId) throws SQLException, IOException {
-        java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:jdbc.db");
+        java.sql.Connection connection = Server.getConnection();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM user");
         String respond;
@@ -553,7 +565,7 @@ class ClientHandler implements Runnable{
     }
     public static void search(String text) throws SQLException, IOException, InterruptedException {
         ArrayList <User> res=new ArrayList<>();
-        java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:jdbc.db");
+        java.sql.Connection connection = Server.getConnection();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM user");
         String respond;
@@ -578,7 +590,7 @@ class ClientHandler implements Runnable{
         }
     }
     public static void unfollow(User theUser,String followingId) throws SQLException, IOException {
-        java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:jdbc.db");
+        java.sql.Connection connection = Server.getConnection();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM user");
         String respond;
@@ -626,7 +638,7 @@ class ClientHandler implements Runnable{
         }
     }
     public static void newTweet(Tweet tweet) throws SQLException, IOException {
-        java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:jdbc.db");
+        java.sql.Connection connection = Server.getConnection();
         Statement statement = connection.createStatement();
         statement.executeUpdate("INSERT INTO Tweet(text, picture, userid, like, retweet, comment, date) "+"VALUES "
         +tweet.getText()+tweet.getPicLink()+tweet.getUserId()+tweet.getLikes()+tweet.getRetweet()+tweet.getComment()+tweet.getDate());
@@ -634,7 +646,7 @@ class ClientHandler implements Runnable{
         out.writeObject(respond);
     }
     public static void timeline(User theUser) throws SQLException, ParseException, IOException {
-        java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:jdbc.db");
+        java.sql.Connection connection = Server.getConnection();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM user");
         ResultSet resultSetTweet = statement.executeQuery("SELECT * FROM Tweet");
@@ -675,7 +687,7 @@ class ClientHandler implements Runnable{
         out.writeObject(res);
     }
     public static void like(User theUser,Tweet theTweet) throws SQLException, IOException {
-        java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:jdbc.db");
+        java.sql.Connection connection = Server.getConnection();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM user");
         ResultSet resultSetTweet = statement.executeQuery("SELECT * FROM Tweet");
@@ -697,7 +709,7 @@ class ClientHandler implements Runnable{
         }
     }
     public static void searchHashtag(String hashtag) throws SQLException, ParseException, IOException {
-        java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:jdbc.db");
+        java.sql.Connection connection = Server.getConnection();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM Tweet");
         ArrayList<Tweet> res=new ArrayList<>();
@@ -715,7 +727,7 @@ class ClientHandler implements Runnable{
         out.writeObject(res);
     }
     public static void block(User theUser,User block) throws SQLException, IOException {
-        java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:jdbc.db");
+        java.sql.Connection connection = Server.getConnection();
         Statement statement = connection.createStatement();
         ResultSet resultSetUser = statement.executeQuery("SELECT * FROM user");
         ResultSet resultSetBlock = statement.executeQuery("SELECT * FROM user");
@@ -809,7 +821,7 @@ class ClientHandler implements Runnable{
         }
     }
     public static void unblock(User theUser,User unblock) throws SQLException, IOException {
-        java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:jdbc.db");
+        java.sql.Connection connection = Server.getConnection();
         Statement statement = connection.createStatement();
         ResultSet resultSetUser = statement.executeQuery("SELECT * FROM user");
         String respond;
@@ -838,7 +850,7 @@ class ClientHandler implements Runnable{
         }
     }
     public static void retweet(User theUser,Tweet theTweet) throws SQLException, IOException {
-        java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:jdbc.db");
+        java.sql.Connection connection = Server.getConnection();
         Statement statement = connection.createStatement();
         statement.executeUpdate("INSERT INTO Tweet(text, picture, userid, like, retweet, comment, date) "+"VALUES "
                 +theTweet.getText()+theTweet.getPicLink()+theUser.getId()+theTweet.getLikes()+theTweet.getRetweet()+theTweet.getComment()+new Date());
@@ -847,7 +859,7 @@ class ClientHandler implements Runnable{
         out.writeObject(respond);
     }
     public static void addComment(User theUser,Tweet theTweet,String comment) throws SQLException, IOException {
-        java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:jdbc.db");
+        java.sql.Connection connection = Server.getConnection();
         Statement statement = connection.createStatement();
         statement.executeUpdate("UPDATE Tweet SET comment = '" +(theTweet.getComment()+1)+ "'WHERE text = " + theTweet.getText()+ "' AND userid = '"+theTweet.getUserId());
         String respond;
@@ -858,7 +870,7 @@ class ClientHandler implements Runnable{
         out.writeObject(respond);
     }
     public static void showComments(Tweet tweet) throws SQLException, IOException {
-        java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:jdbc.db");
+        java.sql.Connection connection = Server.getConnection();
         Statement statement = connection.createStatement();
         ResultSet resultSet= statement.executeQuery("SELECT * FROM Tweet");
         while (resultSet.next()){
