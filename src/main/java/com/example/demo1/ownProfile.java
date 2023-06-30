@@ -79,7 +79,6 @@ public class ownProfile implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Profile loggedUserProfile = null;
-        ArrayList<Tweet> loggedUserTweets;
         System.out.println("inisialazeed");
         try {
             IO.out.writeObject("get-profile");
@@ -89,7 +88,6 @@ public class ownProfile implements Initializable{
             IO.out.writeObject(logedUser.loggedUser);
             Thread.sleep(50);
             loggedUserProfile = (Profile) IO.in.readObject();
-            loggedUserTweets = (ArrayList<Tweet>) IO.in.readObject();
         } catch (IOException | InterruptedException | ClassNotFoundException e) {
             // todo label error
         }
