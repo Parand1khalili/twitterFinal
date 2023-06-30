@@ -52,6 +52,9 @@ public class User implements Serializable {
         this.blacklist = " ";
         this.headerPicName = headerPicName;
         this.profPicName = profPicName;
+        this.bio = "-";
+        this.location = "-";
+        this.web = "-";
     }
 
     public User(String id, String password) {
