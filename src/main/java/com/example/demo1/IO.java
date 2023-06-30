@@ -11,7 +11,7 @@ public class IO {
     static ObjectOutputStream out;
 
     public static void IoSetter() throws IOException {
-            socket = new Socket("localhost", 6666);
+            socket = new Socket("localhost", 9898);
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
     }

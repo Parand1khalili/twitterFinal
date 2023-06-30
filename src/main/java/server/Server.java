@@ -28,7 +28,7 @@ public class Server {
     public static void main(String[] args) {
         Server server = new Server();
         try {
-            server.serverSocket = new ServerSocket(6666);
+            server.serverSocket = new ServerSocket(9898);
             while (!server.isDone){
                 Socket client = server.serverSocket.accept();
                 System.out.println("client accepted...");
@@ -305,6 +305,45 @@ class ClientHandler implements Runnable{
             throw new RuntimeException(e);
         }
     }
+    public static void getUser(String id)  {
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:H:\\New folder\\demo1\\jdbc.db");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ResultSet resultSet = null;
+        try {
+            resultSet = statement.executeQuery("SELECT id,firstName,lastName,email,phoneNumber,password,country,birthDate,registerDate,lastUpdate,profile,header,bio,location,web,followers,followings,follower,following,blacklist from user");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        while (true){
+            try {
+                if (!resultSet.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if(resultSet.getString("id").equals(id)){
+                    User theUser=new User(resultSet.getString("id"),resultSet.getString("firstName"),
+                            resultSet.getString("lastName"),resultSet.getString("email"),resultSet.getString("phoneNumber")
+                            ,resultSet.getString("password"),resultSet.getString("country"),resultSet.getString("birthDate"));
+                    out.writeObject(theUser);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
     public static void getProfile(User theUser,User wanted) {
         Connection connection = null;
         try {
@@ -341,9 +380,9 @@ class ClientHandler implements Runnable{
                     if(!resultSet1.getString("blacklist").contains(wanted.getId())){
                         while (resultSet.next()){
                             if(resultSet.getString("id").equals(wanted.getId())){
-                                Profile theProfile = new Profile(resultSet.getString(11),resultSet.getString(12),
-                                        resultSet.getString("profile"),resultSet.getString(14),resultSet.getString(15),
-                                        resultSet.getInt(18),resultSet.getInt(19));
+                                Profile theProfile = new Profile(resultSet.getString("profile"),resultSet.getString("header"),
+                                        resultSet.getString("bio"),resultSet.getString("location"),resultSet.getString("web"),
+                                        resultSet.getInt("follower"),resultSet.getInt("following"));
                                 out.writeObject(theProfile);
                             }
                         }
@@ -355,63 +394,30 @@ class ClientHandler implements Runnable{
                 throw new RuntimeException(e);
             }
         }
-        ResultSet resultSetTweet = null;
-        try {
-            resultSetTweet = statement.executeQuery("SELECT * FROM Tweet");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        while (true){
-            try {
-                if (!resultSetTweet.next()) break;
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            try {
-                if(resultSetTweet.getString(3).equals(wanted.getId())){
-                    out.writeObject(resultSetTweet);
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
+//        ResultSet resultSetTweet = null;
+//        try {
+//            resultSetTweet = statement.executeQuery("SELECT text,");
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//        while (true){
+//            try {
+//                if (!resultSetTweet.next()) break;
+//            } catch (SQLException e) {
+//                throw new RuntimeException(e);
+//            }
+//            try {
+//                if(resultSetTweet.getString(3).equals(wanted.getId())){
+//                    out.writeObject(resultSetTweet);
+//                }
+//            } catch (SQLException e) {
+//                throw new RuntimeException(e);
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
     }
-    public static void editProfile(User theUser,String prof) throws SQLException, IOException {
-        java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:H:\\New folder\\demo1\\jdbc.db");
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT id,firstName,lastName,email,phoneNumber,password,country,birthDate,registerDate,lastUpdate,profile,header,bio,location,web,followers,followings,follower,following,blacklist from user");
-        while (resultSet.next()){
-            if(resultSet.getString("id").equals(theUser.getId())){
-                statement.executeUpdate("UPDATE user SET profilePicture = ? , " + " WHERE id = ?");
-
-
-                Profile theProfile = new Profile(resultSet.getString(11),resultSet.getString(12),
-                        resultSet.getString(13),resultSet.getString(14),resultSet.getString(15),
-                        resultSet.getInt(18),resultSet.getInt(19));
-                out.writeObject(theProfile);
-                return;
-            }
-        }
-
-    }
-    public static void editHeader(User theUser,String header) throws SQLException, IOException {
-        java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:jdbc.db");
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM user");
-        while (resultSet.next()){
-            if(resultSet.getString(1).equals(theUser.getId())){
-                statement.executeUpdate("UPDATE user SET header = '" + header + "' WHERE id = " + theUser.getId());
-                Profile theProfile = new Profile(resultSet.getString(11),resultSet.getString(12),
-                        resultSet.getString(13),resultSet.getString(14),resultSet.getString(15),
-                        resultSet.getInt(18),resultSet.getInt(19));
-                out.writeObject(theProfile);
-                return;
-            }
-        }
-    }
-    public static void getUser(String id)  {
+    public static void editProfile(User theUser, String prof) {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:H:\\New folder\\demo1\\jdbc.db");
@@ -426,27 +432,50 @@ class ClientHandler implements Runnable{
         }
         ResultSet resultSet = null;
         try {
-            resultSet = statement.executeQuery("SELECT id,firstName,lastName,email,phoneNumber,password,country,birthDate,registerDate,lastUpdate,profile,header,bio,location,web,followers,followings,follower,following,blacklist from user");
+            resultSet = statement.executeQuery("SELECT id, firstName, lastName, email, phoneNumber, password, country, birthDate, registerDate, lastUpdate, profile, header, bio, location, web, followers, followings, follower, following, blacklist FROM user");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        while (true){
+
+        while (true) {
             try {
                 if (!resultSet.next()) break;
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
             try {
-                if(resultSet.getString("id").equals(id)){
-                    User theUser=new User(resultSet.getString("id"),resultSet.getString("firstName"),
-                            resultSet.getString("lastName"),resultSet.getString("email"),resultSet.getString("phoneNumber")
-                    ,resultSet.getString("password"),resultSet.getString("country"),resultSet.getString("birthDate"));
-                    out.writeObject(theUser);
+                if (resultSet.getString("id").equals(theUser.getId())) {
+                    PreparedStatement updateStatement = connection.prepareStatement("UPDATE user SET profilePicture = ? WHERE id = ?");
+                    updateStatement.setString(1, prof);
+                    updateStatement.setString(2, theUser.getId());
+                    updateStatement.executeUpdate();
+
+                    Profile theProfile = new Profile(resultSet.getString("profile"), resultSet.getString("header"),
+                            resultSet.getString("bio"), resultSet.getString("location"), resultSet.getString("web"),
+                            resultSet.getInt("follower"), resultSet.getInt("following"));
+
+                    out.writeObject(theProfile);
+                    return;
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             } catch (IOException e) {
                 throw new RuntimeException(e);
+            }
+        }
+    }
+    public static void editHeader(User theUser,String header) throws SQLException, IOException {
+        java.sql.Connection connection = DriverManager.getConnection("jdbc:sqlite:jdbc.db");
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM user");
+        while (resultSet.next()){
+            if(resultSet.getString(1).equals(theUser.getId())){
+                statement.executeUpdate("UPDATE user SET header = '" + header + "' WHERE id = " + theUser.getId());
+                Profile theProfile = new Profile(resultSet.getString(11),resultSet.getString(12),
+                        resultSet.getString(13),resultSet.getString(14),resultSet.getString(15),
+                        resultSet.getInt(18),resultSet.getInt(19));
+                out.writeObject(theProfile);
+                return;
             }
         }
     }

@@ -203,8 +203,6 @@ public class SignUp implements Initializable {
                 scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
-                ownProfile controller = fxmlLoader.getController();
-                controller.initialize();
             }
         }
     }

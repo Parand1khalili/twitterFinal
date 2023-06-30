@@ -79,6 +79,7 @@ public class SignIn {
         }
         else if(serverRespond.equals("success")){
             User completeUser = null;
+            System.out.println("logged in");
             try {
                 IO.out.writeObject("get-user");
                 Thread.sleep(500);
@@ -101,11 +102,11 @@ public class SignIn {
             }
             Stage stage = (Stage) button.getScene().getWindow();
             Scene scene = null;
-            if(root != null) {
+            if (root != null) {
                 scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
             }
-            stage.setScene(scene);
-            stage.show();
         }
     }
 
