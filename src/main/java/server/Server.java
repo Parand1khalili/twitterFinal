@@ -410,28 +410,6 @@ class ClientHandler implements Runnable{
                 throw new RuntimeException(e);
             }
         }
-//        ResultSet resultSetTweet = null;
-//        try {
-//            resultSetTweet = statement.executeQuery("SELECT text,");
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//        while (true){
-//            try {
-//                if (!resultSetTweet.next()) break;
-//            } catch (SQLException e) {
-//                throw new RuntimeException(e);
-//            }
-//            try {
-//                if(resultSetTweet.getString(3).equals(wanted.getId())){
-//                    out.writeObject(resultSetTweet);
-//                }
-//            } catch (SQLException e) {
-//                throw new RuntimeException(e);
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
     }
     public static void editProfile(User theUser, String prof) {
         Connection connection = Server.getConnection();
@@ -444,7 +422,7 @@ class ClientHandler implements Runnable{
         }
         ResultSet resultSet = null;
         try {
-            resultSet = statement.executeQuery("SELECT id, firstName, lastName, email, phoneNumber, password, country, birthDate, registerDate, lastUpdate, profile, header, bio, location, web, followers, followings, follower, following, blacklist FROM user");
+            resultSet = statement.executeQuery("SELECT * FROM user");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -476,18 +454,43 @@ class ClientHandler implements Runnable{
             }
         }
     }
-    public static void editHeader(User theUser,String header) throws SQLException, IOException {
+    public static void editHeader(User theUser,String header)  {
         java.sql.Connection connection = Server.getConnection();
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM user");
-        while (resultSet.next()){
-            if(resultSet.getString(1).equals(theUser.getId())){
-                statement.executeUpdate("UPDATE user SET header = '" + header + "' WHERE id = " + theUser.getId());
-                Profile theProfile = new Profile(resultSet.getString(11),resultSet.getString(12),
-                        resultSet.getString(13),resultSet.getString(14),resultSet.getString(15),
-                        resultSet.getInt(18),resultSet.getInt(19));
-                out.writeObject(theProfile);
-                return;
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ResultSet resultSet = null;
+        try {
+            resultSet = statement.executeQuery("SELECT * FROM user");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        while (true){
+            try {
+                if (!resultSet.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if(resultSet.getString("id").equals(theUser.getId())){
+                    PreparedStatement updateStatement = connection.prepareStatement("UPDATE user SET header = ? WHERE id = ?");
+                    updateStatement.setString(1,header);
+                    updateStatement.setString(2,theUser.getId());
+                    updateStatement.executeUpdate();
+                    Profile theProfile = new Profile(resultSet.getString("profile"), resultSet.getString("header"),
+                            resultSet.getString("bio"), resultSet.getString("location"), resultSet.getString("web"),
+                            resultSet.getInt("follower"), resultSet.getInt("following"));
+
+                    out.writeObject(theProfile);
+                    return;
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
     }
@@ -498,11 +501,14 @@ class ClientHandler implements Runnable{
         if(com==1){
             //bio
             while (resultSet.next()){
-                if(resultSet.getString(1).equals(theUser.getId())){
-                    statement.executeUpdate("UPDATE user SET bio = '" + text + "' WHERE id = " + theUser.getId());
-                    Profile theProfile = new Profile(resultSet.getString(11),resultSet.getString(12),
-                            resultSet.getString(13),resultSet.getString(14),resultSet.getString(15),
-                            resultSet.getInt(18),resultSet.getInt(19));
+                if(resultSet.getString("id").equals(theUser.getId())){
+                    PreparedStatement updateStatement = connection.prepareStatement("UPDATE user SET bio = ? WHERE id = ?");
+                    updateStatement.setString(1,text);
+                    updateStatement.setString(2,theUser.getId());
+                    updateStatement.executeUpdate();
+                    Profile theProfile = new Profile(resultSet.getString("profile"), resultSet.getString("header"),
+                            resultSet.getString("bio"), resultSet.getString("location"), resultSet.getString("web"),
+                            resultSet.getInt("follower"), resultSet.getInt("following"));
                     out.writeObject(theProfile);
                     return;
                 }
@@ -512,10 +518,13 @@ class ClientHandler implements Runnable{
             //loc
             while (resultSet.next()){
                 if(resultSet.getString(1).equals(theUser.getId())){
-                    statement.executeUpdate("UPDATE user SET location = '" + text + "' WHERE id = " + theUser.getId());
-                    Profile theProfile = new Profile(resultSet.getString(11),resultSet.getString(12),
-                            resultSet.getString(13),resultSet.getString(14),resultSet.getString(15)
-                    ,resultSet.getInt(18),resultSet.getInt(19));
+                    PreparedStatement updateStatement = connection.prepareStatement("UPDATE user SET location = ? WHERE id = ?");
+                    updateStatement.setString(1,text);
+                    updateStatement.setString(2,theUser.getId());
+                    updateStatement.executeUpdate();
+                    Profile theProfile = new Profile(resultSet.getString("profile"), resultSet.getString("header"),
+                            resultSet.getString("bio"), resultSet.getString("location"), resultSet.getString("web"),
+                            resultSet.getInt("follower"), resultSet.getInt("following"));
                     out.writeObject(theProfile);
                     return;
                 }
@@ -525,10 +534,13 @@ class ClientHandler implements Runnable{
             //web
             while (resultSet.next()){
                 if(resultSet.getString(1).equals(theUser.getId())){
-                    statement.executeUpdate("UPDATE user SET web = '" + text + "' WHERE id = " + theUser.getId());
-                    Profile theProfile = new Profile(resultSet.getString(11),resultSet.getString(12),
-                            resultSet.getString(13),resultSet.getString(14),resultSet.getString(15)
-                    ,resultSet.getInt(18),resultSet.getInt(19));
+                    PreparedStatement updateStatement = connection.prepareStatement("UPDATE user SET web = ? WHERE id = ?");
+                    updateStatement.setString(1,text);
+                    updateStatement.setString(2,theUser.getId());
+                    updateStatement.executeUpdate();
+                    Profile theProfile = new Profile(resultSet.getString("profile"), resultSet.getString("header"),
+                            resultSet.getString("bio"), resultSet.getString("location"), resultSet.getString("web"),
+                            resultSet.getInt("follower"), resultSet.getInt("following"));
                     out.writeObject(theProfile);
                     return;
                 }
