@@ -28,7 +28,7 @@ public class Server {
             synchronized (Server.class) {
                 if (connection == null) {
                     try {
-                        connection = DriverManager.getConnection("jdbc:sqlite:H:\\New folder\\demo1\\jdbc2.db");
+                        connection = DriverManager.getConnection("jdbc:sqlite:H:\\New folder\\demo1\\jdbc.db");
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
@@ -249,17 +249,12 @@ class ClientHandler implements Runnable{
                 throw new RuntimeException(e);
             }
         }
-        // try {
-           // connection.close();
-       // } catch (SQLException e) {
-         //   System.out.println("nane data base jendas!!!!!!");
-        //}
+
         try {
             statement.close();
             resultSet.close();
 
-            //connection = DriverManager.getConnection("jdbc:sqlite:H:\\New folder\\demo1\\jdbc.db");
-            PreparedStatement pstmt = connection.prepareStatement("INSERT INTO user(id,firstName,lastName,email,phoneNumber,password,country,birthDate,registerDate) VALUES (?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pstmt = connection.prepareStatement("INSERT INTO user(id,firstName,lastName,email,phoneNumber,password,country,birthDate,registerDate,profile,header,bio,location,web) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             pstmt.setString(1,theUser.getId());
             pstmt.setString(2,theUser.getFirstName());
             pstmt.setString(3,theUser.getLastName());
@@ -269,6 +264,11 @@ class ClientHandler implements Runnable{
             pstmt.setString(7,theUser.getCountry());
             pstmt.setString(8,theUser.getBirthDate());
             pstmt.setString(9,theUser.getRegisterDate().toString());
+            pstmt.setString(10,theUser.getProfPicName());
+            pstmt.setString(11,theUser.getHeaderPicName());
+            pstmt.setString(12,theUser.getBio());
+            pstmt.setString(13,theUser.getLocation());
+            pstmt.setString(14,theUser.getWeb());
             pstmt.executeUpdate();
             System.out.println("inserted");
         } catch (SQLException e) {
@@ -545,7 +545,7 @@ class ClientHandler implements Runnable{
                     throw new RuntimeException(e);
                 }
                 try {
-                    if(resultSet.getString(1).equals(theUser.getId())){
+                    if(resultSet.getString("id").equals(theUser.getId())){
                         PreparedStatement updateStatement = connection.prepareStatement("UPDATE user SET location = ? WHERE id = ?");
                         try {
                             updateStatement.setString(1,text);
@@ -576,7 +576,7 @@ class ClientHandler implements Runnable{
                     throw new RuntimeException(e);
                 }
                 try {
-                    if(resultSet.getString(1).equals(theUser.getId())){
+                    if(resultSet.getString("id").equals(theUser.getId())){
                         PreparedStatement updateStatement = null;
                         try {
                             updateStatement = connection.prepareStatement("UPDATE user SET web = ? WHERE id = ?");
@@ -608,31 +608,68 @@ class ClientHandler implements Runnable{
             }
         }
     }
-    public static void follow(User theUser,String followingId) throws SQLException, IOException {
+    public static void follow(User theUser,String followingId) {
         java.sql.Connection connection = Server.getConnection();
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM user");
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ResultSet resultSet = null;
+        try {
+            resultSet = statement.executeQuery("SELECT * FROM user");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         String respond;
-        while (resultSet.next()){
-            if(resultSet.getString(1).equals(theUser.getId())){
-                if(resultSet.getString(17).contains(followingId)){
-                    respond="already-followed";
-                    out.writeObject(respond);
-                    return;
-                }
+        while (true){
+            try {
+                if (!resultSet.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-            else{
-                statement.executeUpdate("UPDATE user SET followings = '" + theUser.getFollowing()+"="+followingId + "' WHERE id = " + theUser.getId());
-                statement.executeUpdate("UPDATE user SET followingNum = '" + (theUser.getFollowingNum()+1) + "' WHERE id = " + theUser.getId());
-                while (resultSet.next()){
-                    if(resultSet.getString(1).equals(followingId)){
-                        statement.executeUpdate("UPDATE user SET followers = '" + resultSet.getString(16)+"="+theUser.getId() + "' WHERE id = " + followingId);
-                        statement.executeUpdate("UPDATE user SET followerNum = '" + (Integer.parseInt(resultSet.getString(18))+1)+ "' WHERE id = " + followingId);
-                        respond="success";
+            try {
+                if(resultSet.getString("id").equals(theUser.getId())){
+                    if(resultSet.getString("followings").contains(followingId)){
+                        respond="already-followed";
                         out.writeObject(respond);
                         return;
                     }
                 }
+                else{
+                    PreparedStatement updateStatement = connection.prepareStatement("UPDATE user SET followings = ? WHERE id = ?");
+                    updateStatement.setString(1,theUser.getFollowing()+"="+followingId);
+                    updateStatement.setString(2,theUser.getId());
+                    updateStatement.executeUpdate();
+
+                    PreparedStatement updateStatement2 = connection.prepareStatement("UPDATE user SET followingNum = ? WHERE id = ?");
+                    updateStatement2.setInt(1, Integer.parseInt(theUser.getFollowing())+1);
+                    updateStatement2.setString(2,theUser.getId());
+                    updateStatement2.executeUpdate();
+
+                    while (resultSet.next()){
+                        if(resultSet.getString("id").equals(followingId)){
+                            PreparedStatement updateStatement3 = connection.prepareStatement("UPDATE user SET followers = ? WHERE id = ?");
+                            updateStatement3.setString(1,resultSet.getString("followers")+"="+theUser.getId());
+                            updateStatement3.setString(2,followingId);
+                            updateStatement3.executeUpdate();
+
+                            PreparedStatement updateStatement4 = connection.prepareStatement("UPDATE user SET followerNum = ? WHERE id = ?");
+                            updateStatement4.setInt(1,Integer.parseInt(resultSet.getString("follower"))+1);
+                            updateStatement4.setString(2,followingId);
+                            updateStatement4.executeUpdate();
+
+                            respond="success";
+                            out.writeObject(respond);
+                            return;
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
     }
@@ -711,13 +748,87 @@ class ClientHandler implements Runnable{
             }
         }
     }
-    public static void newTweet(Tweet tweet) throws SQLException, IOException {
+    public static void newTweet(Tweet tweet) {
         java.sql.Connection connection = Server.getConnection();
-        Statement statement = connection.createStatement();
-        statement.executeUpdate("INSERT INTO Tweet(text, picture, userid, like, retweet, comment, date) "+"VALUES "
-        +tweet.getText()+tweet.getPicLink()+tweet.getUserId()+tweet.getLikes()+tweet.getRetweet()+tweet.getComment()+tweet.getDate());
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            statement.executeUpdate("INSERT INTO Tweet(text, picture, userid, like, retweet, comment, date) "+"VALUES "
+            +tweet.getText()+tweet.getPicLink()+tweet.getUserId()+tweet.getLikes()+tweet.getRetweet()+tweet.getComment()+tweet.getDate());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        PreparedStatement pstmt = null;
+        try {
+            pstmt = connection.prepareStatement("INSERT INTO Tweet(text,piclink,userId,likes,retweets,comments,date,isFavStar,likesIds,hashtags) VALUES (?,?,?,?,?,?,?,?,?,?)");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            pstmt.setString(1,tweet.getText());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            pstmt.setString(2,tweet.getPicLink());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            pstmt.setString(3,tweet.getUserId());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            pstmt.setInt(4,tweet.getLikes());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            pstmt.setInt(5,tweet.getRetweet());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            pstmt.setInt(6,tweet.getComment());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            pstmt.setString(7,tweet.getDate().toString());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            pstmt.setInt(8,tweet.getIsFavStar());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            pstmt.setString(9,tweet.getLikesIds());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            pstmt.setString(10,tweet.getHashtags());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         String respond="success";
-        out.writeObject(respond);
+        try {
+            out.writeObject(respond);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     public static void timeline(User theUser) throws SQLException, ParseException, IOException {
         java.sql.Connection connection = Server.getConnection();

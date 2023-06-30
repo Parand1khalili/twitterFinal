@@ -41,7 +41,6 @@ public class ownProfile implements Initializable{
     Button followers;
     @FXML
     protected void onFollowersClick(Event event){ // todo pass an array of followers
-        logedUser.loggedUser = null;
         Button button = (Button) event.getSource();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("userScene.fxml"));
         Parent root = null;
@@ -62,7 +61,6 @@ public class ownProfile implements Initializable{
     Button following;
     @FXML
     protected void onFollowingsClick(Event event){ // todo pass an array of followers
-        logedUser.loggedUser = null;
         Button button = (Button) event.getSource();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("userScene.fxml"));
         Parent root = null;
@@ -134,10 +132,9 @@ public class ownProfile implements Initializable{
         stage.show();
     }
     @FXML
-    Button newTweet;
+    ImageView newTweet;
     @FXML
     protected void onNewTweetClick(Event event){
-        logedUser.loggedUser = null;
         Button button = (Button) event.getSource();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("newTweet.fxml"));
         Parent root = null;
@@ -155,9 +152,9 @@ public class ownProfile implements Initializable{
         stage.show();
     }
     @FXML
-    Button search;
+    ImageView search;
+    @FXML
     protected void onSearchClick(Event event){
-        logedUser.loggedUser = null;
         Button button = (Button) event.getSource();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("search.fxml"));
         Parent root = null;
@@ -175,9 +172,9 @@ public class ownProfile implements Initializable{
         stage.show();
     }
     @FXML
-    Button timeLine;
+    ImageView timeLine;
+    @FXML
     protected void onTimeLineClick(Event event){
-        logedUser.loggedUser = null;
         Button button = (Button) event.getSource();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("timeLine.fxml"));
         Parent root = null;
@@ -196,8 +193,8 @@ public class ownProfile implements Initializable{
     }
     @FXML
     Button editProfile;
+    @FXML
     protected void onEditProfileClick(Event event){
-        logedUser.loggedUser = null;
         Button button = (Button) event.getSource();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editProfile.fxml"));
         Parent root = null;

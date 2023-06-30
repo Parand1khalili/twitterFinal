@@ -1,9 +1,11 @@
 package common;
 
 import common.Tweet;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Profile {
+public class Profile implements Serializable {
     private String picLink;
     private String headerLink;
     private String bio;
