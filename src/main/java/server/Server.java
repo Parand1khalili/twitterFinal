@@ -65,7 +65,6 @@ class ClientHandler implements Runnable{
     private static ObjectInputStream in;
     private static ObjectOutputStream out;
     private Socket client;
-
     @Override
     public void run()  {
         java.sql.Connection connection = Server.getConnection();
@@ -84,334 +83,314 @@ class ClientHandler implements Runnable{
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
-            if (command.equals("sign-up")) {
-                System.out.println("sign up done");
-                try {
-                    signUpServer((User)in.readObject());
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+            switch (command) {
+                case "sign-up":
+                    System.out.println("sign up done");
+                    try {
+                        signUpServer((User) in.readObject());
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+                case "sign-in":
+                    System.out.println("sign in done");
+                    try {
+                        signInServer((User) in.readObject());
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+                case "get-user":
+                    try {
+                        getUser((String) in.readObject());
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+                case "get-profile": {
+                    User x = null;
+                    try {
+                        x = (User) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    User y = null;
+                    try {
+                        y = (User) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    getProfile(x, y);
+                    break;
                 }
-            }
-            else if (command.equals("sign-in")) {
-                System.out.println("sign in done");
-                try {
-                    signInServer((User)in.readObject());
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                case "edit-avatar": {
+                    User x = null;
+                    try {
+                        x = (User) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    String y = null;
+                    try {
+                        y = (String) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    editProf(x, y, 4);
+                    break;
                 }
-            }
-            else if(command.equals("get-user")){
-                try {
-                    getUser((String) in.readObject());
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                case "edit-header": {
+                    User x = null;
+                    try {
+                        x = (User) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    String y = null;
+                    try {
+                        y = (String) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    editProf(x, y, 5);
+                    break;
                 }
-            }
-            else if(command.equals("get-profile")){
-                User x = null;
-                try {
-                    x = (User)in.readObject();
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                case "edit-bio": {
+                    User x = null;
+                    try {
+                        x = (User) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    String y = null;
+                    try {
+                        y = (String) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    editProf(x, y, 1);
+                    break;
                 }
-                User y = null;
-                try {
-                    y = (User)in.readObject();
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                case "edit-location": {
+                    User x = null;
+                    try {
+                        x = (User) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    String y = null;
+                    try {
+                        y = (String) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    editProf(x, y, 2);
+                    break;
                 }
-                getProfile(x,y);
-            }
-            else if(command.equals("edit-avatar")){
-                User x= null;
-                try {
-                    x = (User) in.readObject();
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                case "edit-web": {
+                    User x = null;
+                    try {
+                        x = (User) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    String y = null;
+                    try {
+                        y = (String) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    editProf(x, y, 3);
+                    break;
                 }
-                String y= null;
-                try {
-                    y = (String) in.readObject();
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                case "follow": {
+                    User x = null;
+                    try {
+                        x = (User) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    String y = null;
+                    try {
+                        y = (String) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    follow(x, y);
+                    break;
                 }
-                editProf(x,y,4);
-            }
-            else if(command.equals("edit-header")){
-                User x= null;
-                try {
-                    x = (User) in.readObject();
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                case "search": {
+                    String x = null;
+                    try {
+                        x = (String) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    search(x);
+                    break;
                 }
-                String y= null;
-                try {
-                    y = (String) in.readObject();
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                case "unfollow": {
+                    User x = null;
+                    try {
+                        x = (User) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    String y = null;
+                    try {
+                        y = (String) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    unfollow(x, y);
+                    break;
                 }
-                editProf(x,y,5);
-            }
-            else if(command.equals("edit-bio")){
-                User x= null;
-                try {
-                    x = (User) in.readObject();
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                case "new-tweet": {
+                    Tweet x = null;
+                    try {
+                        x = (Tweet) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    newTweet(x);
+                    break;
                 }
-                String y= null;
-                try {
-                    y = (String) in.readObject();
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                case "timeline": {
+                    User x = null;
+                    try {
+                        x = (User) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    timeline(x);
+                    break;
                 }
-                editProf(x,y,1);
-            }
-            else if(command.equals("edit-location")){
-                User x= null;
-                try {
-                    x = (User) in.readObject();
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                case "like": {
+                    User x = null;
+                    try {
+                        x = (User) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    Tweet y = null;
+                    try {
+                        y = (Tweet) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    like(x, y);
+                    break;
                 }
-                String y= null;
-                try {
-                    y = (String) in.readObject();
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                case "hashtag": {
+                    String x = null;
+                    try {
+                        x = (String) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    searchHashtag(x);
+                    break;
                 }
-                editProf(x,y,2);
-            }
-            else if(command.equals("edit-web")){
-                User x= null;
-                try {
-                    x = (User) in.readObject();
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                case "block": {
+                    User x = null;
+                    try {
+                        x = (User) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    User y = null;
+                    try {
+                        y = (User) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        block(x, y);
+                    } catch (SQLException | IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
                 }
-                String y= null;
-                try {
-                    y = (String) in.readObject();
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                case "unblock": {
+                    User x = null;
+                    try {
+                        x = (User) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    User y = null;
+                    try {
+                        y = (User) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        unblock(x, y);
+                    } catch (SQLException | IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
                 }
-                editProf(x,y,3);
-            }
-            else if(command.equals("follow")){
-                User x= null;
-                try {
-                    x = (User) in.readObject();
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                case "retweet": {
+                    User x = null;
+                    try {
+                        x = (User) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    Tweet y = null;
+                    try {
+                        y = (Tweet) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        retweet(x, y);
+                    } catch (SQLException | IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
                 }
-                String y= null;
-                try {
-                    y = (String) in.readObject();
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                case "comment": {
+                    //reply
+                    User x = null;
+                    try {
+                        x = (User) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    Tweet y = null;
+                    try {
+                        y = (Tweet) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    String z = null;
+                    try {
+                        z = (String) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        addComment(x, y, z);
+                    } catch (SQLException | IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
                 }
-                follow(x,y);
-            }
-            else if(command.equals("search")){
-                String x= null;
-                try {
-                    x = (String) in.readObject();
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                search(x);
-            }
-            else if (command.equals("unfollow")){
-                User x= null;
-                try {
-                    x = (User) in.readObject();
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                String y= null;
-                try {
-                    y = (String) in.readObject();
-                } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                unfollow(x,y);
-            }
-            else if ((command.equals("new-tweet"))){
-                Tweet x= null;
-                try {
-                    x = (Tweet) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                newTweet(x);
-            }
-            else if(command.equals("timeline")){
-                User x= null;
-                try {
-                    x = (User) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                timeline(x);
-            }
-            else if(command.equals("like")){
-                User x= null;
-                try {
-                    x = (User) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                Tweet y= null;
-                try {
-                    y = (Tweet) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                like(x,y);
-            }
-            else if(command.equals("hashtag")){
-                String x= null;
-                try {
-                    x = (String) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                searchHashtag(x);
-            }
-            else if(command.equals("block")){
-                User x= null;
-                try {
-                    x = (User) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                User y= null;
-                try {
-                    y = (User) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                try {
-                    block(x,y);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            else if(command.equals("unblock")){
-                User x= null;
-                try {
-                    x = (User) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                User y= null;
-                try {
-                    y = (User) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                try {
-                    unblock(x,y);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            else if (command.equals("retweet")){
-                User x= null;
-                try {
-                    x = (User) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                Tweet y= null;
-                try {
-                    y = (Tweet) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                try {
-                    retweet(x,y);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            else if(command.equals("comment")){
-                //reply
-                User x= null;
-                try {
-                    x = (User) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                Tweet y= null;
-                try {
-                    y = (Tweet) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                String z= null;
-                try {
-                    z = (String) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                try {
-                    addComment(x,y,z);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            else if(command.equals("show-comments")){
-                Tweet x= null;
-                try {
-                    x = (Tweet) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                try {
-                    showComments(x);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                case "show-comments": {
+                    Tweet x = null;
+                    try {
+                        x = (Tweet) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        showComments(x);
+                    } catch (SQLException | IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
                 }
             }
         }
@@ -427,7 +406,6 @@ class ClientHandler implements Runnable{
         }
         return conn;
     }
-
     public ClientHandler(Socket client) {
         this.client=client;
     }
@@ -590,9 +568,7 @@ class ClientHandler implements Runnable{
                             resultSet.getString("header"),resultSet.getString("profile"));
                     out.writeObject(theUser);
                 }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
+            } catch (SQLException | IOException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -676,7 +652,7 @@ class ClientHandler implements Runnable{
                         Profile theProfile = new Profile(resultSet.getString("profile"), resultSet.getString("header"),
                                 resultSet.getString("bio"), resultSet.getString("location"), resultSet.getString("web"),
                                 resultSet.getInt("follower"), resultSet.getInt("following"));
-                        out.writeObject(theProfile);
+                        out.writeObject("success");
                         return;
                     }
                 } catch (SQLException | IOException e) {
@@ -705,7 +681,7 @@ class ClientHandler implements Runnable{
                         Profile theProfile = new Profile(resultSet.getString("profile"), resultSet.getString("header"),
                                 resultSet.getString("bio"), resultSet.getString("location"), resultSet.getString("web"),
                                 resultSet.getInt("follower"), resultSet.getInt("following"));
-                        out.writeObject(theProfile);
+                        out.writeObject("success");
                         return;
                     }
                 } catch (SQLException e) {
@@ -745,7 +721,7 @@ class ClientHandler implements Runnable{
                         Profile theProfile = new Profile(resultSet.getString("profile"), resultSet.getString("header"),
                                 resultSet.getString("bio"), resultSet.getString("location"), resultSet.getString("web"),
                                 resultSet.getInt("follower"), resultSet.getInt("following"));
-                        out.writeObject(theProfile);
+                        out.writeObject("success");
                         return;
                     }
                 } catch (SQLException e) {
@@ -774,7 +750,7 @@ class ClientHandler implements Runnable{
                                 resultSet.getString("bio"), resultSet.getString("location"), resultSet.getString("web"),
                                 resultSet.getInt("follower"), resultSet.getInt("following"));
 
-                        out.writeObject(theProfile);
+                        out.writeObject("success");
                         return;
                     }
                 } catch (SQLException e) {
@@ -803,7 +779,7 @@ class ClientHandler implements Runnable{
                                 resultSet.getString("bio"), resultSet.getString("location"), resultSet.getString("web"),
                                 resultSet.getInt("follower"), resultSet.getInt("following"));
 
-                        out.writeObject(theProfile);
+                        out.writeObject("success");
                         return;
                     }
                 } catch (SQLException e) {
