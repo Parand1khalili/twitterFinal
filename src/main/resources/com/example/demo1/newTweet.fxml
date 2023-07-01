@@ -8,39 +8,39 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="475.0" prefWidth="552.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.NewTweet">
+<AnchorPane prefHeight="475.0" prefWidth="552.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.newTweet">
    <children>
-      <TextField alignment="TOP_LEFT" layoutX="51.0" layoutY="43.0" prefHeight="338.0" prefWidth="455.0" promptText="What's happening?">
+      <TextField fx:id="tweetText" alignment="TOP_LEFT" layoutX="51.0" layoutY="43.0" prefHeight="338.0" prefWidth="455.0" promptText="What's happening?">
          <font>
             <Font size="17.0" />
          </font></TextField>
-      <ImageView fitHeight="46.0" fitWidth="39.0" layoutX="14.0" layoutY="423.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="addPicture" fitHeight="46.0" fitWidth="39.0" layoutX="14.0" layoutY="423.0" onMouseClicked="#onAddPicture" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@imagessos%20(1).png" />
+            <Image url="@addPictureIcon.jpg" />
          </image>
       </ImageView>
-      <Button layoutX="461.0" layoutY="426.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="71.0" style="-fx-background-radius: 50; -fx-background-color: #00acee;" text="tweet" textFill="WHITE" />
-      <ImageView fitHeight="39.0" fitWidth="58.0" layoutX="127.0" layoutY="424.0" pickOnBounds="true" preserveRatio="true">
+      <Button fx:id="tweet" layoutX="461.0" layoutY="426.0" mnemonicParsing="false" onAction="#onTweetClick" prefHeight="30.0" prefWidth="71.0" style="-fx-background-radius: 50; -fx-background-color: #00acee;" text="tweet" textFill="WHITE" />
+      <ImageView fx:id="profile" fitHeight="39.0" fitWidth="58.0" layoutX="127.0" layoutY="424.0" onMouseClicked="#onProfileClick" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@avatardif.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="39.0" fitWidth="39.0" layoutX="252.0" layoutY="424.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="timeLine" fitHeight="39.0" fitWidth="39.0" layoutX="252.0" layoutY="424.0" onMouseClicked="#onTimeLineClick" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@timelineIcon.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="56.0" fitWidth="58.0" layoutX="356.0" layoutY="414.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="search" fitHeight="56.0" fitWidth="58.0" layoutX="356.0" layoutY="414.0" onMouseClicked="#onSearchClick" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@searchIcon.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="53.0" layoutY="14.0" prefHeight="19.0" prefWidth="81.0" textFill="#48d751">
+      <Label fx:id="newTweetSceneLabel" layoutX="53.0" layoutY="14.0" prefHeight="19.0" prefWidth="124.0" textFill="#48d751">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </Label>
-      <Label layoutX="422.0" layoutY="15.0" prefHeight="18.0" prefWidth="82.0" textFill="#ff4949">
+      <Label fx:id="error" layoutX="391.0" layoutY="15.0" prefHeight="19.0" prefWidth="113.0" textFill="#ff4949">
          <font>
             <Font size="13.0" />
          </font>

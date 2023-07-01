@@ -73,6 +73,7 @@ public class newTweet implements Initializable{
     }
     @FXML
     ImageView profile;
+    @FXML
     protected void onProfileClick(Event event){
         Button button = (Button) event.getSource();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ownProfile.fxml"));
@@ -92,6 +93,7 @@ public class newTweet implements Initializable{
     }
     @FXML
     ImageView addPicture;
+    @FXML
     protected void  onAddPicture(Event event){
         newTweetSceneLabel.setText("");
         FileChooser fileChooser = new FileChooser();
@@ -102,6 +104,7 @@ public class newTweet implements Initializable{
     }
     @FXML
     Button tweet;
+    @FXML
     protected void onTweetClick(Event event){
         if(tweetText.getText() == null || tweetText.getText().isEmpty()){
             error.setText("tweet text cant be empty");
