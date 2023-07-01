@@ -170,7 +170,7 @@ public class SignUp implements Initializable {
         FileInputStream header = null;
         byte[] headerInByte;
         try {
-            header = new FileInputStream("H:\\New folder\\demo1\\src\\main\\resources\\com\\example\\demo1\\headerdif.png");
+            header = new FileInputStream("D:\\univer\\term2\\AP lab\\twitterFinal\\src\\main\\resources\\com\\example\\demo1\\headerdif.png");
             headerInByte = header.readAllBytes();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -179,7 +179,7 @@ public class SignUp implements Initializable {
         FileInputStream avatar = null;
         byte[] avatarInByte;
         try {
-            avatar = new FileInputStream("H:\\New folder\\demo1\\src\\main\\resources\\com\\example\\demo1\\avatardif.jpg");
+            avatar = new FileInputStream("D:\\univer\\term2\\AP lab\\twitterFinal\\src\\main\\resources\\com\\example\\demo1\\avatardif.jpg");
             avatarInByte = avatar.readAllBytes();
         } catch (IOException e) {
             throw new RuntimeException(e);

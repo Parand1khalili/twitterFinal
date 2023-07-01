@@ -24,13 +24,14 @@ public class timeLine implements Initializable {
     VBox tweetContent;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        System.out.println("time line entered by" + logedUser.loggedUser.getFirstName() + " " + logedUser.loggedUser.getLastName());
         tweetContent = new VBox();
         scrollPane.setContent(tweetContent);
         tweetContent.setSpacing(10);
         tweetContent.setStyle("-fx-background-color:gray" + "-fx-padding: 8;");
         ArrayList<Tweet> tweets = new ArrayList<>();
         try {
-            IO.out.writeObject("time-line");
+            IO.out.writeObject("timeline");
             Thread.sleep(50);
             IO.out.writeObject(logedUser.loggedUser);
             Thread.sleep(50);

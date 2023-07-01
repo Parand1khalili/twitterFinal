@@ -28,7 +28,7 @@ public class Server {
             synchronized (Server.class) {
                 if (connection == null) {
                     try {
-                        connection = DriverManager.getConnection("jdbc:sqlite:H:\\New folder\\demo1\\jdbc.db");
+                        connection = DriverManager.getConnection("jdbc:sqlite:jdbc.db");
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
