@@ -1120,14 +1120,12 @@ class ClientHandler implements Runnable{
                         if(resultSet.getString("followings").contains(resultSetTweet.getString("userId"))){
                             Tweet theTweet = new Tweet(resultSetTweet.getString("text"),resultSet.getString("piclink"),
                                     resultSet.getString("userId"),resultSet.getInt("likes"),resultSet.getInt("retweets"),
-                                  resultSet.getInt("comments"),format.parse( resultSet.getString("date")) ,resultSet.getInt("isFavStar") );
+                                  resultSet.getInt("comments"), resultSet.getString("date") ,resultSet.getInt("isFavStar") );
                             res.add(theTweet);
                         }
                     }
                 }
             } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -1143,7 +1141,7 @@ class ClientHandler implements Runnable{
                 if(resultSetTweet.getInt("isFavStar")==1){
                     Tweet theTweet = new Tweet(resultSetTweet.getString("text"),resultSet.getString("piclink"),
                             resultSet.getString("userId"),resultSet.getInt("likes"),resultSet.getInt("retweets"),
-                            resultSet.getInt("comments"),format.parse( resultSet.getString("date")) ,resultSet.getInt("isFavStar") );
+                            resultSet.getInt("comments"),resultSet.getString("date") ,resultSet.getInt("isFavStar") );
                     if(!res.contains(theTweet)){
                         while (resultSet.next()){
                             if(resultSet.getString("id").equals(theUser.getId())){
@@ -1155,8 +1153,6 @@ class ClientHandler implements Runnable{
                     }
                 }
             } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -1247,12 +1243,10 @@ class ClientHandler implements Runnable{
                 if(resultSet.getString("text").contains("#"+hashtag)){
                     Tweet theTweet = new Tweet(resultSet.getString("text"),resultSet.getString("piclink"),
                             resultSet.getString("userId"),resultSet.getInt("likes"),resultSet.getInt("retweets"),
-                            resultSet.getInt("comments"),format.parse( resultSet.getString("date")) ,resultSet.getInt("isFavStar") );
+                            resultSet.getInt("comments"),resultSet.getString("date") ,resultSet.getInt("isFavStar") );
                     res.add(theTweet);
                 }
             } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
         }
