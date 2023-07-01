@@ -340,11 +340,7 @@ class ClientHandler implements Runnable{
                     } catch (IOException | ClassNotFoundException e) {
                         throw new RuntimeException(e);
                     }
-                    try {
-                        retweet(x, y);
-                    } catch (SQLException | IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    retweet(x, y);
                     break;
                 }
                 case "comment": {
@@ -367,11 +363,7 @@ class ClientHandler implements Runnable{
                     } catch (IOException | ClassNotFoundException e) {
                         throw new RuntimeException(e);
                     }
-                    try {
-                        addComment(x, y, z);
-                    } catch (SQLException | IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    addComment(x, y, z);
                     break;
                 }
                 case "show-comments": {
@@ -381,11 +373,39 @@ class ClientHandler implements Runnable{
                     } catch (IOException | ClassNotFoundException e) {
                         throw new RuntimeException(e);
                     }
+                    showComments(x);
+                    break;
+                }
+                case "check-like": {
+                    Tweet x = null;
                     try {
-                        showComments(x);
-                    } catch (SQLException | IOException e) {
+                        x = (Tweet) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
                         throw new RuntimeException(e);
                     }
+                    User y = null;
+                    try {
+                        y = (User) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    checkLike(x, y);
+                    break;
+                }
+                case "check-retweet": {
+                    Tweet x = null;
+                    try {
+                        x = (Tweet) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    User y = null;
+                    try {
+                        y = (User) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    checkRetweet(x, y);
                     break;
                 }
             }
@@ -1448,39 +1468,305 @@ class ClientHandler implements Runnable{
             }
         }
     }
-    public static void retweet(User theUser,Tweet theTweet) throws SQLException, IOException {
+    public static void retweet(User theUser,Tweet theTweet)  {
         java.sql.Connection connection = Server.getConnection();
-        Statement statement = connection.createStatement();
-        statement.executeUpdate("INSERT INTO Tweet(text, picture, userid, like, retweet, comment, date) "+"VALUES "
-                +theTweet.getText()+theTweet.getPicLink()+theUser.getId()+theTweet.getLikes()+theTweet.getRetweet()+theTweet.getComment()+new Date());
-        statement.executeUpdate("UPDATE Tweet SET retweet = '" +(theTweet.getRetweet()+1)+ "'WHERE text = " + theTweet.getText()+ "' AND userid = '"+theTweet.getUserId());
+        try {
+            Statement statement = connection.createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement("INSERT INTO Tweet(text, piclink, userId, likes, retweets, comments, date) VALUES (?,?,?,?,?,?,?)");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            preparedStatement.setString(1,theTweet.getText());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            preparedStatement.setString(2,theTweet.getPicLink());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            preparedStatement.setString(3,theUser.getId());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            preparedStatement.setInt(4,0);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            preparedStatement.setInt(5,0);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            preparedStatement.setInt(6,0);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            preparedStatement.setString(7,new Date().toString());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        PreparedStatement preparedStatement1 = null;
+        try {
+            preparedStatement1 = connection.prepareStatement("UPDATE Tweet SET retweet = ? WHERE text = ? AND userId = ?");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            preparedStatement1.setInt(1,theTweet.getRetweet()+1);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            preparedStatement1.setString(2, theTweet.getText());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            preparedStatement1.setString(3,theTweet.getUserId());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            preparedStatement1.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        PreparedStatement preparedStatement2 = null;
+        try {
+            preparedStatement2 = connection.prepareStatement("UPDATE Tweet SET retweetIds = ? WHERE text = ? AND userId = ?");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            preparedStatement2.setString(1,theUser.getId()+"@");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            preparedStatement2.setString(2,theTweet.getText());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            preparedStatement2.setString(3,theTweet.getUserId());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            preparedStatement2.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         String respond="success";
-        out.writeObject(respond);
+        try {
+            out.writeObject(respond);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
-    public static void addComment(User theUser,Tweet theTweet,String comment) throws SQLException, IOException {
+    public static void addComment(User theUser,Tweet theTweet,String comment)  {
         java.sql.Connection connection = Server.getConnection();
-        Statement statement = connection.createStatement();
-        statement.executeUpdate("UPDATE Tweet SET comment = '" +(theTweet.getComment()+1)+ "'WHERE text = " + theTweet.getText()+ "' AND userid = '"+theTweet.getUserId());
+        try {
+            Statement statement = connection.createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement("UPDATE Tweet SET comment = ? WHERE text = ? AND userId = ?");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            preparedStatement.setInt(1,theTweet.getComment()+1);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            preparedStatement.setString(2,theTweet.getText());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            preparedStatement.setString(3,theTweet.getUserId());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         String respond;
-        statement.executeUpdate("UPDATE Tweet SET comments = '" +"@"+theUser.getId()+"="+comment+ "'WHERE text = " + theTweet.getText()+ "' AND userid = '"+theTweet.getUserId());
+        PreparedStatement preparedStatement1 = null;
+        try {
+            preparedStatement1 = connection.prepareStatement("UPDATE Tweet SET comment = ? WHERE text = ? AND userId = ?");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            preparedStatement1.setString(1,"@"+theUser.getId()+"="+comment);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            preparedStatement1.setString(2,theTweet.getText());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            preparedStatement1.setString(3,theTweet.getUserId());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            preparedStatement1.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         //@id=comment
-        statement.executeUpdate("UPDATE Tweet SET comment = '" +(theTweet.getComment()+1)+ "'WHERE text = " + theTweet.getText()+ "' AND userid = '"+theTweet.getUserId());
         respond="success";
-        out.writeObject(respond);
+        try {
+            out.writeObject(respond);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
-    public static void showComments(Tweet tweet) throws SQLException, IOException {
+    public static void showComments(Tweet tweet)  {
         java.sql.Connection connection = Server.getConnection();
-        Statement statement = connection.createStatement();
-        ResultSet resultSet= statement.executeQuery("SELECT * FROM Tweet");
-        while (resultSet.next()){
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ResultSet resultSet= null;
+        try {
+            resultSet = statement.executeQuery("SELECT * FROM Tweet");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        while (true){
+            try {
+                if (!resultSet.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
             if(resultSet.equals(tweet)){
-                String str=resultSet.getString(10);
+                String str= null;
+                try {
+                    str = resultSet.getString("commentText");
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
                 String[] arr = str.split("@");
                 ArrayList<String> list = new ArrayList<>(Arrays.asList(arr));
-                out.writeObject(list);
+                try {
+                    out.writeObject(list);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 return;
             }
         }
+    }
+    public static void checkLike(Tweet theTweet,User theUser){
+        Connection connection = Server.getConnection();
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ResultSet resultSet = null;
+        try {
+            resultSet = statement.executeQuery("SELECT * FROM Tweet");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        String respond;
+        while (true){
+            try {
+                if (!resultSet.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if(resultSet.getString("text").equals(theTweet.getText())&&resultSet.getString("likesIds").contains(theUser.getId())){
+                    respond="true";
+                    out.writeObject(respond);
+                    return;
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        respond="false";
+        try {
+            out.writeObject(respond);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    private static void checkRetweet(Tweet theTweet,User theUser){
+        Connection connection = Server.getConnection();
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ResultSet resultSet = null;
+        try {
+            resultSet = statement.executeQuery("SELECT * FROM Tweet");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        String respond;
+        while (true){
+            try {
+                if (!resultSet.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if(resultSet.getString("text").equals(theTweet.getText())&&resultSet.getString("retweetIds").contains(theUser.getId())){
+                    respond="true";
+                    out.writeObject(respond);
+                    return;
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        respond="false";
+        try {
+            out.writeObject(respond);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 }
