@@ -40,7 +40,7 @@ public class ownProfile implements Initializable{
     @FXML
     Button followers;
     @FXML
-    protected void onFollowersClick(Event event){ // todo pass an array of followers
+    protected void onFollowersClick(Event event){
         Button button = (Button) event.getSource();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("userScene.fxml"));
         Parent root = null;
@@ -60,7 +60,7 @@ public class ownProfile implements Initializable{
     @FXML
     Button following;
     @FXML
-    protected void onFollowingsClick(Event event){ // todo pass an array of followers
+    protected void onFollowingsClick(Event event){
         Button button = (Button) event.getSource();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("userScene.fxml"));
         Parent root = null;
@@ -107,7 +107,6 @@ public class ownProfile implements Initializable{
             inputStream = new ByteArrayInputStream(avatarInByte);
             Image avatarImage = new Image(inputStream);
             avatar.setImage(avatarImage);
-
         }
     }
     @FXML
