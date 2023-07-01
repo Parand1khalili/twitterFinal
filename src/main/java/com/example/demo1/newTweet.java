@@ -35,7 +35,7 @@ public class newTweet implements Initializable{
     ImageView search;
     @FXML
     protected void onSearchClick(Event event){
-        Button button = (Button) event.getSource();
+        ImageView imageView = (ImageView) event.getSource();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("search.fxml"));
         Parent root = null;
         try {
@@ -43,7 +43,7 @@ public class newTweet implements Initializable{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Stage stage = (Stage) button.getScene().getWindow();
+        Stage stage = (Stage) imageView.getScene().getWindow();
         Scene scene = null;
         if(root != null) {
             scene = new Scene(root);
@@ -55,7 +55,7 @@ public class newTweet implements Initializable{
     ImageView timeLine;
     @FXML
     protected void onTimeLineClick(Event event){
-        Button button = (Button) event.getSource();
+        ImageView imageView = (ImageView) event.getSource();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("timeLine.fxml"));
         Parent root = null;
         try {
@@ -63,7 +63,7 @@ public class newTweet implements Initializable{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Stage stage = (Stage) button.getScene().getWindow();
+        Stage stage = (Stage) imageView.getScene().getWindow();
         Scene scene = null;
         if(root != null) {
             scene = new Scene(root);
@@ -75,7 +75,7 @@ public class newTweet implements Initializable{
     ImageView profile;
     @FXML
     protected void onProfileClick(Event event){
-        Button button = (Button) event.getSource();
+        ImageView imageView = (ImageView) event.getSource();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ownProfile.fxml"));
         Parent root = null;
         try {
@@ -83,7 +83,7 @@ public class newTweet implements Initializable{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Stage stage = (Stage) button.getScene().getWindow();
+        Stage stage = (Stage) imageView.getScene().getWindow();
         Scene scene = null;
         if(root != null) {
             scene = new Scene(root);
