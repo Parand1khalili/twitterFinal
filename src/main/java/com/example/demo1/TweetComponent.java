@@ -26,7 +26,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 
-public class ViewTweet extends AnchorPane {
+public class TweetComponent extends AnchorPane {
     static Image redHeart = new Image(""); //todo add path to red heart picture
     static Image greyHeart = new Image(""); //todo add path to gray heart picture
     ImageView likeImage;
@@ -51,7 +51,7 @@ public class ViewTweet extends AnchorPane {
     Separator separator1;
     Separator separator2;
     User user;
-    public ViewTweet(Tweet tweet , User user) throws SQLException, IOException, ClassNotFoundException, InterruptedException {
+    public TweetComponent(Tweet tweet , User user) throws SQLException, IOException, ClassNotFoundException, InterruptedException {
         this.tweet = tweet;
         this.user = user;
         IO.out.writeObject("check-like"); // todo create method

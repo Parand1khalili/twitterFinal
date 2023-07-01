@@ -1125,9 +1125,7 @@ class ClientHandler implements Runnable{
                         }
                     }
                 }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (ParseException e) {
+            } catch (SQLException | ParseException e) {
                 throw new RuntimeException(e);
             }
         }
