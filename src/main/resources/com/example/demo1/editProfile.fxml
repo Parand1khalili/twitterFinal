@@ -3,36 +3,56 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="675.0" prefWidth="596.0" style="-fx-background-color: #22303c;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.EditProfile">
+<AnchorPane prefHeight="675.0" prefWidth="596.0" style="-fx-background-color: fefefe;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.EditProfile">
    <children>
-      <Button layoutX="531.0" layoutY="13.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="50.0" style="-fx-background-color: #22303c;" text="save" textFill="WHITE" underline="true" />
-      <Button layoutX="13.0" layoutY="12.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="50.0" style="-fx-background-color: #22303c;" text="back" textFill="WHITE" underline="true" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="118.0" layoutX="8.0" layoutY="39.0" stroke="WHITE" strokeType="INSIDE" width="580.0" />
+      <Button layoutX="531.0" layoutY="13.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="50.0" style="-fx-background-color: fefefe;" text="save" textFill="#22303c" underline="true" />
+      <Button layoutX="13.0" layoutY="12.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="50.0" style="-fx-background-color: fefefe;" text="back" textFill="#22303c" underline="true" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="118.0" layoutX="8.0" layoutY="39.0" stroke="#22303c" strokeType="INSIDE" width="580.0" />
       <ImageView fitHeight="109.0" fitWidth="573.0" layoutX="12.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" />
-      <Label contentDisplay="CENTER" layoutX="20.0" layoutY="198.0" prefHeight="18.0" prefWidth="73.0" text="\@username" textFill="WHITE">
+      <Label contentDisplay="CENTER" layoutX="20.0" layoutY="198.0" prefHeight="18.0" prefWidth="73.0" text="\@username" textFill="#22303c">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Line endX="478.199951171875" endY="1.52587890625E-5" layoutX="109.0" layoutY="232.0" startX="-100.0" stroke="#ffffff28" />
-      <Line endX="478.199951171875" endY="1.52587890625E-5" layoutX="113.0" layoutY="314.0" startX="-100.0" stroke="#ffffff28" />
-      <Line endX="478.199951171875" endY="1.52587890625E-5" layoutX="117.0" layoutY="386.0" startX="-100.0" stroke="#ffffff28" />
-      <Label layoutX="38.0" layoutY="236.0" prefHeight="18.0" prefWidth="43.0" text="bio" textFill="#ffffff40" />
-      <Label layoutX="35.0" layoutY="317.0" prefHeight="18.0" prefWidth="50.0" text="location" textFill="#ffffff40" />
-      <TextField layoutX="38.0" layoutY="335.0" prefHeight="38.0" prefWidth="519.0" style="-fx-background-color: #22303c;" />
-      <Label layoutX="37.0" layoutY="386.0" prefHeight="18.0" prefWidth="50.0" text="website" textFill="#ffffff40" />
-      <TextField layoutX="41.0" layoutY="404.0" prefHeight="38.0" prefWidth="519.0" style="-fx-background-color: #22303c;" />
-      <Line endX="478.199951171875" endY="1.52587890625E-5" layoutX="114.0" layoutY="452.0" startX="-100.0" stroke="#ffffff28" />
-      <Label layoutX="257.0" layoutY="90.0" prefHeight="18.0" prefWidth="88.0" text="click to  change" textFill="WHITE" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#22303c" height="64.0" layoutX="22.0" layoutY="134.0" stroke="WHITE" strokeType="INSIDE" width="66.0" />
+      <Line endX="478.199951171875" endY="1.52587890625E-5" fill="#22303c" layoutX="109.0" layoutY="226.0" startX="-100.0" stroke="#ffffff28" />
+      <Line endX="478.199951171875" endY="1.52587890625E-5" layoutX="113.0" layoutY="325.0" startX="-100.0" stroke="#ffffff28" />
+      <Line endX="478.199951171875" endY="1.52587890625E-5" layoutX="115.0" layoutY="421.0" startX="-100.0" stroke="#ffffff28" />
+      <Label layoutX="38.0" layoutY="230.0" prefHeight="18.0" prefWidth="43.0" text="bio" textFill="#212f3be5" />
+      <Label layoutX="35.0" layoutY="332.0" prefHeight="18.0" prefWidth="50.0" text="location" textFill="#212f3be5" />
+      <Label layoutX="37.0" layoutY="428.0" prefHeight="18.0" prefWidth="50.0" text="website" textFill="#212f3b" />
+      <Line endX="478.199951171875" endY="1.52587890625E-5" layoutX="114.0" layoutY="519.0" startX="-100.0" stroke="#ffffff28" />
+      <Label layoutX="257.0" layoutY="90.0" prefHeight="18.0" prefWidth="88.0" style="-fx-background-color: fefefe;" text="click to  change" textFill="#22303c" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fefefe" height="64.0" layoutX="22.0" layoutY="134.0" stroke="WHITE" strokeType="INSIDE" width="66.0" />
       <ImageView fitHeight="56.0" fitWidth="66.0" layoutX="22.0" layoutY="138.0" pickOnBounds="true" preserveRatio="true" />
-      <TextArea layoutX="17.0" layoutY="249.0" prefHeight="50.0" prefWidth="561.0" />
+      <TextArea layoutX="17.0" layoutY="252.0" prefHeight="64.0" prefWidth="566.0" style="-fx-inner-background: #22303c;" />
+      <TextArea layoutX="19.0" layoutY="350.0" prefHeight="64.0" prefWidth="566.0" style="-fx-inner-background: #22303c;" />
+      <TextArea layoutX="17.0" layoutY="446.0" prefHeight="64.0" prefWidth="566.0" style="-fx-inner-background: #22303c;" />
+      <ImageView fitHeight="50.0" fitWidth="58.0" layoutX="31.0" layoutY="611.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@blue-user-icon-vector-42797456.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="44.0" fitWidth="50.0" layoutX="192.0" layoutY="614.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@timelineIcon.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="50.0" fitWidth="57.0" layoutX="354.0" layoutY="611.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@searchIcon.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="44.0" fitWidth="50.0" layoutX="509.0" layoutY="614.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@download.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
