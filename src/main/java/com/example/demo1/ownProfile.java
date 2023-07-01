@@ -79,35 +79,21 @@ public class ownProfile implements Initializable{
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Profile loggedUserProfile = null;
-        try {
-            IO.out.writeObject("get-profile");
-            Thread.sleep(50);
-            IO.out.writeObject(logedUser.loggedUser);
-            Thread.sleep(50);
-            IO.out.writeObject(logedUser.loggedUser);
-            Thread.sleep(50);
-            loggedUserProfile = (Profile) IO.in.readObject();
-        } catch (IOException | InterruptedException | ClassNotFoundException e) {
-            // todo set label error
-        }
-        if(loggedUserProfile != null) {
-            userId.setText(logedUser.loggedUser.getId());
-            bio.setText(loggedUserProfile.getBio());
-            location.setText(loggedUserProfile.getLocation());
-            web.setText(loggedUserProfile.getWeb());
-            joinedDate.setText(logedUser.loggedUser.getRegisterDate().toString());
-            followers.setText("followers " + loggedUserProfile.getFollowerNum());
-            following.setText("followings " + loggedUserProfile.getFollowingNum());
-            byte[] headerInByte = Base64.getDecoder().decode(logedUser.loggedUser.getHeaderPicName());
-            ByteArrayInputStream inputStream = new ByteArrayInputStream(headerInByte);
-            Image headerImage = new Image(inputStream);
-            header.setImage(headerImage);
-            byte[] avatarInByte = Base64.getDecoder().decode(logedUser.loggedUser.getProfPicName());
-            inputStream = new ByteArrayInputStream(avatarInByte);
-            Image avatarImage = new Image(inputStream);
-            avatar.setImage(avatarImage);
-        }
+        userId.setText(logedUser.loggedUser.getId());
+        bio.setText(logedUser.loggedUser.getBio());
+        location.setText(logedUser.loggedUser.getLocation());
+        web.setText(logedUser.loggedUser.getWeb());
+        joinedDate.setText(logedUser.loggedUser.getRegisterDate().toString());
+        followers.setText("followers " + logedUser.loggedUser.getFollowerNum());
+        following.setText("followings " + logedUser.loggedUser.getFollowingNum());
+        byte[] headerInByte = Base64.getDecoder().decode(logedUser.loggedUser.getHeaderPicName());
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(headerInByte);
+        Image headerImage = new Image(inputStream);
+        header.setImage(headerImage);
+        byte[] avatarInByte = Base64.getDecoder().decode(logedUser.loggedUser.getProfPicName());
+        inputStream = new ByteArrayInputStream(avatarInByte);
+        Image avatarImage = new Image(inputStream);
+        avatar.setImage(avatarImage);
     }
     @FXML
     Button logout;

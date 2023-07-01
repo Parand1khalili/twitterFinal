@@ -1,5 +1,6 @@
 package com.example.demo1;
 
+import common.User;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -137,9 +138,67 @@ public class editProfile implements Initializable {
                 error.setText("check your connection to server");
             }
             if(serverRespondA.equals("success"))
-                System.out.println("header updated");
+                System.out.println("avatar updated");
         }
-
+        if(!bio.getText().equals(logedUser.loggedUser.getBio())){
+            String serverRespondB = null;
+            try {
+                IO.out.writeObject("edit-bio");
+                Thread.sleep(50);
+                IO.out.writeObject(logedUser.loggedUser);
+                Thread.sleep(50);
+                IO.out.writeObject(bio.getText());
+                Thread.sleep(50);
+                serverRespondB =(String) IO.in.readObject();
+            } catch (IOException | InterruptedException | ClassNotFoundException e) {
+                error.setText("check your connection to server");
+            }
+            if(serverRespondB.equals("success"))
+                System.out.println("bio updated");
+        }
+        if(!location.getText().equals(logedUser.loggedUser.getLocation())){
+            String serverRespondL = null;
+            try {
+                IO.out.writeObject("edit-location");
+                Thread.sleep(50);
+                IO.out.writeObject(logedUser.loggedUser);
+                Thread.sleep(50);
+                IO.out.writeObject(location.getText());
+                Thread.sleep(50);
+                serverRespondL =(String) IO.in.readObject();
+            } catch (IOException | InterruptedException | ClassNotFoundException e) {
+                error.setText("check your connection to server");
+            }
+            if(serverRespondL.equals("success"))
+                System.out.println("location updated");
+        }
+        if(!web.getText().equals(logedUser.loggedUser.getWeb())){
+            String serverRespondW = null;
+            try {
+                IO.out.writeObject("edit-web");
+                Thread.sleep(50);
+                IO.out.writeObject(logedUser.loggedUser);
+                Thread.sleep(50);
+                IO.out.writeObject(web.getText());
+                Thread.sleep(50);
+                serverRespondW =(String) IO.in.readObject();
+            } catch (IOException | InterruptedException | ClassNotFoundException e) {
+                error.setText("check your connection to server");
+            }
+            if(serverRespondW.equals("success"))
+                System.out.println("web updated");
+        }
+        User updateUser = null;
+        try {
+            IO.out.writeObject("get-user");
+            Thread.sleep(50);
+            IO.out.writeObject(logedUser.loggedUser.getId());
+            Thread.sleep(50);
+            updateUser =(User) IO.in.readObject();
+        } catch (IOException | InterruptedException | ClassNotFoundException e) {
+            error.setText("check your connection to server");
+        }
+        logedUser.loggedUser = updateUser;
         Button button = (Button) event.getSource();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ownProfile.fxml"));
         Parent root = null;
