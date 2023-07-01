@@ -1111,76 +1111,70 @@ class ClientHandler implements Runnable{
             throw new RuntimeException(e);
         }
         try {
-            statement.executeUpdate("INSERT INTO Tweet(text, picture, userid, like, retweet, comment, date) "+"VALUES "
-            +tweet.getText()+tweet.getPicLink()+tweet.getUserId()+tweet.getLikes()+tweet.getRetweet()+tweet.getComment()+tweet.getDate());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        PreparedStatement pstmt = null;
-        try {
-            pstmt = connection.prepareStatement("INSERT INTO Tweet(text,piclink,userId,likes,retweets,comments,date,isFavStar,likesIds,hashtags) VALUES (?,?,?,?,?,?,?,?,?,?)");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            pstmt.setString(1,tweet.getText());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            pstmt.setString(2,tweet.getPicLink());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            pstmt.setString(3,tweet.getUserId());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            pstmt.setInt(4,tweet.getLikes());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            pstmt.setInt(5,tweet.getRetweet());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            pstmt.setInt(6,tweet.getComment());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            pstmt.setString(7,tweet.getDate().toString());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            pstmt.setInt(8,tweet.getIsFavStar());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            pstmt.setString(9,tweet.getLikesIds());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            pstmt.setString(10,tweet.getHashtags());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        String respond="success";
+            PreparedStatement pstmt = null;
+            try {
+                pstmt = connection.prepareStatement("INSERT INTO Tweet(text,piclink,userId,likes,retweets,comments,date,isFavStar,likesIds) VALUES (?,?,?,?,?,?,?,?,?)");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                pstmt.setString(1,tweet.getText());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                pstmt.setString(2,tweet.getPicLink());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                pstmt.setString(3,tweet.getUserId());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                pstmt.setInt(4,tweet.getLikes());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                pstmt.setInt(5,tweet.getRetweet());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                pstmt.setInt(6,tweet.getComment());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                pstmt.setString(7, String.valueOf(tweet.getDate()));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                pstmt.setInt(8,tweet.getIsFavStar());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                pstmt.setString(9,tweet.getLikesIds());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            String respond="success";
         try {
             out.writeObject(respond);
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
     }

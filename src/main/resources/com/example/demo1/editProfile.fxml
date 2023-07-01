@@ -9,16 +9,13 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="675.0" prefWidth="596.0" style="-fx-background-color: #22303c;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.EditProfile">
    <children>
       <Button layoutX="531.0" layoutY="13.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="50.0" style="-fx-background-color: #22303c;" text="save" textFill="WHITE" underline="true" />
       <Button layoutX="13.0" layoutY="12.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="50.0" style="-fx-background-color: #22303c;" text="back" textFill="WHITE" underline="true" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="118.0" layoutX="8.0" layoutY="39.0" stroke="WHITE" strokeType="INSIDE" width="580.0" />
       <ImageView fitHeight="109.0" fitWidth="573.0" layoutX="12.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" />
-      <Button layoutX="220.0" layoutY="88.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="147.0" style="-fx-background-color: #22303c;" text="choose another header" textFill="WHITE" underline="true" />
-      <Button layoutX="25.0" layoutY="145.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="50.0" style="-fx-background-radius: 50;" text="profile" />
-      <Label contentDisplay="CENTER" layoutX="17.0" layoutY="205.0" prefHeight="18.0" prefWidth="73.0" text="\@username" textFill="WHITE">
+      <Label contentDisplay="CENTER" layoutX="18.0" layoutY="198.0" prefHeight="18.0" prefWidth="73.0" text="\@username" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -33,5 +30,8 @@
       <Label layoutX="37.0" layoutY="386.0" prefHeight="18.0" prefWidth="50.0" text="website" textFill="#ffffff40" />
       <TextField layoutX="41.0" layoutY="404.0" prefHeight="38.0" prefWidth="519.0" style="-fx-background-color: #22303c;" />
       <Line endX="478.199951171875" endY="1.52587890625E-5" layoutX="114.0" layoutY="452.0" startX="-100.0" stroke="#ffffff28" />
+      <Label layoutX="236.0" layoutY="90.0" prefHeight="18.0" prefWidth="131.0" text="choose another header" textFill="WHITE" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#22303c" height="64.0" layoutX="22.0" layoutY="134.0" stroke="WHITE" strokeType="INSIDE" width="66.0" />
+      <ImageView fitHeight="56.0" fitWidth="66.0" layoutX="22.0" layoutY="138.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>
