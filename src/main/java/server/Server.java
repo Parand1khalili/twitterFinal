@@ -80,19 +80,15 @@ class ClientHandler implements Runnable{
         String command;
         while(true) {
             try {
-                if (!!(command = (String) in.readObject()).equals("exit")) break;
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (ClassNotFoundException e) {
+                if ((command = (String) in.readObject()).equals("exit")) break;
+            } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
             if (command.equals("sign-up")) {
                 System.out.println("sign up done");
                 try {
                     signUpServer((User)in.readObject());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
             }
@@ -100,18 +96,14 @@ class ClientHandler implements Runnable{
                 System.out.println("sign in done");
                 try {
                     signInServer((User)in.readObject());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
             }
             else if(command.equals("get-user")){
                 try {
                     getUser((String) in.readObject());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
             }
@@ -119,36 +111,28 @@ class ClientHandler implements Runnable{
                 User x = null;
                 try {
                     x = (User)in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
                 User y = null;
                 try {
                     y = (User)in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
                 getProfile(x,y);
             }
-            else if(command.equals("edit-profile")){
+            else if(command.equals("edit-avatar")){
                 User x= null;
                 try {
                     x = (User) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
                 String y= null;
                 try {
                     y = (String) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
                 editProf(x,y,4);
@@ -157,17 +141,13 @@ class ClientHandler implements Runnable{
                 User x= null;
                 try {
                     x = (User) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
                 String y= null;
                 try {
                     y = (String) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
                 editProf(x,y,5);
@@ -176,17 +156,13 @@ class ClientHandler implements Runnable{
                 User x= null;
                 try {
                     x = (User) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
                 String y= null;
                 try {
                     y = (String) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
                 editProf(x,y,1);
@@ -195,17 +171,13 @@ class ClientHandler implements Runnable{
                 User x= null;
                 try {
                     x = (User) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
                 String y= null;
                 try {
                     y = (String) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
                 editProf(x,y,2);
@@ -214,17 +186,13 @@ class ClientHandler implements Runnable{
                 User x= null;
                 try {
                     x = (User) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
                 String y= null;
                 try {
                     y = (String) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
                 editProf(x,y,3);
@@ -233,17 +201,13 @@ class ClientHandler implements Runnable{
                 User x= null;
                 try {
                     x = (User) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
                 String y= null;
                 try {
                     y = (String) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
                 follow(x,y);
@@ -252,9 +216,7 @@ class ClientHandler implements Runnable{
                 String x= null;
                 try {
                     x = (String) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
                 search(x);
@@ -263,17 +225,13 @@ class ClientHandler implements Runnable{
                 User x= null;
                 try {
                     x = (User) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
                 String y= null;
                 try {
                     y = (String) in.readObject();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
                 unfollow(x,y);
@@ -721,9 +679,7 @@ class ClientHandler implements Runnable{
                         out.writeObject(theProfile);
                         return;
                     }
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
+                } catch (SQLException | IOException e) {
                     throw new RuntimeException(e);
                 }
             }

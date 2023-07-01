@@ -94,7 +94,7 @@ public class newTweet implements Initializable{
     @FXML
     ImageView addPicture;
     @FXML
-    protected void  onAddPicture(Event event){
+    protected void onAddPicture(Event event){
         newTweetSceneLabel.setText("");
         FileChooser fileChooser = new FileChooser();
         this.tweetImage = fileChooser.showOpenDialog(null);
@@ -204,8 +204,6 @@ public class newTweet implements Initializable{
             }
         }
     }
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         newTweetSceneLabel.setText("click on the image to add a picture");
