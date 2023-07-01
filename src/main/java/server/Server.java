@@ -320,11 +320,7 @@ class ClientHandler implements Runnable{
                     } catch (IOException | ClassNotFoundException e) {
                         throw new RuntimeException(e);
                     }
-                    try {
-                        unblock(x, y);
-                    } catch (SQLException | IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    unblock(x, y);
                     break;
                 }
                 case "retweet": {
@@ -1439,32 +1435,62 @@ class ClientHandler implements Runnable{
             }
         }
     }
-    public static void unblock(User theUser,User unblock) throws SQLException, IOException {
+    public static void unblock(User theUser,User unblock) {
         java.sql.Connection connection = Server.getConnection();
-        Statement statement = connection.createStatement();
-        ResultSet resultSetUser = statement.executeQuery("SELECT * FROM user");
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ResultSet resultSetUser = null;
+        try {
+            resultSetUser = statement.executeQuery("SELECT * FROM user");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         String respond;
-        while (resultSetUser.next()){
-            if(resultSetUser.getString(1).equals(theUser.getId()) && !resultSetUser.getString(20).contains(unblock.getId())){
-                respond="have-not-blocked";
-                out.writeObject(respond);
-                return;
+        while (true){
+            try {
+                if (!resultSetUser.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-            if(resultSetUser.getString(1).equals(theUser.getId())  && resultSetUser.getString(20).contains(unblock.getId())){
-                int i;
-                String[] blacklist=resultSetUser.getString(20).split("=");
-                ArrayList<String> list = new ArrayList<String>(Arrays.asList(blacklist));
-                for( i=0;i<list.size();i++){
-                    if(list.equals(unblock.getId())){
-                        break;
-                    }
-                    i++;
+            try {
+                if(resultSetUser.getString("id").equals(theUser.getId()) && !resultSetUser.getString("blacklist").contains(unblock.getId())){
+                    respond="have-not-blocked";
+                    out.writeObject(respond);
+                    return;
                 }
-                list.remove(i);
-                statement.executeUpdate("UPDATE user SET blacklist = '" +list+ "' WHERE id = " + theUser.getId());
-                respond="success";
-                out.writeObject(respond);
-                return;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if(resultSetUser.getString("id").equals(theUser.getId())  && resultSetUser.getString("blacklist").contains(unblock.getId())){
+                    int i;
+                    String[] blacklist=resultSetUser.getString("blacklist").split("=");
+                    ArrayList<String> list = new ArrayList<String>(Arrays.asList(blacklist));
+                    for( i=0;i<list.size();i++){
+                        if(list.equals(unblock.getId())){
+                            break;
+                        }
+                        i++;
+                    }
+                    list.remove(i);
+                    PreparedStatement preparedStatement = connection.prepareStatement("UPDATE  user SET blacklist = ? WHERE id = ?");
+                    preparedStatement.setString(1,list.toString());
+                    preparedStatement.setString(2,theUser.getId());
+                    preparedStatement.executeUpdate();
+                    respond="success";
+                    out.writeObject(respond);
+                    return;
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
     }
