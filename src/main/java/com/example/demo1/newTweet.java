@@ -101,6 +101,7 @@ public class newTweet implements Initializable{
         if(tweetImage==null){
             newTweetSceneLabel.setText("click on the image to add a picture");
         }
+        System.out.println("picture added");
     }
     @FXML
     Button tweet;
@@ -139,6 +140,8 @@ public class newTweet implements Initializable{
                 error.setText("check your connection to server");
             }
             if(serverRespond.equals("success")){
+                System.out.println("tweet with image uploaded");
+                newTweetSceneLabel.setText("tweet with image uploaded");
                 newTweetSceneLabel.setText("SUCCESS");
                 try {
                     Thread.sleep(3000);
@@ -175,6 +178,8 @@ public class newTweet implements Initializable{
                 error.setText("check your connection to server");
             }
             if(serverRespond.equals("success")){
+                System.out.println("tweet uploaded");
+                newTweetSceneLabel.setText("tweet uploaded");
                 newTweetSceneLabel.setText("SUCCESS");
                 try {
                     Thread.sleep(3000);
