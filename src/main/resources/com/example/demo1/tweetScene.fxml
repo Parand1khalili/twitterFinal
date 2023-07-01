@@ -36,5 +36,8 @@
       </ImageView>
       <TextArea layoutX="18.0" layoutY="130.0" prefHeight="74.0" prefWidth="519.0" promptText="tweet" />
       <ImageView fitHeight="81.0" fitWidth="124.0" layoutX="21.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" />
+      <Label layoutX="369.0" layoutY="109.0" text="    " />
+      <Label layoutX="432.0" layoutY="109.0" text="    " />
+      <Label layoutX="484.0" layoutY="107.0" text="    " />
    </children>
 </AnchorPane>
