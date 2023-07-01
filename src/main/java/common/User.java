@@ -11,7 +11,7 @@ public class User implements Serializable {
     private String password;
     private String country;
     private String birthDate;
-    private Date registerDate;
+    private String registerDate;
     private Date lastUpdate;
     private String profPicName;
     private String headerPicName;
@@ -19,7 +19,7 @@ public class User implements Serializable {
     private String location;
     private String web;
     private String followers;
-    private String following;
+    private String followings;
     private int followerNum;
     private int followingNum;
     private String blacklist;
@@ -33,7 +33,7 @@ public class User implements Serializable {
     }
 
     public String getFollowing() {
-        return following;
+        return followings;
     }
 
     public User(String id, String firstName, String lastName, String email, String phoneNumber, String password,
@@ -46,7 +46,7 @@ public class User implements Serializable {
         this.password = password;
         this.country = country;
         this.birthDate = birthDate;
-        this.registerDate = new Date();
+        this.registerDate = (new Date()).toString();
         this.followerNum = 0;
         this.followingNum = 0;
         this.blacklist = " ";
@@ -55,6 +55,29 @@ public class User implements Serializable {
         this.bio = "-";
         this.location = "-";
         this.web = "-";
+    }
+    public User(String id, String firstName, String lastName, String email, String phoneNumber, String password,
+                String country, String birthDate,String register, String headerPicName, String profPicName,String bio,
+                String location,String web,String followers,String followings,Integer followerNum,Integer followingNum,String blacklist) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.country = country;
+        this.birthDate = birthDate;
+        this.registerDate = register;
+        this.followerNum = followerNum;
+        this.followingNum = followingNum;
+        this.blacklist = blacklist;
+        this.headerPicName = headerPicName;
+        this.profPicName = profPicName;
+        this.bio = bio;
+        this.location = location;
+        this.web = web;
+        this.followers =followers;
+        this.followings = followings;
     }
 
     public User(String id, String password) {
@@ -102,7 +125,7 @@ public class User implements Serializable {
         return birthDate;
     }
 
-    public Date getRegisterDate() {
+    public String getRegisterDate() {
         return registerDate;
     }
 

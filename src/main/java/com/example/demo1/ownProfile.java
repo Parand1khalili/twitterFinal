@@ -79,6 +79,25 @@ public class ownProfile implements Initializable{
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        System.out.println(logedUser.loggedUser.getBio());
+        System.out.println(logedUser.loggedUser.getId());
+        User updatedUser=null;
+        try {
+            IO.out.writeObject("get-user");
+            Thread.sleep(50);
+            IO.out.writeObject(logedUser.loggedUser.getId());
+            Thread.sleep(50);
+            updatedUser =(User) IO.in.readObject();
+        } catch (IOException | InterruptedException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        logedUser.loggedUser = updatedUser;
+        System.out.println("local user");
+        System.out.println(updatedUser.getId());
+        System.out.println(updatedUser.getBio());
+        System.out.println("user updated");
+        System.out.println(logedUser.loggedUser.getId());
+        System.out.println(logedUser.loggedUser.getBio());
         userId.setText(logedUser.loggedUser.getId());
         bio.setText(logedUser.loggedUser.getBio());
         location.setText(logedUser.loggedUser.getLocation());

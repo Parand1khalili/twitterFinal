@@ -558,10 +558,13 @@ class ClientHandler implements Runnable{
             }
             try {
                 if(resultSet.getString("id").equals(id)){
-                    User theUser=new User(resultSet.getString("id"),resultSet.getString("firstName"),
+                    User theUser= null;
+                    theUser = new User(resultSet.getString("id"),resultSet.getString("firstName"),
                             resultSet.getString("lastName"),resultSet.getString("email"),resultSet.getString("phoneNumber")
-                            ,resultSet.getString("password"),resultSet.getString("country"),resultSet.getString("birthDate"),
-                            resultSet.getString("header"),resultSet.getString("profile"));
+                            ,resultSet.getString("password"),resultSet.getString("country"),resultSet.getString("birthDate"),resultSet.getString("registerDate")
+                            ,resultSet.getString("header"),resultSet.getString("profile"),resultSet.getString("bio"),resultSet.getString("location"),
+                            resultSet.getString("web"),resultSet.getString("followers"),resultSet.getString("followings"),
+                            resultSet.getInt("follower"),resultSet.getInt("following"),resultSet.getString("blacklist"));
                     out.writeObject(theUser);
                 }
             } catch (SQLException | IOException e) {

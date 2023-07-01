@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -31,11 +32,11 @@ public class editProfile implements Initializable {
     @FXML
     Label userName;
     @FXML
-    TextField bio;
+    TextArea bio;
     @FXML
-    TextField location;
+    TextArea location;
     @FXML
-    TextField web;
+    TextArea web;
     @FXML
     Label error;
     @FXML
@@ -89,6 +90,7 @@ public class editProfile implements Initializable {
     }
     @FXML
     Button save;
+    @FXML
     protected void onSaveClick(Event event){
         if(newHeader != null) {
             byte[] newHeaderInByte = null;
@@ -188,17 +190,6 @@ public class editProfile implements Initializable {
             if(serverRespondW.equals("success"))
                 System.out.println("web updated");
         }
-        User updateUser = null;
-        try {
-            IO.out.writeObject("get-user");
-            Thread.sleep(50);
-            IO.out.writeObject(logedUser.loggedUser.getId());
-            Thread.sleep(50);
-            updateUser =(User) IO.in.readObject();
-        } catch (IOException | InterruptedException | ClassNotFoundException e) {
-            error.setText("check your connection to server");
-        }
-        logedUser.loggedUser = updateUser;
         Button button = (Button) event.getSource();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ownProfile.fxml"));
         Parent root = null;
