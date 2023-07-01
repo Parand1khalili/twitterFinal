@@ -27,13 +27,13 @@ import java.text.SimpleDateFormat;
 import java.util.Base64;
 
 public class ViewTweet extends AnchorPane {
-    static Image redHeart = new Image("H:\\New folder\\demo1\\src\\main\\resources\\com\\example\\demo1\\redheart.png");
-    static Image greyHeart = new Image("H:\\New folder\\demo1\\src\\main\\resources\\com\\example\\demo1\\grayheart.png");
+    static Image redHeart = new Image(""); //todo add path to red heart picture
+    static Image greyHeart = new Image(""); //todo add path to gray heart picture
     ImageView likeImage;
-    static Image retweetImage = new Image("H:\\New folder\\demo1\\src\\main\\resources\\com\\example\\demo1\\retweet.png");
-    static Image retweeted = new Image("H:\\New folder\\demo1\\src\\main\\resources\\com\\example\\demo1\\retweeted.png");
+    static Image retweetImage = new Image(""); // todo add path to retweet picture
+    static Image retweeted = new Image(""); // todo add path to retweeted picture
     ImageView retweetView;
-    static Image replyImage = new Image("H:\\New folder\\demo1\\src\\main\\resources\\com\\example\\demo1\\comment.png");
+    static Image replyImage = new Image(""); // todo add path to comment picture
     ImageView replyview = new ImageView(replyImage);
     private Tweet tweet;
     Label usernameLabel;

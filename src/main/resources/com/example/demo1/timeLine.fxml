@@ -5,15 +5,14 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="675.0" prefWidth="596.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.TimeLine">
+<AnchorPane prefHeight="675.0" prefWidth="596.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.timeLine">
    <children>
-      <ScrollPane layoutX="8.0" layoutY="14.0" prefHeight="578.0" prefWidth="580.0">
+      <ScrollPane fx:id="scrollPane" layoutX="8.0" layoutY="14.0" prefHeight="578.0" prefWidth="580.0">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="578.0" prefWidth="578.0" />
         </content>
       </ScrollPane>
-      <ImageView fitHeight="49.0" fitWidth="59.0" layoutX="26.0" layoutY="612.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="profile" fitHeight="49.0" fitWidth="59.0" layoutX="26.0" layoutY="612.0" onMouseClicked="#onProfileClick" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@blue-user-icon-vector-42797456.jpg" />
          </image>
@@ -23,12 +22,12 @@
             <Image url="@timelineIcon.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="60.0" fitWidth="58.0" layoutX="323.0" layoutY="605.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="search" fitHeight="60.0" fitWidth="58.0" layoutX="323.0" layoutY="605.0" onMouseClicked="#onSearchClick" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@searchIcon.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="58.0" fitWidth="65.0" layoutX="474.0" layoutY="608.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="newTweet" fitHeight="58.0" fitWidth="65.0" layoutX="474.0" layoutY="608.0" onMouseClicked="#onNewTweetClick" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@download.png" />
          </image>
