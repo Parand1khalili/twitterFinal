@@ -67,7 +67,7 @@ class ClientHandler implements Runnable{
     private Socket client;
 
     @Override
-    public void run() {
+    public void run()  {
         java.sql.Connection connection = Server.getConnection();
         try {
             
@@ -77,110 +77,385 @@ class ClientHandler implements Runnable{
         } catch (  IOException e) {
             throw new RuntimeException(e);
         }
-        try {
-            String command;
-            while(!(command = (String) in.readObject()).equals("exit")) {
-                if (command.equals("sign-up")) {
-                    System.out.println("sign up done");
+        String command;
+        while(true) {
+            try {
+                if (!!(command = (String) in.readObject()).equals("exit")) break;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            if (command.equals("sign-up")) {
+                System.out.println("sign up done");
+                try {
                     signUpServer((User)in.readObject());
-                }
-                else if (command.equals("sign-in")) {
-                    System.out.println("sign in done");
-                    signInServer((User)in.readObject());
-                }
-                else if(command.equals("get-user")){
-                    getUser((String) in.readObject());
-                }
-                else if(command.equals("get-profile")){
-                    User x = (User)in.readObject();
-                    User y = (User)in.readObject();
-                    getProfile(x,y);
-                }
-                else if(command.equals("edit-profile")){
-                    User x=(User) in.readObject();
-                    String y=(String) in.readObject();
-                    editProfile(x,y);
-                }
-                else if(command.equals("edit-header")){
-                    User x=(User) in.readObject();
-                    String y=(String) in.readObject();
-                    editHeader(x,y);
-                }
-                else if(command.equals("edit-bio")){
-                    User x=(User) in.readObject();
-                    String y=(String) in.readObject();
-                    editProf(x,y,1);
-                }
-                else if(command.equals("edit-location")){
-                    User x=(User) in.readObject();
-                    String y=(String) in.readObject();
-                    editProf(x,y,2);
-                }
-                else if(command.equals("edit-web")){
-                    User x=(User) in.readObject();
-                    String y=(String) in.readObject();
-                    editProf(x,y,3);
-                }
-                else if(command.equals("follow")){
-                    User x=(User) in.readObject();
-                    String y=(String) in.readObject();
-                    follow(x,y);
-                }
-                else if(command.equals("search")){
-                    String x=(String) in.readObject();
-                    search(x);
-                }
-                else if (command.equals("unfollow")){
-                    User x=(User) in.readObject();
-                    String y=(String) in.readObject();
-                    unfollow(x,y);
-                }
-                else if ((command.equals("new-tweet"))){
-                    Tweet x=(Tweet) in.readObject();
-                    newTweet(x);
-                }
-                else if(command.equals("timeline")){
-                    User x=(User) in.readObject();
-                    timeline(x);
-                }
-                else if(command.equals("like")){
-                    User x=(User) in.readObject();
-                    Tweet y=(Tweet) in.readObject();
-                    like(x,y);
-                }
-                else if(command.equals("hashtag")){
-                    String x=(String) in.readObject();
-                    searchHashtag(x);
-                }
-                else if(command.equals("block")){
-                    User x=(User) in.readObject();
-                    User y=(User) in.readObject();
-                    block(x,y);
-                }
-                else if(command.equals("unblock")){
-                    User x=(User) in.readObject();
-                    User y=(User) in.readObject();
-                    unblock(x,y);
-                }
-                else if (command.equals("retweet")){
-                    User x=(User) in.readObject();
-                    Tweet y=(Tweet) in.readObject();
-                    retweet(x,y);
-                }
-                else if(command.equals("comment")){
-                    //reply
-                    User x=(User) in.readObject();
-                    Tweet y=(Tweet) in.readObject();
-                    String z=(String) in.readObject();
-                    addComment(x,y,z);
-                }
-                else if(command.equals("show-comments")){
-                    Tweet x=(Tweet) in.readObject();
-                    showComments(x);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
                 }
             }
-        } catch (IOException | ClassNotFoundException | SQLException | InterruptedException | ParseException e) {
-            System.out.println("client disconnected.");
+            else if (command.equals("sign-in")) {
+                System.out.println("sign in done");
+                try {
+                    signInServer((User)in.readObject());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            else if(command.equals("get-user")){
+                try {
+                    getUser((String) in.readObject());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            else if(command.equals("get-profile")){
+                User x = null;
+                try {
+                    x = (User)in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                User y = null;
+                try {
+                    y = (User)in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                getProfile(x,y);
+            }
+            else if(command.equals("edit-profile")){
+                User x= null;
+                try {
+                    x = (User) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                String y= null;
+                try {
+                    y = (String) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                editProfile(x,y);
+            }
+            else if(command.equals("edit-header")){
+                User x= null;
+                try {
+                    x = (User) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                String y= null;
+                try {
+                    y = (String) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                editHeader(x,y);
+            }
+            else if(command.equals("edit-bio")){
+                User x= null;
+                try {
+                    x = (User) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                String y= null;
+                try {
+                    y = (String) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                editProf(x,y,1);
+            }
+            else if(command.equals("edit-location")){
+                User x= null;
+                try {
+                    x = (User) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                String y= null;
+                try {
+                    y = (String) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                editProf(x,y,2);
+            }
+            else if(command.equals("edit-web")){
+                User x= null;
+                try {
+                    x = (User) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                String y= null;
+                try {
+                    y = (String) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                editProf(x,y,3);
+            }
+            else if(command.equals("follow")){
+                User x= null;
+                try {
+                    x = (User) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                String y= null;
+                try {
+                    y = (String) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                follow(x,y);
+            }
+            else if(command.equals("search")){
+                String x= null;
+                try {
+                    x = (String) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                search(x);
+            }
+            else if (command.equals("unfollow")){
+                User x= null;
+                try {
+                    x = (User) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                String y= null;
+                try {
+                    y = (String) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                unfollow(x,y);
+            }
+            else if ((command.equals("new-tweet"))){
+                Tweet x= null;
+                try {
+                    x = (Tweet) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                newTweet(x);
+            }
+            else if(command.equals("timeline")){
+                User x= null;
+                try {
+                    x = (User) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                timeline(x);
+            }
+            else if(command.equals("like")){
+                User x= null;
+                try {
+                    x = (User) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                Tweet y= null;
+                try {
+                    y = (Tweet) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                like(x,y);
+            }
+            else if(command.equals("hashtag")){
+                String x= null;
+                try {
+                    x = (String) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                searchHashtag(x);
+            }
+            else if(command.equals("block")){
+                User x= null;
+                try {
+                    x = (User) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                User y= null;
+                try {
+                    y = (User) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    block(x,y);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            else if(command.equals("unblock")){
+                User x= null;
+                try {
+                    x = (User) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                User y= null;
+                try {
+                    y = (User) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    unblock(x,y);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            else if (command.equals("retweet")){
+                User x= null;
+                try {
+                    x = (User) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                Tweet y= null;
+                try {
+                    y = (Tweet) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    retweet(x,y);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            else if(command.equals("comment")){
+                //reply
+                User x= null;
+                try {
+                    x = (User) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                Tweet y= null;
+                try {
+                    y = (Tweet) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                String z= null;
+                try {
+                    z = (String) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    addComment(x,y,z);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            else if(command.equals("show-comments")){
+                Tweet x= null;
+                try {
+                    x = (Tweet) in.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    showComments(x);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
     private Connection connect() {
@@ -673,78 +948,157 @@ class ClientHandler implements Runnable{
             }
         }
     }
-    public static void search(String text) throws SQLException, IOException, InterruptedException {
+    public static void search(String text)  {
         ArrayList <User> res=new ArrayList<>();
         java.sql.Connection connection = Server.getConnection();
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM user");
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ResultSet resultSet = null;
+        try {
+            resultSet = statement.executeQuery("SELECT * FROM user");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         String respond;
-        while (resultSet.next()){
-            if(resultSet.getString(1).contains(text)||resultSet.getString(2).contains(text)
-                    ||resultSet.getString(3).contains(text)){
-                User newUser = new User(resultSet.getString(1),resultSet.getString(2),
-                        resultSet.getString(3),resultSet.getString(4),resultSet.getString(5),
-                        resultSet.getString(6),resultSet.getString(7),resultSet.getString(8),resultSet.getString(9)
-                ,resultSet.getString(10));
-                res.add(newUser);
+        while (true){
+            try {
+                if (!resultSet.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if(resultSet.getString("id").contains(text)||resultSet.getString("firstName").contains(text)
+                        ||resultSet.getString("lastName").contains(text)){
+                    User newUser = new User(resultSet.getString("id"),resultSet.getString("firstName"),
+                            resultSet.getString("lastName"),resultSet.getString("email"),resultSet.getString("phoneNumber"),
+                            resultSet.getString("password"),resultSet.getString("country"),resultSet.getString("birthDate"),resultSet.getString("header")
+                    ,resultSet.getString("profile"));
+                    res.add(newUser);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
         }
         if(res.isEmpty()){
             respond="not-found";
-            out.writeObject(respond);
+            try {
+                out.writeObject(respond);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
         else{
             respond="found";
-            out.writeObject(respond);
-            Thread.sleep(50);
-            out.writeObject(res);
+            try {
+                out.writeObject(respond);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                out.writeObject(res);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
-    public static void unfollow(User theUser,String followingId) throws SQLException, IOException {
+    public static void unfollow(User theUser,String followingId)  {
         java.sql.Connection connection = Server.getConnection();
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM user");
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ResultSet resultSet = null;
+        try {
+            resultSet = statement.executeQuery("SELECT * FROM user");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         String respond;
-        while (resultSet.next()){
-            if(resultSet.getString(1).equals(theUser.getId())){
-                if(!resultSet.getString(17).contains(followingId)){
-                    respond="is not followed";
-                    out.writeObject(respond);
-                    return;
+        while (true){
+            try {
+                if (!resultSet.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if(resultSet.getString("id").equals(theUser.getId())){
+                    if(!resultSet.getString("followings").contains(followingId)){
+                        respond="is not followed";
+                        out.writeObject(respond);
+                        return;
+                    }
+                    else {
+                        int i;
+                        String[] following=resultSet.getString("followings").split("=");
+                        ArrayList<String> list = new ArrayList<String>(Arrays.asList(following));
+                        for( i=0;i<list.size();i++){
+                            if(list.equals(followingId)){
+                                break;
+                            }
+                            i++;
+                        }
+                        list.remove(i);
+                        PreparedStatement updateStatement = connection.prepareStatement("UPDATE user SET followings = ? WHERE id = ?");
+                        updateStatement.setString(1,list.toString());
+                        updateStatement.setString(2,theUser.getId());
+                        updateStatement.executeUpdate();
+                        PreparedStatement updateStatement2 = connection.prepareStatement("UPDATE user SET following = ? WHERE id = ?");
+                        updateStatement2.setInt(1,theUser.getFollowingNum()-1);
+                        updateStatement2.setString(2,theUser.getId());
+                        updateStatement2.executeUpdate();
+                    }
                 }
-                else {
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        while (true){
+            try {
+                if (!resultSet.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if(resultSet.getString("id").equals(followingId)){
                     int i;
-                    String[] following=resultSet.getString(17).split("=");
-                    ArrayList<String> list = new ArrayList<String>(Arrays.asList(following));
-                    for( i=0;i<list.size();i++){
-                        if(list.equals(followingId)){
+                    String[] follower=resultSet.getString("followers").split("=");
+                    ArrayList<String> list = new ArrayList<>(Arrays.asList(follower));
+                    for(i=0;i<list.size();i++){
+                        if(list.equals(theUser.getId())){
                             break;
                         }
                         i++;
                     }
                     list.remove(i);
-                    statement.executeUpdate("UPDATE user SET followings = '" +list+ "' WHERE id = " + theUser.getId());
-                    statement.executeUpdate("UPDATE user SET followingNum = '" + (theUser.getFollowingNum()-1) + "' WHERE id = " + theUser.getId());
+                    PreparedStatement updateStatement3 = connection.prepareStatement("UPDATE user SET followers = ? WHERE id = ?");
+                    updateStatement3.setString(1,list.toString());
+                    updateStatement3.setString(2,followingId);
+                    updateStatement3.executeUpdate();
+                    PreparedStatement updateStatement4 = connection.prepareStatement("UPDATE user SET follower = ? WHERE id = ?");
+                    updateStatement4.setInt(1,theUser.getFollowerNum()-1);
+                    updateStatement4.setString(2,followingId);
+                    updateStatement4.executeUpdate();
+                    respond="success";
+                    out.writeObject(respond);
+                    return;
                 }
-            }
-        }
-        while (resultSet.next()){
-            if(resultSet.getString(1).equals(followingId)){
-                int i;
-                String[] follower=resultSet.getString(16).split("=");
-                ArrayList<String> list = new ArrayList<>(Arrays.asList(follower));
-                for(i=0;i<list.size();i++){
-                    if(list.equals(theUser.getId())){
-                        break;
-                    }
-                    i++;
-                }
-                list.remove(i);
-                statement.executeUpdate("UPDATE user SET followers = '" +list+ "' WHERE id = " + followingId);
-                statement.executeUpdate("UPDATE user SET followerNum = '" +(Integer.parseInt(resultSet.getString(18))-1)+ "' WHERE id = " + followingId);
-                respond="success";
-                out.writeObject(respond);
-                return;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
     }
@@ -830,86 +1184,183 @@ class ClientHandler implements Runnable{
             throw new RuntimeException(e);
         }
     }
-    public static void timeline(User theUser) throws SQLException, ParseException, IOException {
+    public static void timeline(User theUser)  {
         java.sql.Connection connection = Server.getConnection();
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM user");
-        ResultSet resultSetTweet = statement.executeQuery("SELECT * FROM Tweet");
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ResultSet resultSet = null;
+        try {
+            resultSet = statement.executeQuery("SELECT * FROM user");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ResultSet resultSetTweet = null;
+        try {
+            resultSetTweet = statement.executeQuery("SELECT * FROM Tweet");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         ArrayList <Tweet> res=new ArrayList<>();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
         //check followings
-        while (resultSet.next()){
-            if(resultSet.getString(1).equals(theUser.getId())){
-                while (resultSetTweet.next()){
-                    if(resultSet.getString(17).contains(resultSetTweet.getString(3))){
-                        Tweet theTweet = new Tweet(resultSetTweet.getString(1),resultSet.getString(2),
-                                resultSet.getString(3),Integer.parseInt(resultSet.getString(4)),Integer.parseInt(resultSet.getString(5)),
-                               Integer.parseInt( resultSet.getString(6)),format.parse( resultSet.getString(7)) ,Integer.parseInt(resultSet.getString(8)) );
-                        res.add(theTweet);
+        while (true){
+            try {
+                if (!resultSet.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if(resultSet.getString("id").equals(theUser.getId())){
+                    while (resultSetTweet.next()){
+                        if(resultSet.getString("followings").contains(resultSetTweet.getString("userId"))){
+                            Tweet theTweet = new Tweet(resultSetTweet.getString("text"),resultSet.getString("piclink"),
+                                    resultSet.getString("userId"),resultSet.getInt("likes"),resultSet.getInt("retweets"),
+                                  resultSet.getInt("comments"),format.parse( resultSet.getString("date")) ,resultSet.getInt("isFavStar") );
+                            res.add(theTweet);
+                        }
                     }
                 }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
             }
         }
 
         //check favstars and blocks
-        while (resultSetTweet.next()){
-            if(resultSetTweet.getString(8).equals("1")){
-                Tweet theTweet = new Tweet(resultSetTweet.getString(1),resultSet.getString(2),
-                        resultSet.getString(3),Integer.parseInt(resultSet.getString(4)),Integer.parseInt(resultSet.getString(5)),
-                        Integer.parseInt( resultSet.getString(6)),format.parse( resultSet.getString(7)) ,Integer.parseInt(resultSet.getString(8)) );
-                if(!res.contains(theTweet)){
-                    while (resultSet.next()){
-                        if(resultSet.getString(1).equals(theUser.getId())){
-                            if(!resultSet.getString(20).contains(theTweet.getUserId())){
-                            res.add(theTweet);
+        while (true){
+            try {
+                if (!resultSetTweet.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if(resultSetTweet.getInt("isFavStar")==1){
+                    Tweet theTweet = new Tweet(resultSetTweet.getString("text"),resultSet.getString("piclink"),
+                            resultSet.getString("userId"),resultSet.getInt("likes"),resultSet.getInt("retweets"),
+                            resultSet.getInt("comments"),format.parse( resultSet.getString("date")) ,resultSet.getInt("isFavStar") );
+                    if(!res.contains(theTweet)){
+                        while (resultSet.next()){
+                            if(resultSet.getString("id").equals(theUser.getId())){
+                                if(!resultSet.getString("blacklist").contains(theTweet.getUserId())){
+                                res.add(theTweet);
+                                }
                             }
                         }
                     }
                 }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
             }
         }
-        out.writeObject(res);
+        try {
+            out.writeObject(res);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
-    public static void like(User theUser,Tweet theTweet) throws SQLException, IOException {
+    public static void like(User theUser,Tweet theTweet) {
         java.sql.Connection connection = Server.getConnection();
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM user");
-        ResultSet resultSetTweet = statement.executeQuery("SELECT * FROM Tweet");
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ResultSet resultSetTweet = null;
+        try {
+            resultSetTweet = statement.executeQuery("SELECT * FROM Tweet");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         String respond;
-        while (resultSetTweet.next()){
-            if(resultSetTweet.equals(theTweet) && resultSetTweet.getString(9).contains(theUser.getId())){
-                respond="already-liked";
-                out.writeObject(respond);
+        while (true){
+            try {
+                if (!resultSetTweet.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-            else if(resultSetTweet.equals(theTweet) && ! resultSetTweet.getString(9).contains(theUser.getId())){
-                respond="success";
-                statement.executeUpdate("UPDATE Tweet SET likedIds = '" +theTweet.getLikesIds()+"="+theUser.getId()+ "'WHERE text = " + theTweet.getText()+ "' AND userid = '"+theTweet.getUserId());
-                statement.executeUpdate("UPDATE Tweet SET like = '" +(Integer.parseInt(resultSetTweet.getString(4))+1)+"'WHERE text = " + theTweet.getText()+ "' AND userid = '"+theTweet.getUserId());
-                if(Integer.parseInt(resultSetTweet.getString(4))==10){
-                    statement.executeUpdate("UPDATE Tweet SET isFavStar = '" +(theTweet.getIsFavStar()+1)+ "'WHERE text = " + theTweet.getText()+ "' AND userid = '"+theTweet.getUserId());
+            try {
+                if(resultSetTweet.equals(theTweet) && resultSetTweet.getString("likesIds").contains(theUser.getId())){
+                    respond="already-liked";
+                    out.writeObject(respond);
                 }
-                out.writeObject(respond);
+                else if(resultSetTweet.equals(theTweet) && ! resultSetTweet.getString("likesIds").contains(theUser.getId())){
+                    respond="success";
+                    PreparedStatement updateStatement = connection.prepareStatement("UPDATE Tweet SET likesIds = ? WHERE text = ? AND userid = ?");
+                    updateStatement.setString(1,theTweet.getLikesIds()+"="+theUser.getId());
+                    updateStatement.setString(2,theTweet.getText());
+                    updateStatement.setString(3,theTweet.getUserId());
+                    updateStatement.executeUpdate();
+
+                    PreparedStatement updateStatement2 = connection.prepareStatement("UPDATE Tweet SET likes = ? WHERE text = ? AND userid = ?");
+                    updateStatement2.setInt(1,resultSetTweet.getInt("likes")+1);
+                    updateStatement2.setString(2,theTweet.getText());
+                    updateStatement2.setString(3,theTweet.getUserId());
+                    updateStatement2.executeUpdate();
+                    if(resultSetTweet.getInt("likes")==10){
+                        PreparedStatement updateStatement3 = connection.prepareStatement("UPDATE Tweet SET isFavStar = ? WHERE text = ? AND userid = ?");
+                        updateStatement3.setInt(1,theTweet.getIsFavStar()+1);
+                        updateStatement3.setString(2,theTweet.getText());
+                        updateStatement3.setString(3,theTweet.getUserId());
+                        updateStatement3.executeUpdate();
+                    }
+                    out.writeObject(respond);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
     }
-    public static void searchHashtag(String hashtag) throws SQLException, ParseException, IOException {
+    public static void searchHashtag(String hashtag) {
         java.sql.Connection connection = Server.getConnection();
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM Tweet");
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ResultSet resultSet = null;
+        try {
+            resultSet = statement.executeQuery("SELECT * FROM Tweet");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         ArrayList<Tweet> res=new ArrayList<>();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        while (resultSet.next()){
-            if(resultSet.getString(1).contains("#"+hashtag)){
-                Tweet theTweet = new Tweet(resultSet.getString(1),resultSet.getString(2),
-                        resultSet.getString(3),Integer.parseInt(resultSet.getString(4)),
-                        Integer.parseInt(resultSet.getString(5)),
-                        Integer.parseInt( resultSet.getString(6)),format.parse( resultSet.getString(7))
-                        ,Integer.parseInt(resultSet.getString(8)) );
-                res.add(theTweet);
+        while (true){
+            try {
+                if (!resultSet.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if(resultSet.getString("text").contains("#"+hashtag)){
+                    Tweet theTweet = new Tweet(resultSet.getString("text"),resultSet.getString("piclink"),
+                            resultSet.getString("userId"),resultSet.getInt("likes"),resultSet.getInt("retweets"),
+                            resultSet.getInt("comments"),format.parse( resultSet.getString("date")) ,resultSet.getInt("isFavStar") );
+                    res.add(theTweet);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
             }
         }
-        out.writeObject(res);
+        try {
+            out.writeObject(res);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     public static void block(User theUser,User block) throws SQLException, IOException {
         java.sql.Connection connection = Server.getConnection();

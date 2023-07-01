@@ -31,12 +31,12 @@
       <Label fx:id="joinedDate" layoutX="39.0" layoutY="212.0" prefHeight="18.0" prefWidth="115.0" text="joined ..." textFill="#22303c" />
       <Label fx:id="location" layoutX="40.0" layoutY="231.0" prefHeight="18.0" prefWidth="150.0" text="location" textFill="#22303c" />
       <Label fx:id="web" layoutX="40.0" layoutY="250.0" prefHeight="18.0" prefWidth="102.0" text="web" textFill="#22303c" />
-      <Button fx:id="followers" alignment="TOP_CENTER" layoutX="106.0" layoutY="282.0" mnemonicParsing="false" onAction="#onFollowersClick" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #fefefe;" text="num follower" textFill="#22303c" underline="true">
+      <Button fx:id="followers" alignment="TOP_CENTER" layoutX="127.0" layoutY="282.0" mnemonicParsing="false" onAction="#onFollowersClick" prefHeight="26.0" prefWidth="87.0" style="-fx-background-color: #fefefe;" text="num follower" textFill="#22303c" underline="true">
          <effect>
             <Blend />
          </effect>
       </Button>
-      <Button fx:id="following" alignment="TOP_CENTER" layoutX="24.0" layoutY="282.0" mnemonicParsing="false" onAction="#onFollowingsClick" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #fefefe;" text="num following" textFill="#22303c" underline="true">
+      <Button fx:id="following" alignment="TOP_CENTER" layoutX="24.0" layoutY="282.0" mnemonicParsing="false" onAction="#onFollowingsClick" prefHeight="26.0" prefWidth="87.0" style="-fx-background-color: #fefefe;" text="num following" textFill="#22303c" underline="true">
          <effect>
             <Blend />
          </effect>
@@ -46,17 +46,17 @@
             <Image url="@blue-user-icon-vector-42797456.jpg" />
          </image>
       </ImageView>
-      <ImageView fx:id="timeLine" fitHeight="37.0" fitWidth="36.0" layoutX="187.0" layoutY="579.0" onMouseClicked="#onTimeLineClick" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="timeLine" fitHeight="37.0" fitWidth="36.0" layoutX="188.0" layoutY="579.0" onMouseClicked="#onTimeLineClick" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@timelineIcon.jpg" />
          </image>
       </ImageView>
-      <ImageView fx:id="search" fitHeight="51.0" fitWidth="46.0" layoutX="322.0" layoutY="574.0" onMouseClicked="#onSearchClick" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="search" fitHeight="51.0" fitWidth="46.0" layoutX="329.0" layoutY="574.0" onMouseClicked="#onSearchClick" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@searchIcon.jpg" />
          </image>
       </ImageView>
-      <ImageView fx:id="newTweet" fitHeight="46.0" fitWidth="65.0" layoutX="458.0" layoutY="571.0" onMouseClicked="#onNewTweetClick" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="newTweet" fitHeight="46.0" fitWidth="65.0" layoutX="465.0" layoutY="571.0" onMouseClicked="#onNewTweetClick" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@download.png" />
          </image>
