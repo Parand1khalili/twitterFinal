@@ -304,11 +304,7 @@ class ClientHandler implements Runnable{
                     } catch (IOException | ClassNotFoundException e) {
                         throw new RuntimeException(e);
                     }
-                    try {
-                        block(x, y);
-                    } catch (SQLException | IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    block(x, y);
                     break;
                 }
                 case "unblock": {
@@ -1263,97 +1259,166 @@ class ClientHandler implements Runnable{
             throw new RuntimeException(e);
         }
     }
-    public static void block(User theUser,User block) throws SQLException, IOException {
+    public static void block(User theUser,User block)  {
         java.sql.Connection connection = Server.getConnection();
-        Statement statement = connection.createStatement();
-        ResultSet resultSetUser = statement.executeQuery("SELECT * FROM user");
-        ResultSet resultSetBlock = statement.executeQuery("SELECT * FROM user");
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ResultSet resultSetUser = null;
+        try {
+            resultSetUser = statement.executeQuery("SELECT * FROM user");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ResultSet resultSetBlock = null;
+        try {
+            resultSetBlock = statement.executeQuery("SELECT * FROM user");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         String respond ;
-        while (resultSetUser.next()){
-            if(resultSetUser.getString(1).equals(theUser.getId()) &&
-                    resultSetUser.getString(20).contains(block.getId())){
-                respond="already-blocked";
-                out.writeObject(respond);
-                return;
+        while (true){
+            try {
+                if (!resultSetUser.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-            else if(resultSetUser.getString(1).equals(theUser.getId())){
-                statement.executeUpdate("UPDATE user SET blacklist = '" +(theUser.getBlacklist())+"="+block.getId()+ "' WHERE id = " + theUser.getId());
-                respond="success";
-                out.writeObject(respond);
+            try {
+                if(resultSetUser.getString("id").equals(theUser.getId()) &&
+                        resultSetUser.getString("blacklist").contains(block.getId())){
+                    respond="already-blocked";
+                    out.writeObject(respond);
+                    return;
+                }
+                else if(resultSetUser.getString("id").equals(theUser.getId())){
+                    PreparedStatement updateStatement = connection.prepareStatement("UPDATE user SET blacklist = ? WHERE id = ?");
+                    updateStatement.setString(1,theUser.getBlacklist()+"="+block.getId());
+                    updateStatement.setString(2,theUser.getId());
+                    updateStatement.executeUpdate();
+                    respond="success";
+                    out.writeObject(respond);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
-        while (resultSetUser.next()){
-            if(resultSetUser.getString(1).equals(theUser.getId()) && resultSetUser.getString(16).contains(block.getId())){
-                //block is following the user
-                //block should be removed from the user followers
-                int i;
-                String[] follower=resultSetUser.getString(16).split("=");
-                ArrayList<String> list = new ArrayList<String>(Arrays.asList(follower));
-                for( i=0;i<list.size();i++){
-                    if(list.equals(block.getId())){
-                        break;
-                    }
-                    i++;
-                }
-                list.remove(i);
-                statement.executeUpdate("UPDATE user SET followers = '" +list+ "' WHERE id = " + theUser.getId());
-                statement.executeUpdate("UPDATE user SET followerNum = '" +(theUser.getFollowerNum()-1)+ "' WHERE id = " + theUser.getId());
-
-                //the user should be removed from the block followings
-                while (resultSetBlock.next()){
-                    if(resultSetBlock.getString(1).equals(block.getId())){
-                        int j;
-                        String[] followings=resultSetUser.getString(17).split("=");
-                        ArrayList<String> list2 = new ArrayList<String>(Arrays.asList(followings));
-                        for( j=0;j<list2.size();j++){
-                            if(list2.equals(theUser.getId())){
-                                break;
-                            }
-                            j++;
-                        }
-                        list2.remove(j);
-                        statement.executeUpdate("UPDATE user SET followings = '" +list2+ "' WHERE id = " + block.getId());
-                        statement.executeUpdate("UPDATE user SET followingNum = '" +(block.getFollowingNum()-1)+ "' WHERE id = " + block.getId());
-                    }
-                }
+        while (true){
+            try {
+                if (!resultSetUser.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-            else if(resultSetUser.getString(1).equals(theUser.getId()) && resultSetUser.getString(17).contains(block.getId())){
-                //user is following block
-                //user should be removed from the block followers
-                while (resultSetBlock.next()){
-                    if(resultSetBlock.getString(1).equals(block.getId())){
-                        int i;
-                        String[] follower=resultSetBlock.getString(16).split("=");
-                        ArrayList<String> list = new ArrayList<String>(Arrays.asList(follower));
-                        for( i=0;i<list.size();i++){
-                            if(list.equals(theUser.getId())){
-                                break;
-                            }
-                            i++;
+            try {
+                if(resultSetUser.getString("id").equals(theUser.getId()) && resultSetUser.getString("followers").contains(block.getId())){
+                    //block is following the user
+                    //block should be removed from the user followers
+                    int i;
+                    String[] follower=resultSetUser.getString("followers").split("=");
+                    ArrayList<String> list = new ArrayList<String>(Arrays.asList(follower));
+                    for( i=0;i<list.size();i++){
+                        if(list.equals(block.getId())){
+                            break;
                         }
-                        list.remove(i);
-                        statement.executeUpdate("UPDATE user SET followers = '" +list+ "' WHERE id = " + block.getId());
-                        statement.executeUpdate("UPDATE user SET followerNum = '" +(block.getFollowerNum()-1)+ "' WHERE id = " + block.getId());
+                        i++;
                     }
-                }
+                    list.remove(i);
+                    PreparedStatement updateStatement2 = connection.prepareStatement("UPDATE user SET followers = ? WHERE id = ?");
+                    updateStatement2.setString(1,list.toString());
+                    updateStatement2.setString(2,theUser.getId());
+                    updateStatement2.executeUpdate();
 
-                //block should be removed from the user followings
-                while (resultSetUser.next()){
-                    if(resultSetUser.getString(1).equals(theUser.getId())){
-                        int j;
-                        String[] followings=resultSetUser.getString(17).split("=");
-                        ArrayList<String> list2 = new ArrayList<String>(Arrays.asList(followings));
-                        for( j=0;j<list2.size();j++){
-                            if(list2.equals(block.getId())){
-                                break;
+                    PreparedStatement updateStatement3 = connection.prepareStatement("UPDATE user SET follower = ? WHERE id = ?");
+                    updateStatement3.setInt(1,theUser.getFollowerNum()-1);
+                    updateStatement3.setString(2,theUser.getId());
+                    updateStatement3.executeUpdate();
+
+                    //the user should be removed from the block followings
+                    while (resultSetBlock.next()){
+                        if(resultSetBlock.getString("id").equals(block.getId())){
+                            int j;
+                            String[] followings=resultSetUser.getString("followings").split("=");
+                            ArrayList<String> list2 = new ArrayList<String>(Arrays.asList(followings));
+                            for( j=0;j<list2.size();j++){
+                                if(list2.equals(theUser.getId())){
+                                    break;
+                                }
+                                j++;
                             }
-                            j++;
+                            list2.remove(j);
+                            statement.executeUpdate("UPDATE user SET followings = '" +list2+ "' WHERE id = " + block.getId());
+                            statement.executeUpdate("UPDATE user SET followingNum = '" +(block.getFollowingNum()-1)+ "' WHERE id = " + block.getId());
+                            PreparedStatement updateStatement4 = connection.prepareStatement("UPDATE user SET followings = ? WHERE id = ?");
+                            updateStatement4.setString(1,list2.toString());
+                            updateStatement4.setString(2,block.getId());
+                            updateStatement4.executeUpdate();
+
+                            PreparedStatement updateStatement5 = connection.prepareStatement("UPDATE user SET following = ? WHERE id = ?");
+                            updateStatement5.setInt(1,theUser.getFollowingNum()-1);
+                            updateStatement5.setString(2,block.getId());
+                            updateStatement5.executeUpdate();
                         }
-                        list2.remove(j);
-                        statement.executeUpdate("UPDATE user SET followings = '" +list2+ "' WHERE id = " + theUser.getId());
-                        statement.executeUpdate("UPDATE user SET followingNum = '" +(theUser.getFollowingNum()-1)+ "' WHERE id = " + theUser.getId());
                     }
                 }
+                else if(resultSetUser.getString("id").equals(theUser.getId()) && resultSetUser.getString("followings").contains(block.getId())){
+                    //user is following block
+                    //user should be removed from the block followers
+                    while (resultSetBlock.next()){
+                        if(resultSetBlock.getString("id").equals(block.getId())){
+                            int i;
+                            String[] follower=resultSetBlock.getString("followers").split("=");
+                            ArrayList<String> list = new ArrayList<String>(Arrays.asList(follower));
+                            for( i=0;i<list.size();i++){
+                                if(list.equals(theUser.getId())){
+                                    break;
+                                }
+                                i++;
+                            }
+                            list.remove(i);
+                            PreparedStatement updateStatement6 = connection.prepareStatement("UPDATE user SET followers = ? WHERE id = ?");
+                            updateStatement6.setString(1,list.toString());
+                            updateStatement6.setString(2,block.getId());
+                            updateStatement6.executeUpdate();
+
+                            PreparedStatement updateStatement7 = connection.prepareStatement("UPDATE user SET follower = ? WHERE id = ?");
+                            updateStatement7.setInt(1,block.getFollowerNum()-1);
+                            updateStatement7.setString(2,block.getId());
+                            updateStatement7.executeUpdate();
+                        }
+                    }
+
+                    //block should be removed from the user followings
+                    while (resultSetUser.next()){
+                        if(resultSetUser.getString("id").equals(theUser.getId())){
+                            int j;
+                            String[] followings=resultSetUser.getString("followings").split("=");
+                            ArrayList<String> list2 = new ArrayList<String>(Arrays.asList(followings));
+                            for( j=0;j<list2.size();j++){
+                                if(list2.equals(block.getId())){
+                                    break;
+                                }
+                                j++;
+                            }
+                            list2.remove(j);
+
+                            PreparedStatement updateStatement8 = connection.prepareStatement("UPDATE user SET followings = ? WHERE id = ?");
+                            updateStatement8.setString(1,list2.toString());
+                            updateStatement8.setString(2,theUser.getId());
+                            updateStatement8.executeUpdate();
+
+                            PreparedStatement updateStatement9 = connection.prepareStatement("UPDATE user SET following = ? WHERE id = ?");
+                            updateStatement9.setInt(1,theUser.getFollowingNum()-1);
+                            updateStatement9.setString(2,theUser.getId());
+                            updateStatement9.executeUpdate();
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
         }
     }
