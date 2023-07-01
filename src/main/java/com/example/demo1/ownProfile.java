@@ -134,7 +134,7 @@ public class ownProfile implements Initializable{
     ImageView newTweet;
     @FXML
     protected void onNewTweetClick(Event event){
-        Button button = (Button) event.getSource();
+        ImageView imageView = (ImageView) event.getSource();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("newTweet.fxml"));
         Parent root = null;
         try {
@@ -142,7 +142,7 @@ public class ownProfile implements Initializable{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Stage stage = (Stage) button.getScene().getWindow();
+        Stage stage = (Stage) imageView.getScene().getWindow();
         Scene scene = null;
         if(root != null) {
             scene = new Scene(root);
