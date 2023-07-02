@@ -112,6 +112,10 @@ public class ownProfile implements Initializable{
         ByteArrayInputStream inputStream = new ByteArrayInputStream(headerInByte);
         Image headerImage = new Image(inputStream);
         header.setImage(headerImage);
+        headerReactangel = new Rectangle(580, 118);
+        header.setFitHeight(118);
+        header.setFitWidth(580);
+        System.out.println("check");
         header.setClip(headerReactangel);
         byte[] avatarInByte = Base64.getDecoder().decode(logedUser.loggedUser.getProfPicName());
         inputStream = new ByteArrayInputStream(avatarInByte);
