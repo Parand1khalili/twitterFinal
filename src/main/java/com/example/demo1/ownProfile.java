@@ -13,6 +13,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.io.ByteArrayInputStream;
@@ -23,6 +24,8 @@ import java.util.Base64;
 import java.util.ResourceBundle;
 
 public class ownProfile implements Initializable{
+    @FXML
+    Rectangle headerReactangel;
     @FXML
     ImageView header;
     @FXML
@@ -109,6 +112,7 @@ public class ownProfile implements Initializable{
         ByteArrayInputStream inputStream = new ByteArrayInputStream(headerInByte);
         Image headerImage = new Image(inputStream);
         header.setImage(headerImage);
+        header.setClip(headerReactangel);
         byte[] avatarInByte = Base64.getDecoder().decode(logedUser.loggedUser.getProfPicName());
         inputStream = new ByteArrayInputStream(avatarInByte);
         Image avatarImage = new Image(inputStream);
