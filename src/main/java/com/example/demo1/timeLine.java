@@ -28,7 +28,7 @@ public class timeLine implements Initializable {
         System.out.println("time line entered by" + logedUser.loggedUser.getFirstName() + " " + logedUser.loggedUser.getLastName());
         tweetContent = new VBox();
         scrollPane.setContent(tweetContent);
-        tweetContent.setSpacing(20);
+        tweetContent.setSpacing(10);
         tweetContent.setStyle("-fx-background-color:gray");
         tweetContent.setPadding(new Insets(7,7,7,7));
         ArrayList<Tweet> tweets = new ArrayList<>();
