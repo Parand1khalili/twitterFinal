@@ -177,7 +177,7 @@ public class otherProfile implements Initializable {
         bio.setText(logedUser.otherUser.getBio());
         location.setText(logedUser.otherUser.getLocation());
         web.setText(logedUser.otherUser.getWeb());
-        joinedDate.setText(logedUser.otherUser.getRegisterDate().toString());
+        joinedDate.setText(logedUser.otherUser.getRegisterDate());
         followers.setText("followers " + logedUser.otherUser.getFollowerNum());
         followings.setText("followings " + logedUser.otherUser.getFollowingNum());
         byte[] headerInByte = Base64.getDecoder().decode(logedUser.otherUser.getHeaderPicName());

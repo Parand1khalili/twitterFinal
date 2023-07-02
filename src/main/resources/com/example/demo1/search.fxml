@@ -10,14 +10,14 @@
 
 <AnchorPane prefHeight="675.0" prefWidth="596.0" style="-fx-background-color: fefefe;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.Search">
    <children>
-      <TextField layoutX="19.0" layoutY="24.0" prefHeight="26.0" prefWidth="500.0" promptText="search" />
-      <Button layoutX="529.0" layoutY="24.0" mnemonicParsing="false" text="search" />
-      <ImageView fitHeight="44.0" fitWidth="50.0" layoutX="45.0" layoutY="600.0" pickOnBounds="true" preserveRatio="true">
+      <TextField fx:id="searchBar" layoutX="19.0" layoutY="24.0" prefHeight="26.0" prefWidth="500.0" promptText="search" />
+      <Button fx:id="searchButton" layoutX="529.0" layoutY="24.0" mnemonicParsing="false" onAction="#onSearchClick" text="search" />
+      <ImageView fx:id="profile" fitHeight="44.0" fitWidth="50.0" layoutX="45.0" layoutY="600.0" onMouseClicked="#onProfileClick" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@blue-user-icon-vector-42797456.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="44.0" fitWidth="44.0" layoutX="180.0" layoutY="600.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="timeLine" fitHeight="44.0" fitWidth="44.0" layoutX="180.0" layoutY="600.0" onMouseClicked="#onTimeLineClick" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@timelineIcon.jpg" />
          </image>
@@ -27,16 +27,16 @@
             <Image url="@searchIcon.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="44.0" fitWidth="50.0" layoutX="474.0" layoutY="599.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="newTweet" fitHeight="44.0" fitWidth="50.0" layoutX="474.0" layoutY="599.0" onMouseClicked="#onNewTweetClick" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@download.png" />
          </image>
       </ImageView>
-      <ScrollPane layoutX="48.0" layoutY="74.0" prefHeight="494.0" prefWidth="500.0">
+      <ScrollPane fx:id="scrollPane" layoutX="48.0" layoutY="74.0" prefHeight="494.0" prefWidth="500.0">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="495.0" prefWidth="498.0" />
         </content>
       </ScrollPane>
-      <Label layoutX="170.0" layoutY="52.0" prefHeight="18.0" prefWidth="197.0" />
+      <Label fx:id="label" layoutX="170.0" layoutY="52.0" prefHeight="18.0" prefWidth="197.0" />
    </children>
 </AnchorPane>
