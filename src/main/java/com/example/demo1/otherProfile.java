@@ -58,7 +58,7 @@ public class otherProfile implements Initializable {
         stage.show();
     }
     @FXML
-    Button following;
+    Button followings;
     @FXML
     protected void onFollowingsClick(Event event){
         Button button = (Button) event.getSource();
@@ -76,6 +76,86 @@ public class otherProfile implements Initializable {
         }
         stage.setScene(scene);
         stage.show();
+    }
+    @FXML
+    Button blockButton;
+    @FXML
+    protected void onBlockClick(Event event) {
+        String serverResponse = " ";
+        try {
+            IO.out.writeObject("check-block");
+            IO.out.writeObject(logedUser.loggedUser);
+            IO.out.writeObject(logedUser.otherUser);
+            serverResponse = (String) IO.in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        if (serverResponse.equals("true")) {
+            try {
+                IO.out.writeObject("unblock");
+                IO.out.writeObject(logedUser.loggedUser);
+                IO.out.writeObject(logedUser.otherUser);
+                serverResponse = (String) IO.in.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            if(serverResponse.equals("success")){
+                blockButton.setText("block");
+            }
+        }
+        else{
+            try {
+                IO.out.writeObject("block");
+                IO.out.writeObject(logedUser.loggedUser);
+                IO.out.writeObject(logedUser.otherUser);
+                serverResponse = (String) IO.in.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            if(serverResponse.equals("success")){
+                blockButton.setText("unblock");
+            }
+        }
+    }
+    @FXML
+    Button followButton;
+    @FXML
+    protected void onFollowClick(Event event){
+        String serverResponse = " ";
+        try {
+            IO.out.writeObject("check-follow");
+            IO.out.writeObject(logedUser.loggedUser);
+            IO.out.writeObject(logedUser.otherUser);
+            serverResponse = (String) IO.in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        if (serverResponse.equals("true")) {
+            try {
+                IO.out.writeObject("unfollow");
+                IO.out.writeObject(logedUser.loggedUser);
+                IO.out.writeObject(logedUser.otherUser);
+                serverResponse = (String) IO.in.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            if(serverResponse.equals("success")){
+                blockButton.setText("follow");
+            }
+        }
+        else{
+            try {
+                IO.out.writeObject("follow");
+                IO.out.writeObject(logedUser.loggedUser);
+                IO.out.writeObject(logedUser.otherUser);
+                serverResponse = (String) IO.in.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            if(serverResponse.equals("success")){
+                blockButton.setText("unfollow");
+            }
+        }
     }
 
     @Override
@@ -99,7 +179,7 @@ public class otherProfile implements Initializable {
         web.setText(logedUser.otherUser.getWeb());
         joinedDate.setText(logedUser.otherUser.getRegisterDate().toString());
         followers.setText("followers " + logedUser.otherUser.getFollowerNum());
-        following.setText("followings " + logedUser.otherUser.getFollowingNum());
+        followings.setText("followings " + logedUser.otherUser.getFollowingNum());
         byte[] headerInByte = Base64.getDecoder().decode(logedUser.otherUser.getHeaderPicName());
         ByteArrayInputStream inputStream = new ByteArrayInputStream(headerInByte);
         Image headerImage = new Image(inputStream);
@@ -107,11 +187,119 @@ public class otherProfile implements Initializable {
         headerReactangel = new Rectangle(580, 118);
         header.setFitHeight(118);
         header.setFitWidth(580);
-        System.out.println("check");
         header.setClip(headerReactangel);
         byte[] avatarInByte = Base64.getDecoder().decode(logedUser.otherUser.getProfPicName());
         inputStream = new ByteArrayInputStream(avatarInByte);
         Image avatarImage = new Image(inputStream);
         avatar.setImage(avatarImage);
+        String serverResponse = " ";
+        try {
+            IO.out.writeObject("check-block");
+            IO.out.writeObject(logedUser.loggedUser);
+            IO.out.writeObject(logedUser.otherUser);
+            serverResponse = (String) IO.in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        if(serverResponse.equals("true")){
+            blockButton.setText("unblock");
+        }
+        else{
+            blockButton.setText("block");
+        }
+        try {
+            IO.out.writeObject("check-follow");
+            IO.out.writeObject(logedUser.loggedUser);
+            IO.out.writeObject(logedUser.otherUser);
+            serverResponse = (String) IO.in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        if(serverResponse.equals("true")){
+            blockButton.setText("unfollow");
+        }
+        else{
+            blockButton.setText("follow");
+        }
+    }
+    @FXML
+    ImageView newTweet;
+    @FXML
+    protected void onNewTweetClick(Event event){
+        ImageView imageView = (ImageView) event.getSource();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("newTweet.fxml"));
+        Parent root = null;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Stage stage = (Stage) imageView.getScene().getWindow();
+        Scene scene = null;
+        if(root != null) {
+            scene = new Scene(root);
+        }
+        stage.setScene(scene);
+        stage.show();
+    }
+    @FXML
+    ImageView search;
+    @FXML
+    protected void onSearchClick(Event event){
+        ImageView imageView = (ImageView) event.getSource();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("search.fxml"));
+        Parent root = null;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Stage stage = (Stage) imageView.getScene().getWindow();
+        Scene scene = null;
+        if(root != null) {
+            scene = new Scene(root);
+        }
+        stage.setScene(scene);
+        stage.show();
+    }
+    @FXML
+    ImageView timeLine;
+    @FXML
+    protected void onTimeLineClick(Event event){
+        ImageView imageView = (ImageView) event.getSource();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("timeLine.fxml"));
+        Parent root = null;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Stage stage = (Stage) imageView.getScene().getWindow();
+        Scene scene = null;
+        if(root != null) {
+            scene = new Scene(root);
+        }
+        stage.setScene(scene);
+        stage.show();
+    }
+    @FXML
+    ImageView profile;
+    @FXML
+    protected void onProfileClick(Event event){
+        ImageView imageView = (ImageView) event.getSource();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ownProfile.fxml"));
+        Parent root = null;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Stage stage = (Stage) imageView.getScene().getWindow();
+        Scene scene = null;
+        if(root != null) {
+            scene = new Scene(root);
+        }
+        stage.setScene(scene);
+        stage.show();
     }
 }
