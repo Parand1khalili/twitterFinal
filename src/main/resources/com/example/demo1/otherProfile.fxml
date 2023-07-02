@@ -10,14 +10,14 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="599.0" prefWidth="596.0" style="-fx-background-color: #fefefe;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.ownProfile">
+<AnchorPane prefHeight="599.0" prefWidth="596.0" style="-fx-background-color: #fefefe;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.otherProfile">
    <children>
       <Label fx:id="userId" alignment="TOP_LEFT" layoutX="39.0" layoutY="167.0" prefHeight="20.0" prefWidth="74.0" text="userid" textFill="#22303c">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="editProfile" alignment="TOP_CENTER" layoutX="475.0" layoutY="141.0" mnemonicParsing="false" onAction="#onEditProfileClick" prefHeight="26.0" prefWidth="96.0" style="-fx-background-color: #fefefe;" text="follow/unfollow" textFill="#22303c" underline="true">
+      <Button fx:id="followButton" alignment="TOP_CENTER" layoutX="475.0" layoutY="141.0" mnemonicParsing="false" onAction="#onFollowClick" prefHeight="26.0" prefWidth="96.0" style="-fx-background-color: #fefefe;" text="follow/unfollow" textFill="#22303c" underline="true">
          <effect>
             <Blend />
          </effect>
@@ -36,12 +36,12 @@
             <Blend />
          </effect>
       </Button>
-      <Button fx:id="following" alignment="TOP_CENTER" layoutX="24.0" layoutY="282.0" mnemonicParsing="false" onAction="#onFollowingsClick" prefHeight="26.0" prefWidth="87.0" style="-fx-background-color: #fefefe;" text="num following" textFill="#22303c" underline="true">
+      <Button fx:id="followings" alignment="TOP_CENTER" layoutX="24.0" layoutY="282.0" mnemonicParsing="false" onAction="#onFollowingsClick" prefHeight="26.0" prefWidth="87.0" style="-fx-background-color: #fefefe;" text="num following" textFill="#22303c" underline="true">
          <effect>
             <Blend />
          </effect>
       </Button>
-      <ImageView fitHeight="36.0" fitWidth="36.0" layoutX="62.0" layoutY="578.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="profile" fitHeight="36.0" fitWidth="36.0" layoutX="62.0" layoutY="578.0" onMouseClicked="#onProfileClick" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@blue-user-icon-vector-42797456.jpg" />
          </image>
@@ -61,7 +61,7 @@
             <Image url="@download.png" />
          </image>
       </ImageView>
-      <Button fx:id="logout" alignment="TOP_CENTER" layoutX="477.0" layoutY="172.0" mnemonicParsing="false" onAction="#onLogoutClick" prefHeight="26.0" prefWidth="96.0" style="-fx-background-color: #fefefe;" text="block/unblock" textFill="#22303c" underline="true">
+      <Button fx:id="blockButton" alignment="TOP_CENTER" layoutX="477.0" layoutY="172.0" mnemonicParsing="false" onAction="#onBlockClick" prefHeight="26.0" prefWidth="96.0" style="-fx-background-color: #fefefe;" text="block/unblock" textFill="#22303c" underline="true">
          <effect>
             <Blend />
          </effect>
