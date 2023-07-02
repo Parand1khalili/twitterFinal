@@ -80,6 +80,7 @@ public class UserComponent extends AnchorPane {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 try {
+                    logedUser.otherUser = theUser;
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("othersProfile.fxml"));
                     Scene scene = new Scene(fxmlLoader.load());
                     stage.setTitle("twitter");
