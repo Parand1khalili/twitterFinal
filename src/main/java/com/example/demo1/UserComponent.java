@@ -14,6 +14,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -25,6 +26,7 @@ public class UserComponent extends AnchorPane {
     Label userBio;
     Button follow;
     User theUser;
+    static Stage stage;
     public UserComponent(User user) throws IOException, ClassNotFoundException {
         theUser = user;
         this.userId = new Label(user.getId());
@@ -76,18 +78,18 @@ public class UserComponent extends AnchorPane {
     public void setAction(){
         ProfileCircle.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(MouseEvent mouseEvent) { // todo othersProfile
-//                try {
-//                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("othersProfile.fxml"));
-//                    Scene scene = new Scene(fxmlLoader.load());
-//                    stage.setTitle("twitter2.0");
-//                    Image icon = new Image("D:/apps/twitter2.0/Client/src/main/resources/com/example/client/download.png");
-//                    stage.getIcons().add(icon);
-//                    stage.setScene(scene);
-//                    stage.show();
-//                } catch (IOException e) {
-//                    throw new RuntimeException(e);
-//                }
+            public void handle(MouseEvent mouseEvent) {
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("othersProfile.fxml"));
+                    Scene scene = new Scene(fxmlLoader.load());
+                    stage.setTitle("twitter");
+                    Image icon = new Image("D:/apps/twitter2.0/Client/src/main/resources/com/example/client/download.png"); // todo path twitter picture
+                    stage.getIcons().add(icon);
+                    stage.setScene(scene);
+                    stage.show();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         follow.setOnAction(new EventHandler<ActionEvent>() {
