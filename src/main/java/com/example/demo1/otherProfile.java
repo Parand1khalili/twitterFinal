@@ -58,7 +58,7 @@ public class otherProfile implements Initializable {
         stage.show();
     }
     @FXML
-    Button following;
+    Button followings;
     @FXML
     protected void onFollowingsClick(Event event){
         Button button = (Button) event.getSource();
@@ -76,6 +76,18 @@ public class otherProfile implements Initializable {
         }
         stage.setScene(scene);
         stage.show();
+    }
+    @FXML
+    Button blockButton;
+    @FXML
+    protected void onBlockClick(Event event){
+
+    }
+    @FXML
+    Button followButton;
+    @FXML
+    protected void onfollowClick(Event event){
+
     }
 
     @Override
@@ -99,7 +111,7 @@ public class otherProfile implements Initializable {
         web.setText(logedUser.otherUser.getWeb());
         joinedDate.setText(logedUser.otherUser.getRegisterDate().toString());
         followers.setText("followers " + logedUser.otherUser.getFollowerNum());
-        following.setText("followings " + logedUser.otherUser.getFollowingNum());
+        followings.setText("followings " + logedUser.otherUser.getFollowingNum());
         byte[] headerInByte = Base64.getDecoder().decode(logedUser.otherUser.getHeaderPicName());
         ByteArrayInputStream inputStream = new ByteArrayInputStream(headerInByte);
         Image headerImage = new Image(inputStream);
@@ -113,5 +125,34 @@ public class otherProfile implements Initializable {
         inputStream = new ByteArrayInputStream(avatarInByte);
         Image avatarImage = new Image(inputStream);
         avatar.setImage(avatarImage);
+        String serverResponse = " ";
+        try {
+            IO.out.writeObject("check-block");
+            IO.out.writeObject(logedUser.loggedUser);
+            IO.out.writeObject(logedUser.otherUser);
+            serverResponse = (String) IO.in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        if(serverResponse.equals("true")){
+            blockButton.setText("unblock");
+        }
+        else{
+            blockButton.setText("block");
+        }
+        try {
+            IO.out.writeObject("check-follow");
+            IO.out.writeObject(logedUser.loggedUser);
+            IO.out.writeObject(logedUser.otherUser);
+            serverResponse = (String) IO.in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        if(serverResponse.equals("true")){
+            blockButton.setText("unfollow");
+        }
+        else{
+            blockButton.setText("follow");
+        }
     }
 }
