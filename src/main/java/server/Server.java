@@ -500,7 +500,6 @@ class ClientHandler implements Runnable{
         respond = "success";
         try {
             out.writeObject(respond);
-            System.out.println(respond);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -617,10 +616,7 @@ class ClientHandler implements Runnable{
             }
             try {
                 if(resultSet1.getString("id").equals(theUser.getId())){
-                    System.out.println("user-find");
-                    System.out.println(resultSet1.getString("blacklist"));
                     if(resultSet1.getString("blacklist")==null || !resultSet1.getString("blacklist").contains(wanted.getId())){
-                        System.out.println("oomad");
                             if(resultSet.getString("id").equals(wanted.getId())){
                                 Profile theProfile = new Profile(resultSet.getString("profile"),resultSet.getString("header"),
                                         resultSet.getString("bio"),resultSet.getString("location"),resultSet.getString("web"),
@@ -1035,7 +1031,7 @@ class ClientHandler implements Runnable{
         try {
             PreparedStatement pstmt = null;
             try {
-                pstmt = connection.prepareStatement("INSERT INTO Tweet(text,piclink,userId,likes,retweets,comments,date,isFavStar,likesIds) VALUES (?,?,?,?,?,?,?,?,?)");
+                pstmt = connection.prepareStatement("INSERT INTO Tweet(text,piclink,userId,likes,retweets,comments,date,isFavStar,likesIds,commentText,retweetIds) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -1085,6 +1081,16 @@ class ClientHandler implements Runnable{
                 throw new RuntimeException(e);
             }
             try {
+                pstmt.setString(10,tweet.getCommentText());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                pstmt.setString(11,tweet.getRetweetIds());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
                 pstmt.executeUpdate();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -1122,6 +1128,26 @@ class ClientHandler implements Runnable{
         }
         ArrayList <Tweet> res=new ArrayList<>();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        //check user
+        while (true){
+            try {
+                if (!resultSetTweet.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if(resultSetTweet.getString("userId").equals(theUser.getId())){
+                    Tweet theTweet = new Tweet(resultSetTweet.getString("text"),resultSet.getString("piclink"),
+                            resultSet.getString("userId"),resultSet.getInt("likes"),resultSet.getInt("retweets"),
+                            resultSet.getInt("comments"), resultSet.getString("date") ,resultSet.getInt("isFavStar"),
+                            resultSet.getString("commentText"),resultSet.getString("retweetIds"));
+                    System.out.println("tweet retweets : " + theTweet.getRetweetIds());
+                    res.add(theTweet);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
         //check followings
         while (true){
@@ -1131,12 +1157,13 @@ class ClientHandler implements Runnable{
                 throw new RuntimeException(e);
             }
             try {
-                if(resultSet.getString("id").equals(theUser.getId())){
+                if(resultSet.getString(1).equals(theUser.getId())){
                     while (resultSetTweet.next()){
                         if(resultSet.getString("followings").contains(resultSetTweet.getString("userId"))){
                             Tweet theTweet = new Tweet(resultSetTweet.getString("text"),resultSet.getString("piclink"),
                                     resultSet.getString("userId"),resultSet.getInt("likes"),resultSet.getInt("retweets"),
-                                  resultSet.getInt("comments"), resultSet.getString("date") ,resultSet.getInt("isFavStar") );
+                                  resultSet.getInt("comments"), resultSet.getString("date") ,resultSet.getInt("isFavStar"),
+                                    resultSet.getString("commentText"),resultSet.getString("retweetIds"));
                             res.add(theTweet);
                         }
                     }
@@ -1157,7 +1184,8 @@ class ClientHandler implements Runnable{
                 if(resultSetTweet.getInt("isFavStar")==1){
                     Tweet theTweet = new Tweet(resultSetTweet.getString("text"),resultSet.getString("piclink"),
                             resultSet.getString("userId"),resultSet.getInt("likes"),resultSet.getInt("retweets"),
-                            resultSet.getInt("comments"),resultSet.getString("date") ,resultSet.getInt("isFavStar") );
+                            resultSet.getInt("comments"),resultSet.getString("date") ,resultSet.getInt("isFavStar"),
+                            resultSet.getString("commentText"),resultSet.getString("retweetIds"));
                     if(!res.contains(theTweet)){
                         while (resultSet.next()){
                             if(resultSet.getString("id").equals(theUser.getId())){
@@ -1193,6 +1221,7 @@ class ClientHandler implements Runnable{
             throw new RuntimeException(e);
         }
         String respond;
+        System.out.println("injaaaaaa" + resultSetTweet);
         while (true){
             try {
                 if (!resultSetTweet.next()) break;
@@ -1200,17 +1229,19 @@ class ClientHandler implements Runnable{
                 throw new RuntimeException(e);
             }
             try {
-                if(resultSetTweet.equals(theTweet) && resultSetTweet.getString("likesIds").contains(theUser.getId())){
+                if(resultSetTweet.getString(1).equals(theTweet.getText()) && resultSetTweet.getString("likesIds").contains(theUser.getId())){
+                    System.out.println("toff " + resultSetTweet.getString("likesIds"));
                     respond="already-liked";
                     out.writeObject(respond);
                 }
-                else if(resultSetTweet.equals(theTweet) && ! resultSetTweet.getString("likesIds").contains(theUser.getId())){
+                else if(resultSetTweet.getString(1).equals(theTweet.getText()) && ! resultSetTweet.getString("likesIds").contains(theUser.getId())){
                     respond="success";
                     PreparedStatement updateStatement = connection.prepareStatement("UPDATE Tweet SET likesIds = ? WHERE text = ? AND userid = ?");
                     updateStatement.setString(1,theTweet.getLikesIds()+"="+theUser.getId());
                     updateStatement.setString(2,theTweet.getText());
                     updateStatement.setString(3,theTweet.getUserId());
                     updateStatement.executeUpdate();
+                    System.out.println("sos"+resultSetTweet.getString("likesIds"));
 
                     PreparedStatement updateStatement2 = connection.prepareStatement("UPDATE Tweet SET likes = ? WHERE text = ? AND userid = ?");
                     updateStatement2.setInt(1,resultSetTweet.getInt("likes")+1);
@@ -1259,7 +1290,8 @@ class ClientHandler implements Runnable{
                 if(resultSet.getString("text").contains("#"+hashtag)){
                     Tweet theTweet = new Tweet(resultSet.getString("text"),resultSet.getString("piclink"),
                             resultSet.getString("userId"),resultSet.getInt("likes"),resultSet.getInt("retweets"),
-                            resultSet.getInt("comments"),resultSet.getString("date") ,resultSet.getInt("isFavStar") );
+                            resultSet.getInt("comments"),resultSet.getString("date") ,resultSet.getInt("isFavStar"),
+                            resultSet.getString("commentText"),resultSet.getString("retweetIds"));
                     res.add(theTweet);
                 }
             } catch (SQLException e) {
@@ -1549,7 +1581,7 @@ class ClientHandler implements Runnable{
         }
         PreparedStatement preparedStatement1 = null;
         try {
-            preparedStatement1 = connection.prepareStatement("UPDATE Tweet SET retweet = ? WHERE text = ? AND userId = ?");
+            preparedStatement1 = connection.prepareStatement("UPDATE Tweet SET retweets = ? WHERE text = ? AND userId = ?");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -1734,7 +1766,7 @@ class ClientHandler implements Runnable{
                 throw new RuntimeException(e);
             }
             try {
-                if(resultSet.getString("text").equals(theTweet.getText())&&resultSet.getString("likesIds").contains(theUser.getId())){
+                if(resultSet.getString(1).equals(theTweet.getText())&&resultSet.getString("likesIds").contains(theUser.getId())){
                     respond="true";
                     out.writeObject(respond);
                     return;
@@ -1775,14 +1807,13 @@ class ClientHandler implements Runnable{
                 throw new RuntimeException(e);
             }
             try {
-                if(resultSet.getString("text").equals(theTweet.getText())&&resultSet.getString("retweetIds").contains(theUser.getId())){
+                System.out.println(resultSet.getString(12));
+                if(resultSet.getString("text").equals(theTweet.getText())&&resultSet.getString(12).contains(theUser.getId())){
                     respond="true";
                     out.writeObject(respond);
                     return;
                 }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
+            } catch (SQLException | IOException e) {
                 throw new RuntimeException(e);
             }
         }

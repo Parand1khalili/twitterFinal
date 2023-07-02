@@ -1,6 +1,10 @@
 package common;
 
+import server.Server;
+
 import java.io.Serializable;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 
 public class Tweet implements Serializable,Comparable<Tweet>{
@@ -15,6 +19,7 @@ public class Tweet implements Serializable,Comparable<Tweet>{
     private String likesIds;
     private String hashtags;
     private String retweetIds;
+    private String commentText;
 
     public Tweet(String text, String picLink, String userId) { // client new tweet
         this.text = text;
@@ -27,9 +32,11 @@ public class Tweet implements Serializable,Comparable<Tweet>{
         this.comment=0;
         this.likesIds = "-";
         this.hashtags = "-";
+        this.commentText="-";
+        this.retweetIds="-";
     }
 
-    public Tweet(String text, String picLink, String userId, int likes, int retweet, int comment, String date, int isFavStar) { // server get tweet
+    public Tweet(String text, String picLink, String userId, int likes, int retweet, int comment, String date, int isFavStar,String commentText,String retweetIds) { // server get tweet
         this.text = text;
         this.picLink = picLink;
         this.userId = userId;
@@ -38,13 +45,17 @@ public class Tweet implements Serializable,Comparable<Tweet>{
         this.comment = comment;
         this.date = date;
         this.isFavStar = isFavStar;
+        this.retweetIds=retweetIds;
+        this.commentText=commentText;
     }
 
     public String getHashtags() {
         return hashtags;
     }
 
-    public String getLikesIds() {
+    public String getLikesIds() throws SQLException {
+        java.sql.Connection connection = Server.getConnection();
+        Statement statement = connection.createStatement();
         return likesIds;
     }
 
@@ -108,6 +119,10 @@ public class Tweet implements Serializable,Comparable<Tweet>{
         return date;
     }
     public String getRetweetIds(){return retweetIds;}
+
+    public String getCommentText() {
+        return commentText;
+    }
 
     public void setDate(String date) {
         this.date = date;
