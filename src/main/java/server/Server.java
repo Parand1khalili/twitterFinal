@@ -412,6 +412,7 @@ class ClientHandler implements Runnable{
                         throw new RuntimeException(e);
                     }
                     followerList(x);
+                    break;
                 }
                 case "followings-list":{
                     User x = null;
@@ -421,6 +422,7 @@ class ClientHandler implements Runnable{
                         throw new RuntimeException(e);
                     }
                     followingList(x);
+                    break;
                 }
                 case "check-follow": {
                     User x = null;

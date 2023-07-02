@@ -59,22 +59,10 @@ public class OwnFollowingScene implements Initializable {
     @FXML
     Button back;
     @FXML
-    protected void onBackClick(Event event){
-        System.out.println("back to prof");
+    protected void onBackClick(Event event) throws IOException {
         Button button = (Button) event.getSource();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ownProfile.fxml"));
-        Parent root = null;
-        try {
-            root = fxmlLoader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
         Stage stage = (Stage) button.getScene().getWindow();
-        Scene scene = null;
-        if(root != null) {
-            scene = new Scene(root);
-        }
-        stage.setScene(scene);
+        stage.setScene(new Scene((new FXMLLoader(HelloApplication.class.getResource("ownProfile.fxml"))).load()));
         stage.show();
     }
 }
