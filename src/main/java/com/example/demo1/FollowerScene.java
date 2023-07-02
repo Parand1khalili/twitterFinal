@@ -34,8 +34,6 @@ public class FollowerScene implements Initializable {
         ArrayList<User> users = new ArrayList<>();
         try {
 
-        }catch (){
-
         }
     }
     @FXML
