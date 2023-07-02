@@ -6,5 +6,5 @@ import common.User;
 public class logedUser {
     public static User loggedUser;
     public  static Tweet currentTweet;
-    public static User followUser;
+    public static User otherUser;
 }

@@ -45,7 +45,7 @@ public class ownProfile implements Initializable{
     @FXML
     protected void onFollowersClick(Event event){
         Button button = (Button) event.getSource();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("userScene.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ownFollowerScene.fxml"));
         Parent root = null;
         try {
             root = fxmlLoader.load();
@@ -65,7 +65,7 @@ public class ownProfile implements Initializable{
     @FXML
     protected void onFollowingsClick(Event event){
         Button button = (Button) event.getSource();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("userScene.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ownFollowingScene.fxml"));
         Parent root = null;
         try {
             root = fxmlLoader.load();
