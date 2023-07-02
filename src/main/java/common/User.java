@@ -55,6 +55,8 @@ public class User implements Serializable {
         this.bio = "-";
         this.location = "-";
         this.web = "-";
+        this.followers = "-";
+        this.followings = "-";
     }
     public User(String id, String firstName, String lastName, String email, String phoneNumber, String password,
                 String country, String birthDate,String register, String headerPicName, String profPicName,String bio,
