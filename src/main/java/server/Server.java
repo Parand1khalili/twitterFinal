@@ -404,6 +404,28 @@ class ClientHandler implements Runnable{
                     checkRetweet(x, y);
                     break;
                 }
+                case "followerList":{
+                    User x = null;
+                    try {
+                        x = (User) in.readObject();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    followerList(x);
+                }
+                case "followingList":{
+                    User x = null;
+                    try {
+                        x = (User) in.readObject();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    followingList(x);
+                }
             }
         }
     }
@@ -1825,5 +1847,92 @@ class ClientHandler implements Runnable{
         }
 
     }
+    private static void followerList(User theUser){
+        java.sql.Connection connection = Server.getConnection();
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ResultSet resultSet = null;
+        try {
+            resultSet = statement.executeQuery("SELECT * FROM user");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ArrayList<User> res=new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        while (true){
+            try {
+                if (!resultSet.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if(resultSet.getString("followings").equals(theUser.getId())){
+                    User user = new User(resultSet.getString("id"),resultSet.getString("firstName"),
+                            resultSet.getString("lastName"),resultSet.getString("email"),resultSet.getString("phoneNumber"),
+                            resultSet.getString("password"),resultSet.getString("country"),resultSet.getString("birthDate"),
+                            resultSet.getString("registerDate"),resultSet.getString("header"),resultSet.getString("profile"),
+                            resultSet.getString("bio"),resultSet.getString("location"),resultSet.getString("web"),resultSet.getString("followers"),
+                            resultSet.getString("followings"),resultSet.getInt("follower"),resultSet
+                            .getInt("following"),resultSet.getString("blacklist"));
+                    res.add(user);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        try {
+            out.writeObject(res);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private static void followingList(User theUser){
+        java.sql.Connection connection = Server.getConnection();
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ResultSet resultSet = null;
+        try {
+            resultSet = statement.executeQuery("SELECT * FROM user");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ArrayList<User> res=new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        while (true){
+            try {
+                if (!resultSet.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if(resultSet.getString("followers").contains(theUser.getId())){
+                    User user = new User(resultSet.getString("id"),resultSet.getString("firstName"),
+                            resultSet.getString("lastName"),resultSet.getString("email"),resultSet.getString("phoneNumber"),
+                            resultSet.getString("password"),resultSet.getString("country"),resultSet.getString("birthDate"),
+                            resultSet.getString("registerDate"),resultSet.getString("header"),resultSet.getString("profile"),
+                            resultSet.getString("bio"),resultSet.getString("location"),resultSet.getString("web"),resultSet.getString("followers"),
+                            resultSet.getString("followings"),resultSet.getInt("follower"),resultSet
+                            .getInt("following"),resultSet.getString("blacklist"));
+                    res.add(user);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        try {
+            out.writeObject(res);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
+
+}
 }
