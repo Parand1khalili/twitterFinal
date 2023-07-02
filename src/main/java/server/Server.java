@@ -438,6 +438,22 @@ class ClientHandler implements Runnable{
                     checkFollow(x, y);
                     break;
                 }
+                case "check-block": {
+                    User x = null;
+                    try {
+                        x = (User) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    User y = null;
+                    try {
+                        y = (User) in.readObject();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    checkBlock(x, y);
+                    break;
+                }
             }
         }
     }
@@ -1970,6 +1986,47 @@ class ClientHandler implements Runnable{
             }
             try {
                 if(resultSet.getString(1).equals(one.getId())&&resultSet.getString(17).contains(two.getId())){
+                    respond="true";
+                    out.writeObject(respond);
+                    return;
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        respond="false";
+        try {
+            out.writeObject(respond);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    private static void checkBlock(User one,User two){
+        java.sql.Connection connection = Server.getConnection();
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ResultSet resultSet = null;
+        try {
+            resultSet = statement.executeQuery("SELECT * FROM user");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        String respond;
+        while (true){
+            try {
+                if (!resultSet.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if(resultSet.getString(1).equals(one.getId())&&resultSet.getString(20).contains(two.getId())){
                     respond="true";
                     out.writeObject(respond);
                     return;

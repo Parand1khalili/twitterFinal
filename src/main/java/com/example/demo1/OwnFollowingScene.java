@@ -44,20 +44,23 @@ public class OwnFollowingScene implements Initializable {
         if(users.isEmpty()){
             label.setText("you dont follow anyone");
         }
-        for(User user : users){
-            UserComponent userComponent = null;
-            try {
-                userComponent = new UserComponent(user);
-            } catch (IOException | ClassNotFoundException e) {
-                throw new RuntimeException(e);
+        if(!users.isEmpty()) {
+            for (User user : users) {
+                UserComponent userComponent = null;
+                try {
+                    userComponent = new UserComponent(user);
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                followings.getChildren().add(userComponent);
             }
-            followings.getChildren().add(userComponent);
         }
     }
     @FXML
     Button back;
     @FXML
     protected void onBackClick(Event event){
+        System.out.println("back to prof");
         Button button = (Button) event.getSource();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ownProfile.fxml"));
         Parent root = null;
