@@ -22,7 +22,7 @@
             <Blend />
          </effect>
       </Button>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="118.0" layoutX="10.0" layoutY="14.0" stroke="#22303c" strokeType="INSIDE" width="580.0" />
+      <Rectangle fx:id="headerReactangel" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="118.0" layoutX="10.0" layoutY="14.0" stroke="#22303c" strokeType="INSIDE" width="580.0" />
       <ImageView fx:id="header" fitHeight="124.0" fitWidth="580.0" layoutX="7.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#212f3b00" height="70.0" layoutX="25.0" layoutY="97.0" stroke="#22303c" strokeType="INSIDE" width="70.0" />
       <ImageView fx:id="avatar" fitHeight="60.0" fitWidth="65.0" layoutX="29.0" layoutY="102.0" pickOnBounds="true" preserveRatio="true" />
