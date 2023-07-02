@@ -15,6 +15,7 @@ public class Tweet implements Serializable,Comparable<Tweet>{
     private String likesIds;
     private String hashtags;
     private String retweetIds;
+    private String commentText;
 
     public Tweet(String text, String picLink, String userId) { // client new tweet
         this.text = text;
@@ -27,9 +28,11 @@ public class Tweet implements Serializable,Comparable<Tweet>{
         this.comment=0;
         this.likesIds = "-";
         this.hashtags = "-";
+        this.commentText="-";
+        this.retweetIds="-";
     }
 
-    public Tweet(String text, String picLink, String userId, int likes, int retweet, int comment, String date, int isFavStar) { // server get tweet
+    public Tweet(String text, String picLink, String userId, int likes, int retweet, int comment, String date, int isFavStar,String commentText,String retweetIds) { // server get tweet
         this.text = text;
         this.picLink = picLink;
         this.userId = userId;
@@ -38,6 +41,8 @@ public class Tweet implements Serializable,Comparable<Tweet>{
         this.comment = comment;
         this.date = date;
         this.isFavStar = isFavStar;
+        this.retweetIds=retweetIds;
+        this.commentText=commentText;
     }
 
     public String getHashtags() {

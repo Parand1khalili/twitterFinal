@@ -1122,6 +1122,25 @@ class ClientHandler implements Runnable{
         }
         ArrayList <Tweet> res=new ArrayList<>();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        //check user
+        while (true){
+            try {
+                if (!resultSetTweet.next()) break;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                if(resultSetTweet.getString("userId").equals(theUser.getId())){
+                    Tweet theTweet = new Tweet(resultSetTweet.getString("text"),resultSet.getString("piclink"),
+                            resultSet.getString("userId"),resultSet.getInt("likes"),resultSet.getInt("retweets"),
+                            resultSet.getInt("comments"), resultSet.getString("date") ,resultSet.getInt("isFavStar"),
+                            resultSet.getString("commentText"),resultSet.getString("retweetIds"));
+                    res.add(theTweet);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
         //check followings
         while (true){
@@ -1131,12 +1150,13 @@ class ClientHandler implements Runnable{
                 throw new RuntimeException(e);
             }
             try {
-                if(resultSet.getString("id").equals(theUser.getId())){
+                if(resultSet.getString(1).equals(theUser.getId())){
                     while (resultSetTweet.next()){
                         if(resultSet.getString("followings").contains(resultSetTweet.getString("userId"))){
                             Tweet theTweet = new Tweet(resultSetTweet.getString("text"),resultSet.getString("piclink"),
                                     resultSet.getString("userId"),resultSet.getInt("likes"),resultSet.getInt("retweets"),
-                                  resultSet.getInt("comments"), resultSet.getString("date") ,resultSet.getInt("isFavStar") );
+                                  resultSet.getInt("comments"), resultSet.getString("date") ,resultSet.getInt("isFavStar"),
+                                    resultSet.getString("commentText"),resultSet.getString("retweetIds"));
                             res.add(theTweet);
                         }
                     }
@@ -1157,7 +1177,8 @@ class ClientHandler implements Runnable{
                 if(resultSetTweet.getInt("isFavStar")==1){
                     Tweet theTweet = new Tweet(resultSetTweet.getString("text"),resultSet.getString("piclink"),
                             resultSet.getString("userId"),resultSet.getInt("likes"),resultSet.getInt("retweets"),
-                            resultSet.getInt("comments"),resultSet.getString("date") ,resultSet.getInt("isFavStar") );
+                            resultSet.getInt("comments"),resultSet.getString("date") ,resultSet.getInt("isFavStar"),
+                            resultSet.getString("commentText"),resultSet.getString("retweetIds"));
                     if(!res.contains(theTweet)){
                         while (resultSet.next()){
                             if(resultSet.getString("id").equals(theUser.getId())){
@@ -1259,7 +1280,8 @@ class ClientHandler implements Runnable{
                 if(resultSet.getString("text").contains("#"+hashtag)){
                     Tweet theTweet = new Tweet(resultSet.getString("text"),resultSet.getString("piclink"),
                             resultSet.getString("userId"),resultSet.getInt("likes"),resultSet.getInt("retweets"),
-                            resultSet.getInt("comments"),resultSet.getString("date") ,resultSet.getInt("isFavStar") );
+                            resultSet.getInt("comments"),resultSet.getString("date") ,resultSet.getInt("isFavStar"),
+                            resultSet.getString("commentText"),resultSet.getString("retweetIds"));
                     res.add(theTweet);
                 }
             } catch (SQLException e) {
@@ -1775,7 +1797,7 @@ class ClientHandler implements Runnable{
                 throw new RuntimeException(e);
             }
             try {
-                if(resultSet.getString("text").equals(theTweet.getText())&&resultSet.getString("retweetIds").contains(theUser.getId())){
+                if(resultSet.getString("text").equals(theTweet.getText())&&resultSet.getString(12).contains(theUser.getId())){
                     respond="true";
                     out.writeObject(respond);
                     return;
