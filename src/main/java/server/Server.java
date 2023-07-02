@@ -476,12 +476,12 @@ class ClientHandler implements Runnable{
                     out.writeObject(respond);
                     return;
                 }
-                else if(resultSet.getString("email").equals(theUser.getEmail())){
+                else if(resultSet.getString("email")!=null&&!resultSet.getString("email").equals("")&&resultSet.getString("email").equals(theUser.getEmail())){
                     respond = "duplicate-email";
                     out.writeObject(respond);
                     return;
                 }
-                else if(resultSet.getString("phoneNumber").equals(theUser.getPhoneNumber())){
+                else if(resultSet.getString("phoneNumber")!=null&&!resultSet.getString("phoneNumber").equals("")&&resultSet.getString("phoneNumber").equals(theUser.getPhoneNumber())){
                     respond = "duplicate-number";
                     out.writeObject(respond);
                     return;

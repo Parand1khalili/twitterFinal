@@ -12,7 +12,7 @@
 
 <AnchorPane prefHeight="599.0" prefWidth="596.0" style="-fx-background-color: #fefefe;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.ownProfile">
    <children>
-      <Label fx:id="userId" alignment="TOP_LEFT" layoutX="39.0" layoutY="167.0" prefHeight="20.0" prefWidth="74.0" text="userid" textFill="#22303c">
+      <Label fx:id="userId" alignment="TOP_CENTER" layoutX="22.0" layoutY="167.0" prefHeight="20.0" prefWidth="74.0" text="userid" textFill="#22303c">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
