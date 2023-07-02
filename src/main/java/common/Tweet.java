@@ -1,6 +1,10 @@
 package common;
 
+import server.Server;
+
 import java.io.Serializable;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 
 public class Tweet implements Serializable,Comparable<Tweet>{
@@ -49,7 +53,9 @@ public class Tweet implements Serializable,Comparable<Tweet>{
         return hashtags;
     }
 
-    public String getLikesIds() {
+    public String getLikesIds() throws SQLException {
+        java.sql.Connection connection = Server.getConnection();
+        Statement statement = connection.createStatement();
         return likesIds;
     }
 
@@ -113,6 +119,10 @@ public class Tweet implements Serializable,Comparable<Tweet>{
         return date;
     }
     public String getRetweetIds(){return retweetIds;}
+
+    public String getCommentText() {
+        return commentText;
+    }
 
     public void setDate(String date) {
         this.date = date;

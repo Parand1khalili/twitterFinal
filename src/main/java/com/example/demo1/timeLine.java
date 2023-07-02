@@ -5,6 +5,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
@@ -28,8 +29,10 @@ public class timeLine implements Initializable {
         tweetContent = new VBox();
         scrollPane.setContent(tweetContent);
         tweetContent.setSpacing(10);
-        tweetContent.setStyle("-fx-background-color:gray" + "-fx-padding: 8;");
+        tweetContent.setStyle("-fx-background-color:gray");
+        tweetContent.setPadding(new Insets(7,7,7,7));
         ArrayList<Tweet> tweets = new ArrayList<>();
+        ArrayList<Tweet> RevTweets = new ArrayList<>();
         try {
             IO.out.writeObject("timeline");
             Thread.sleep(50);
@@ -39,7 +42,10 @@ public class timeLine implements Initializable {
         } catch (IOException | InterruptedException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        for (Tweet tweet : tweets){
+        for (int i = tweets.size()-1; i >= 0; i--) {
+            RevTweets.add(tweets.get(i));
+        }
+        for (Tweet tweet : RevTweets){
             try {
                 TweetComponent tweetComponent = new TweetComponent(tweet,logedUser.loggedUser);
                 tweetContent.getChildren().add(tweetComponent);

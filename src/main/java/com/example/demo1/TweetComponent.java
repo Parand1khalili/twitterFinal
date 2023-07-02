@@ -88,8 +88,7 @@ public class TweetComponent extends AnchorPane {
         }else {
             tweetImage = new ImageView();
         }
-        SimpleDateFormat format = new SimpleDateFormat("HH:mma.MM/dd/yyyy.");
-        dateLabel = new Label(format.format(tweet.getDate()));
+        dateLabel = new Label(String.valueOf(tweet.getDate()));
         like = new Label(String.valueOf(tweet.getLikes()));
         retweet = new Label(String.valueOf(tweet.getRetweet()));
         reply = new Label(String.valueOf(tweet.getComment()));
@@ -238,10 +237,9 @@ public class TweetComponent extends AnchorPane {
         likeImage.setFitWidth(20);
         likeImage.setFitHeight(20);
         replyview.setFitHeight(20);
-        replyview.setFitWidth(20);
-
+        replyview.setFitWidth(25);
 //    quoteButton.setGraphic(quoteImageView);
-//    quoteButton.setPrefSize(14,14);
+//    quoteButton.setPrefSize(14,14);0
 //    quoteButton.setRipplerFill(Paint.valueOf("#858080"));
 //    quoteButton.setStyle("-fx-background-radius: 50");
 
@@ -261,7 +259,6 @@ public class TweetComponent extends AnchorPane {
         replyButton.setPrefSize(10,10);
         replyButton.setStyle("-fx-background-color : #FFFFFF");
     }
-
     private void setActions()
     {
         replyButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -277,8 +274,8 @@ public class TweetComponent extends AnchorPane {
             public void handle(ActionEvent event) {
                 try {
                     IO.out.writeObject("retweet");
-                    IO.out.writeObject(tweet);
                     IO.out.writeObject(user);
+                    IO.out.writeObject(tweet);
                     IO.out.writeObject("check-retweet");
                     IO.out.writeObject(tweet);
                     IO.out.writeObject(user);
@@ -314,12 +311,14 @@ public class TweetComponent extends AnchorPane {
             public void handle(ActionEvent event) {
                 try {
                     IO.out.writeObject("like");
-                    IO.out.writeObject(tweet);
                     IO.out.writeObject(user);
+                    IO.out.writeObject(tweet);
+                    String respondLike = (String)IO.in.readObject();
                     IO.out.writeObject("check-like");
                     IO.out.writeObject(tweet);
                     IO.out.writeObject(user);
                     String respond = (String)IO.in.readObject();
+                    System.out.println(respond + "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
                     if (respond.equals("true")){
                         likeImage = new ImageView(redHeart);
                         likeImage.setFitWidth(20);
