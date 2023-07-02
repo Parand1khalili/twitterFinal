@@ -404,24 +404,20 @@ class ClientHandler implements Runnable{
                     checkRetweet(x, y);
                     break;
                 }
-                case "followerList":{
+                case "followers-list":{
                     User x = null;
                     try {
                         x = (User) in.readObject();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    } catch (ClassNotFoundException e) {
+                    } catch (IOException | ClassNotFoundException e) {
                         throw new RuntimeException(e);
                     }
                     followerList(x);
                 }
-                case "followingList":{
+                case "followings-list":{
                     User x = null;
                     try {
                         x = (User) in.readObject();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    } catch (ClassNotFoundException e) {
+                    } catch (IOException | ClassNotFoundException e) {
                         throw new RuntimeException(e);
                     }
                     followingList(x);
