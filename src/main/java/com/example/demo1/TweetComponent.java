@@ -268,7 +268,7 @@ public class TweetComponent extends AnchorPane {
             @Override
             public void handle(ActionEvent event) {
 //          tweet.setQuotes(tweet.getCommentsOrReplies() + 1);
-//          countOfQuo.setText(String.valueOf(tweet.getQuotes()));
+//          countOfQuo.setText(String.valueOf(tweet.getQuotes())); // todo handle comment
             }
         });
 
@@ -279,7 +279,7 @@ public class TweetComponent extends AnchorPane {
                     IO.out.writeObject("retweet");
                     IO.out.writeObject(tweet);
                     IO.out.writeObject(user);
-                    IO.out.writeObject("checkRetweet");
+                    IO.out.writeObject("check-retweet");
                     IO.out.writeObject(tweet);
                     IO.out.writeObject(user);
                     String respond = (String)IO.in.readObject();
@@ -316,7 +316,7 @@ public class TweetComponent extends AnchorPane {
                     IO.out.writeObject("like");
                     IO.out.writeObject(tweet);
                     IO.out.writeObject(user);
-                    IO.out.writeObject("checkLike");
+                    IO.out.writeObject("check-like");
                     IO.out.writeObject(tweet);
                     IO.out.writeObject(user);
                     String respond = (String)IO.in.readObject();
