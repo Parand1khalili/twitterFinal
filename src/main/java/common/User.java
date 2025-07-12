@@ -57,6 +57,7 @@ public class User implements Serializable {
         this.web = "-";
         this.followers = "-";
         this.followings = "-";
+        this.blacklist = "-";
     }
     public User(String id, String firstName, String lastName, String email, String phoneNumber, String password,
                 String country, String birthDate,String register, String headerPicName, String profPicName,String bio,

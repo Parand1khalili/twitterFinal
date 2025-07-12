@@ -47,6 +47,8 @@ public class UserComponent extends AnchorPane {
         ProfileCircle.setFill(new ImagePattern(avatarImage));
         this.getChildren().addAll(ProfileCircle,follow,userId,userBio);
         setLocation();
+        setConfig();
+        setAction();
     }
 
     private void setLocation() {
@@ -81,10 +83,11 @@ public class UserComponent extends AnchorPane {
             public void handle(MouseEvent mouseEvent) {
                 try {
                     logedUser.otherUser = theUser;
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("othersProfile.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("otherProfile.fxml"));
                     Scene scene = new Scene(fxmlLoader.load());
+                    System.out.println("XDXD");
                     stage.setTitle("twitter");
-                    Image icon = new Image("D:/apps/twitter2.0/Client/src/main/resources/com/example/client/download.png"); // todo path twitter picture
+                    Image icon = new Image("H:\\New folder\\demo1\\src\\main\\resources\\com\\example\\demo1\\logo.png");
                     stage.getIcons().add(icon);
                     stage.setScene(scene);
                     stage.show();

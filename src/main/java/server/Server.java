@@ -529,7 +529,7 @@ class ClientHandler implements Runnable{
             statement.close();
             resultSet.close();
 
-            PreparedStatement pstmt = connection.prepareStatement("INSERT INTO user(id,firstName,lastName,email,phoneNumber,password,country,birthDate,registerDate,profile,header,bio,location,web) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pstmt = connection.prepareStatement("INSERT INTO user(id,firstName,lastName,email,phoneNumber,password,country,birthDate,registerDate,profile,header,bio,location,web,followers,followings,follower,following,blacklist) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             pstmt.setString(1,theUser.getId());
             pstmt.setString(2,theUser.getFirstName());
             pstmt.setString(3,theUser.getLastName());
@@ -544,6 +544,11 @@ class ClientHandler implements Runnable{
             pstmt.setString(12,theUser.getBio());
             pstmt.setString(13,theUser.getLocation());
             pstmt.setString(14,theUser.getWeb());
+            pstmt.setString(15,theUser.getFollowers());
+            pstmt.setString(16,theUser.getFollowing());
+            pstmt.setInt(17,0);
+            pstmt.setInt(18,0);
+            pstmt.setString(19,theUser.getBlacklist());
             pstmt.executeUpdate();
             System.out.println("inserted");
         } catch (SQLException e) {
@@ -875,7 +880,7 @@ class ClientHandler implements Runnable{
                 throw new RuntimeException(e);
             }
             try {
-                if(resultSet.getString("id").equals(theUser.getId())){
+                if(resultSet.getString(1).equals(theUser.getId())){
                     if(resultSet.getString("followings").contains(followingId)){
                         respond="already-followed";
                         out.writeObject(respond);
@@ -887,21 +892,22 @@ class ClientHandler implements Runnable{
                     updateStatement.setString(1,theUser.getFollowing()+"="+followingId);
                     updateStatement.setString(2,theUser.getId());
                     updateStatement.executeUpdate();
-
+                    System.out.println(theUser.getId()  + theUser.getFollowingNum());
                     PreparedStatement updateStatement2 = connection.prepareStatement("UPDATE user SET followingNum = ? WHERE id = ?");
-                    updateStatement2.setInt(1, Integer.parseInt(theUser.getFollowing())+1);
+                    updateStatement2.setInt(1, theUser.getFollowingNum()+1);
+                    System.out.println(theUser.getId()  + theUser.getFollowingNum());
                     updateStatement2.setString(2,theUser.getId());
                     updateStatement2.executeUpdate();
 
                     while (resultSet.next()){
-                        if(resultSet.getString("id").equals(followingId)){
+                        if(resultSet.getString(1).equals(followingId)){
                             PreparedStatement updateStatement3 = connection.prepareStatement("UPDATE user SET followers = ? WHERE id = ?");
                             updateStatement3.setString(1,resultSet.getString("followers")+"="+theUser.getId());
                             updateStatement3.setString(2,followingId);
                             updateStatement3.executeUpdate();
 
                             PreparedStatement updateStatement4 = connection.prepareStatement("UPDATE user SET followerNum = ? WHERE id = ?");
-                            updateStatement4.setInt(1,Integer.parseInt(resultSet.getString("follower"))+1);
+                            updateStatement4.setInt(1,resultSet.getInt("follower")+1);
                             updateStatement4.setString(2,followingId);
                             updateStatement4.executeUpdate();
 
